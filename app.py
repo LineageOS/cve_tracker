@@ -64,6 +64,25 @@ def update():
   patched = len(Patches.objects(kernel=k, status=Status.objects.get(text='patched').id))
   return jsonify({'error': 'success', 'patched': patched})
 
+@app.route("/addcve")
+@app.route("/addcve/<string:cve>")
+def addcve(cve = None):
+  if cve:
+    if CVE.objects(cve_name=cve):
+      msg = cve + " already exists!"
+    elif cve[:3] != "CVE" or len(cve.split('-')) != 3:
+      msg = cve + " is invalid!"
+    else:
+      CVE(cve_name=cve).save()
+      cve_id = CVE.objects.get(cve_name=cve)['id']
+      for k in Kernel.objects():
+        Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
+      msg = "Added " + cve + "!"
+
+    return render_template('addcve.html', msg=msg)
+  else:
+    return render_template('addcve.html')
+
 @app.route("/getlinks", methods=['POST'])
 def getlinks():
   r = request.get_json()
