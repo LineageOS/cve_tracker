@@ -26,7 +26,7 @@ while True:
   x = f.readline().rstrip()
   if not x: break
   CVE(cve_name=x).save()
-  Links(cve_id=CVE.objects.get(cve_name=x), link=mitrelink+x).save()
+  Links(cve_id=CVE.objects.get(cve_name=x)['id'], link=mitrelink+x).save()
 
 f = open('statuses.txt')
 while True:
