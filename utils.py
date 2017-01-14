@@ -29,17 +29,21 @@ def getKernelTableFromGithub():
   u = app.config['githubusername']
   p = app.config['githubtoken']
   g = Github(u, p)
+  orgs = ["LineageOS", "LegacyXperia"]
+  for name in orgs:
+    org = g.get_organization(name)
 
-  org = g.get_organization('LineageOS')
-
-  for repo in org.get_repos():
-    if "android_kernel_" in repo.name or "-kernel-" in repo.name:
-      if repo.name not in Kernel.objects().order_by('repo_name'):
-        v, n = getVendorNameFromRepo(repo.name)
-        if v is not "error" and n is not "error":
-          Kernel(repo_name=repo.name, last_github_update=repo.updated_at, vendor=v, device=n).save()
-          for c in CVE.objects():
-            Patches(cve=c.id, kernel=Kernel.objects.get(repo_name=repo.name).id, status=Status.objects.get(text='unpatched').id).save()
+    for repo in org.get_repos():
+      if "android_kernel_" in repo.name or "-kernel-" in repo.name:
+        if repo.name not in Kernel.objects().order_by('repo_name'):
+          v, n = getVendorNameFromRepo(repo.name)
+          if name != "LineageOS":
+            # avoid naming conflicts
+            repo.name = repo.name.replace("kernel", name + "-kernel")
+          if v is not "error" and n is not "error":
+            Kernel(repo_name=repo.name, last_github_update=repo.updated_at, vendor=v, device=n).save()
+            for c in CVE.objects():
+              Patches(cve=c.id, kernel=Kernel.objects.get(repo_name=repo.name).id, status=Status.objects.get(text='unpatched').id).save()
 
   print("Done!")
   return
