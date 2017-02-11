@@ -7,6 +7,7 @@ class Config(Document):
 
 class CVE(Document):
   cve_name = StringField(required=True)
+  notes = StringField(required=False)
 
 class Kernel(Document):
   repo_name = StringField(required=True)
@@ -26,3 +27,4 @@ class Patches(Document):
 class Links(Document):
   cve_id = ObjectIdField()
   link = StringField(required=True)
+  desc = StringField(required=False)

@@ -13,9 +13,21 @@
   </head>
   <body>
     <div cve_id="{{ cve.id }}" id="addlink">
-      <input type="text" name="link" id="linktoadd"><br>
+      <input placeholder="link" type="text" name="link" id="linktoadd"><br>
+      <input placeholder="description" type="text" name="desc" id="linkdesc"><br>
       <input type="button" value="Add!" id="confirmaddlink">
       <div id="addlinkerror"></div>
+    </div>
+    <div id="editlink">
+      <input placeholder="link" type="text" name="link" id="linktoedit"><br>
+      <input placeholder="description" type="text" name="desc" id="linkeditdesc"><br>
+      <input type="button" value="Save!" id="confirmeditlink">
+      <div id="editlinkerror"></div>
+    </div>
+    <div cve_id="{{ cve.id }}" id="editnotes">
+      <textarea placeholder="your notes" type="text" name="notes" id="cvenotes" ></textarea><br>
+      <input type="button" value="Save!" id="savenoteslink">
+      <div id="editnoteserror"></div>
     </div>
     <div cve_name="{{ cve.cve_name }}" id="confirmdeletecve">
       <input type="button" value="Yes!" id="yesdeletecve">
@@ -34,16 +46,36 @@
         </div>
       {% else %}
         <h3>{{ cve.cve_name }}</h3>
-        <div id="linklist">
-          {% for l in links %}
-            <div><a class='deletelink' onclick='deletelink(this);' id="{{ l.id }}">{{ l.link }}</a></div>
-          {% endfor %}
+        <a href="javascript:void(0)" class='small button delete' onclick='deletecve();'>Delete</a>
+        <h4>Notes</h4>
+        <div cve_id="{{ cve.id }}" >
+          <span id="notes">{{ cve.notes |safe}}</span><br><br>
+            <a class="button" href="javascript:void(0)" onclick="editnotes()"><strong>
+              {% if cve.notes %}
+                Edit notes
+              {% else %}
+                Add notes
+              {% endif %}
+            </strong></a>
         </div>
-        <a onclick='addlink();'>Add New Link</span>
-        <br><br><a class='deletecve' onclick='deletecve();'>Delete</span>
+        <hr>
+        <h4>Links</h4>
+        <div id="linklist">
+          <ul>
+          {% for l in links %}
+            {% if l.desc %}{% set desc = l.desc %}{% else %}{% set desc = "No description" %}{% endif %}
+            <li link="{{l.link}}" desc="{{desc}}" id="{{ l.id }}">
+              <a class="link" href="{{l.link}}">{{l.link}}</a> - 
+              <span class="linkdesc">{{desc}}</span>
+              <a class="small button delete" onclick='deletelink(this);'>Delete</a>
+              <a class="small button" onclick='editlink(this);'>Edit</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <a class="button" href="javascript:void(0)" onclick='addlink();'>Add New Link</a>
+        <br><br>
       {% endif %}
-      <div>
-      </div>
     </div>
   </body>
 </html>

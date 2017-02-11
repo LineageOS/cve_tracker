@@ -135,6 +135,17 @@ span.cve {
   min-width: 100px;
 }
 
+a.button {
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+}
+
+a.button:hover {
+  background-color: white;
+  color: #2196f3;
+}
+
 a.device {
   float: left;
 }
@@ -177,10 +188,24 @@ span.device {
   display: none;
 }
 
+#linklist {
+  text-align: left;
+}
+
 #links > a {
   font-size: 14px;
 }
 
-a:hover.deletecve, a:hover.deletelink {
+a.small.button {
+  padding: 0 12px;
+  line-height: 24px;
+  height: 24px;
+}
+
+a.button.delete {
+  background-color: #ce0f0f;
+}
+
+a:hover.delete {
   color: #ce0f0f;
 }

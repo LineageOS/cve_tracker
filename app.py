@@ -126,13 +126,14 @@ def addlink():
   r = request.get_json()
   c = r['cve_id']
   l = r['link_url']
+  d = r['link_desc']
 
   if not CVE.objects(id=c):
     errstatus = "CVE doesn't exist"
   elif Links.objects(cve_id=c, link=l):
     errstatus = "Link already exists!"
   else:
-    Links(cve_id=c, link=l).save()
+    Links(cve_id=c, link=l, desc=d).save()
     link_id = Links.objects.get(cve_id=c, link=l)['id']
     errstatus = "success"
 
@@ -146,6 +147,34 @@ def deletelink():
 
   if l and Links.objects(id=l):
     Links.objects(id=l).delete()
+    errstatus = "success"
+  else:
+    errstatus = "Link doesn't exist"
+
+  return jsonify({'error': errstatus})
+
+@app.route("/editnotes", methods=['POST'])
+def editnotes():
+  errstatus = "Generic error"
+  r = request.get_json()
+  c = r['cve_id']
+
+  if c and CVE.objects(id=c):
+    CVE.objects(id=c).update(set__notes=r['cve_notes'])
+    errstatus = "success"
+  else:
+    errstatus = "CVE doesn't exist"
+
+  return jsonify({'error': errstatus})
+
+@app.route("/editlink", methods=['POST'])
+def editlink():
+  errstatus = "Generic error"
+  r = request.get_json()
+  l = r['link_id']
+
+  if l and Links.objects(id=l):
+    Links.objects(id=l).update(set__link=r['link_url'], set__desc=r['link_desc'])
     errstatus = "success"
   else:
     errstatus = "Link doesn't exist"
