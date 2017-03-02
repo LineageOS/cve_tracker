@@ -1,441 +1,461 @@
 {
-    "android_kernel_oneplus_onyx": [
-        "android_device_oneplus_onyx"
-    ],
-    "android_kernel_motorola_apq8084": [
-        "android_device_motorola_quark"
-    ],
-    "lge-kernel-mako": [
-        "android_device_lge_mako"
-    ],
-    "android_kernel_motorola_msm8974": [
-        "android_device_motorola_victara"
-    ],
-    "android_kernel_lge_bullhead": [
-        "android_device_lge_bullhead"
-    ],
-    "android_kernel_google_seed": [
-        "android_device_google_seed"
-    ],
-    "android_kernel_htc_msm8960": [
-        "android_device_htc_m7",
-        "android_device_htc_t6spr",
-        "android_device_htc_evita",
-        "android_device_htc_t6",
-        "android_device_htc_m7spr",
-        "android_device_htc_jewel",
-        "android_device_htc_m7vzw",
-        "android_device_htc_fireball",
-        "android_device_htc_ville",
-        "android_device_htc_zara",
-        "android_device_htc_zaracl",
-        "android_device_htc_t6vzw"
-    ],
-    "android_kernel_samsung_klimtwifi": [
-        "android_device_samsung_chagall-common",
-        "android_device_samsung_klimt-common"
-    ],
-    "android_kernel_google_msm": [
-        "android_device_asus_flo",
-        "android_device_asus_deb"
-    ],
-    "android_kernel_lge_hammerhead": [
-        "android_device_lge_hammerheadcaf",
-        "android_device_lge_hammerhead"
-    ],
-    "android_kernel_lge_msm8974": [
-        "android_device_lge_d801",
-        "android_device_lge_l01f",
-        "android_device_lge_d803",
-        "android_device_lge_d800",
-        "android_device_lge_vs980",
-        "android_device_lge_ls980",
-        "android_device_lge_d802"
-    ],
-    "android_kernel_asus_grouper": [
-        "android_device_asus_tilapia"
-    ],
-    "android_kernel_asus_moorefield": [
-        "android_device_asus_Z00A",
-        "android_device_asus_Z008"
-    ],
-    "android_kernel_xiaomi_msm8996": [
-        "android_device_xiaomi_gemini"
-    ],
-    "android_kernel_lge_pplus": [
-        "android_device_lge_h901"
-    ],
-    "android_kernel_huawei_msm8928": [
-        "android_device_huawei_mt2"
-    ],
-    "android_kernel_nubia_msm8996": [
-        "android_device_nubia_nx531j"
-    ],
-    "android_kernel_wingtech_msm8916": [
-        "android_device_wingtech_wt88047"
-    ],
-    "android_kernel_lge_v4xx": [
-        "android_device_lge_v480",
-        "android_device_lge_v400",
-        "android_device_lge_v410"
-    ],
-    "android_kernel_samsung_ks01lte": [
-        "android_device_samsung_ks01lte"
-    ],
     "android_kernel_motorola_msm8226": [
         "android_device_motorola_thea",
-        "android_device_motorola_titan",
         "android_device_motorola_peregrine",
-        "android_device_motorola_falcon"
-    ],
-    "android_kernel_htc_flounder": [
-        "android_device_htc_flounder_lte"
-    ],
-    "android_kernel_samsung_espresso10": [
-        "android_device_samsung_p5110",
-        "android_device_samsung_p3100",
-        "android_device_samsung_p3110",
-        "android_device_samsung_p5100",
-        "android_device_samsung_espresso3g"
-    ],
-    "android_kernel_samsung_noblelte": [
-        "android_device_samsung_nobleltetmo"
-    ],
-    "android_kernel_huawei_kiwi": [
-        "android_device_huawei_kiwi"
-    ],
-    "android_kernel_samsung_klte": [
-        "android_device_samsung_kltekdi",
-        "android_device_samsung_kltechn",
-        "android_device_samsung_kltevzw",
-        "android_device_samsung_klteduos",
-        "android_device_samsung_kltedv",
-        "android_device_samsung_kltekor",
-        "android_device_samsung_kltespr",
-        "android_device_samsung_kltechnduo",
-        "android_device_samsung_klte",
-        "android_device_samsung_klteusc"
-    ],
-    "android_kernel_bq_msm8976": [
-        "android_device_bq_gohan"
-    ],
-    "android_kernel_oneplus_msm8996": [
-        "android_device_oneplus_oneplus3"
-    ],
-    "android_kernel_samsung_mondrianwifi": [
-        "android_device_samsung_mondrianwifi"
-    ],
-    "android_kernel_xiaomi_ferrari": [
-        "android_device_xiaomi_ferrari"
-    ],
-    "android_kernel_samsung_exynos5410": [
-        "android_device_samsung_i9500"
-    ],
-    "android_kernel_samsung_manta": [
-        "android_device_samsung_manta"
-    ],
-    "android_kernel_sony_apq8064": [
-        "android_device_sony_pollux_windy",
-        "android_device_sony_dogo",
-        "android_device_sony_odin",
-        "android_device_sony_pollux",
-        "android_device_sony_yuga"
-    ],
-    "android_kernel_moto_shamu": [
-        "android_device_moto_shamu"
-    ],
-    "android_kernel_motorola_msm8960-common": [
-        "android_device_motorola_mb886",
-        "android_device_motorola_xt897"
-    ],
-    "android_kernel_samsung_trelte": [
-        "android_device_samsung_treltexx",
-        "android_device_samsung_trhpltexx"
-    ],
-    "android_kernel_nextbit_msm8992": [
-        "android_device_nextbit_ether"
-    ],
-    "android_kernel_bq_msm8939": [
-        "android_device_bq_piccolo",
-        "android_device_bq_vegetalte"
-    ],
-    "android_kernel_sony_msm8x60": [
-        "android_device_sony_hayabusa",
-        "android_device_sony_tsubasa",
-        "android_device_sony_mint"
-    ],
-    "android_kernel_cyanogen_msm8916": [
-        "android_device_smartfren_rendang",
-        "android_device_wileyfox_kipper",
-        "android_device_yu_tomato",
-        "android_device_yu_jalebi",
-        "android_device_yu_lettuce",
-        "android_device_wileyfox_crackling"
-    ],
-    "android_kernel_motorola_msm8916": [
-        "android_device_motorola_lux",
-        "android_device_motorola_surnia",
-        "android_device_motorola_osprey"
-    ],
-    "android_kernel_lge_v500": [
-        "android_device_lge_v500"
-    ],
-    "android_kernel_asus_fugu": [
-        "android_device_asus_fugu"
-    ],
-    "android_kernel_lge_g3": [
-        "android_device_lge_vs985",
-        "android_device_lge_f400",
-        "android_device_lge_d851",
-        "android_device_lge_ls990",
-        "android_device_lge_d852",
-        "android_device_lge_d850",
-        "android_device_lge_d855"
-    ],
-    "android_kernel_sony_msm": [
-        "android_device_sony_tianchi",
-        "android_device_sony_scorpion",
-        "android_device_sony_sirius",
-        "android_device_sony_honami",
-        "android_device_sony_flamingo",
-        "android_device_sony_togari_gpe",
-        "android_device_sony_z3c",
-        "android_device_sony_castor",
-        "android_device_sony_z3dual",
-        "android_device_sony_amami",
-        "android_device_sony_eagle"
-    ],
-    "android_kernel_asus_P024": [
-        "android_device_asus_P024"
-    ],
-    "android_kernel_oppo_msm8939": [
-        "android_device_oppo_r7plus",
-        "android_device_oppo_r5",
-        "android_device_oppo_r7sf",
-        "android_device_oppo_f1f",
-        "android_device_oppo_r7"
-    ],
-    "android_kernel_lge_msm8226": [
-        "android_device_lge_w7",
-        "android_device_lge_jagnm",
-        "android_device_lge_w5",
-        "android_device_lge_jag3gds",
-        "android_device_lge_g2m"
-    ],
-    "android_kernel_nvidia_shield": [
-        "android_device_nvidia_shieldtablet",
-        "android_device_nvidia_foster"
-    ],
-    "android_kernel_oppo_msm8974": [
-        "android_device_oppo_find7",
-        "android_device_oppo_find7s",
-        "android_device_oppo_n3"
-    ],
-    "android_kernel_oppo_n1": [
-        "android_device_oppo_n1",
-        "android_device_oppo_find5"
+        "android_device_motorola_falcon",
+        "android_device_motorola_titan"
     ],
     "android_kernel_samsung_gts2": [
+        "android_device_samsung_gts28wifi",
         "android_device_samsung_gts210ltexx",
+        "android_device_samsung_gts28ltexx",
         "android_device_samsung_gts210wifi"
-    ],
-    "android_kernel_bn_acclaim": [
-        "android_device_bn_acclaim"
-    ],
-    "android_kernel_motorola_msm8610": [
-        "android_device_motorola_condor",
-        "android_device_motorola_otus"
-    ],
-    "android_kernel_xiaomi_msm8916": [
-        "android_device_xiaomi_ido"
-    ],
-    "android_kernel_samsung_lt03lte": [
-        "android_device_samsung_lt03lte"
-    ],
-    "android_kernel_google_shamrock": [
-        "android_device_google_shamrock"
-    ],
-    "android_kernel_samsung_exynos7420": [
-        "android_device_samsung_zerofltexx"
-    ],
-    "android_kernel_samsung_s3ve3g": [
-        "android_device_samsung_s3ve3g"
-    ],
-    "android_kernel_oneplus_msm8994": [
-        "android_device_oneplus_oneplus2"
-    ],
-    "android_kernel_mediatek_sprout": [
-        "android_device_google_sprout4",
-        "android_device_google_sprout8"
-    ],
-    "android_kernel_asus_msm8916": [
-        "android_device_asus_Z00L",
-        "android_device_asus_Z00T"
-    ],
-    "android_kernel_amazon_hdx-common": [
-        "android_device_amazon_apollo",
-        "android_device_amazon_thor"
-    ],
-    "android_kernel_xiaomi_msm8956": [
-        "android_device_xiaomi_hydrogen",
-        "android_device_xiaomi_kenzo"
     ],
     "android_kernel_lge_msm8992": [
         "android_device_lge_h811",
         "android_device_lge_h815"
     ],
-    "android_kernel_bq_msm8916": [
-        "android_device_bq_paella"
+    "android_kernel_lge_g3": [
+        "android_device_lge_d852",
+        "android_device_lge_d851",
+        "android_device_lge_ls990",
+        "android_device_lge_f400",
+        "android_device_lge_d850",
+        "android_device_lge_d855"
     ],
-    "android_kernel_samsung_jf": [
-        "android_device_samsung_jflteusc",
-        "android_device_samsung_jfltecan",
-        "android_device_samsung_jfltevzw",
-        "android_device_samsung_jfltecsp",
-        "android_device_samsung_jfltetmo",
-        "android_device_samsung_jfltexx",
-        "android_device_samsung_jfltecri",
-        "android_device_samsung_jflteatt",
-        "android_device_samsung_jfltespr"
+    "android_kernel_lge_msm8996": [
+        "android_device_lge_h830",
+        "android_device_lge_h850",
+        "android_device_lge_h918"
     ],
-    "android_kernel_samsung_exynos5420": [
-        "android_device_samsung_picassowifi"
+    "android_kernel_samsung_manta": [
+        "android_device_samsung_manta"
     ],
-    "android_kernel_oneplus_msm8974": [
-        "android_device_oneplus_bacon"
+    "android_kernel_huawei_msm8916": [
+        "android_device_huawei_che10",
+        "android_device_huawei_cherry"
+    ],
+    "android_kernel_oppo_msm8939": [
+        "android_device_oppo_r7sf",
+        "android_device_oppo_f1f",
+        "android_device_oppo_r7",
+        "android_device_oppo_r7plus",
+        "android_device_oppo_r5"
+    ],
+    "android_kernel_cyanogen_msm8916": [
+        "android_device_yu_tomato",
+        "android_device_yu_lettuce",
+        "android_device_wileyfox_crackling",
+        "android_device_yu_jalebi",
+        "android_device_wileyfox_kipper"
     ],
     "android_kernel_cyanogen_mt6735": [
         "android_device_wileyfox_porridgek3"
     ],
+    "android_kernel_xiaomi_armani": [
+        "android_device_xiaomi_armani"
+    ],
+    "android_kernel_sony_msm8x27": [
+        "android_device_sony_nicki"
+    ],
+    "android_kernel_google_marlin": [
+        "android_device_google_sailfish"
+    ],
+    "android_kernel_motorola_msm8916": [
+        "android_device_motorola_surnia",
+        "android_device_motorola_osprey",
+        "android_device_motorola_lux",
+        "android_device_motorola_merlin"
+    ],
+    "android_kernel_samsung_exynos7420": [
+        "android_device_samsung_zerofltexx"
+    ],
+    "android_kernel_oneplus_msm8974": [
+        "android_device_oneplus_bacon"
+    ],
+    "android_kernel_xiaomi_msm8956": [
+        "android_device_xiaomi_kenzo",
+        "android_device_xiaomi_hydrogen"
+    ],
+    "android_kernel_nextbit_msm8992": [
+        "android_device_nextbit_ether"
+    ],
+    "android_kernel_samsung_klte": [
+        "android_device_samsung_kltechnduo",
+        "android_device_samsung_kltekor",
+        "android_device_samsung_kltespr",
+        "android_device_samsung_klte",
+        "android_device_samsung_kltekdi",
+        "android_device_samsung_klteduos",
+        "android_device_samsung_kltevzw",
+        "android_device_samsung_kltedv",
+        "android_device_samsung_klteusc"
+    ],
+    "android_kernel_lge_bullhead": [
+        "android_device_lge_bullhead"
+    ],
+    "android_kernel_samsung_msm8976": [
+        "android_device_samsung_gts28vewifi",
+        "android_device_samsung_gts210vewifi"
+    ],
+    "android_kernel_htc_flounder": [
+        "android_device_htc_flounder_lte"
+    ],
+    "android_kernel_moto_shamu": [
+        "android_device_moto_shamu"
+    ],
+    "android_kernel_oneplus_msm8996": [
+        "android_device_oneplus_oneplus3"
+    ],
+    "android_kernel_htc_msm8994": [
+        "android_device_htc_himawhl",
+        "android_device_htc_himawl",
+        "android_device_htc_himaul"
+    ],
+    "lge-kernel-mako": [
+        "android_device_lge_mako"
+    ],
+    "android_kernel_samsung_noblelte": [
+        "android_device_samsung_nobleltetmo"
+    ],
+    "android_kernel_xiaomi_ferrari": [
+        "android_device_xiaomi_ferrari"
+    ],
+    "android_kernel_oneplus_msm8994": [
+        "android_device_oneplus_oneplus2"
+    ],
+    "android_kernel_oneplus_onyx": [
+        "android_device_oneplus_onyx"
+    ],
+    "android_kernel_leeco_msm8976": [
+        "android_device_leeco_s2"
+    ],
     "android_kernel_samsung_hlte": [
-        "android_device_samsung_hlte",
         "android_device_samsung_hltespr"
     ],
-    "android_kernel_asus_tf300t": [
-        "android_device_asus_tf300t"
+    "android_kernel_xiaomi_msm8996": [
+        "android_device_xiaomi_gemini"
     ],
-    "android_kernel_sony_msm8960t": [
-        "android_device_sony_huashan"
+    "android_kernel_samsung_universal8890": [
+        "android_device_samsung_herolte",
+        "android_device_samsung_hero2lte"
     ],
-    "android_kernel_htc_msm8974": [
-        "android_device_htc_a5dwg",
-        "android_device_htc_eyeatt",
-        "android_device_htc_m8",
-        "android_device_htc_m8d"
+    "android_kernel_samsung_smdk4412": [
+        "android_device_samsung_l900",
+        "android_device_samsung_i9300",
+        "android_device_samsung_n5120",
+        "android_device_samsung_n5100",
+        "android_device_samsung_n5110",
+        "android_device_samsung_n7100",
+        "android_device_samsung_i605",
+        "android_device_samsung_i9100",
+        "android_device_samsung_i925",
+        "android_device_samsung_i9305",
+        "android_device_samsung_i777"
+    ],
+    "android_kernel_zte_msm8996": [
+        "android_device_zte_axon7"
+    ],
+    "android_kernel_cyanogen_msm8974": [
+        "android_device_zuk_ham"
     ],
     "android_kernel_motorola_msm8992": [
         "android_device_motorola_clark"
     ],
+    "android_kernel_lge_msm8226": [
+        "android_device_lge_w5",
+        "android_device_lge_w7",
+        "android_device_lge_jag3gds",
+        "android_device_lge_g2m",
+        "android_device_lge_jagnm"
+    ],
+    "android_kernel_google_msm": [
+        "android_device_asus_flo",
+        "android_device_asus_deb"
+    ],
+    "android_kernel_asus_msm8916": [
+        "android_device_asus_Z00T",
+        "android_device_asus_Z00L"
+    ],
+    "android_kernel_huawei_kiwi": [
+        "android_device_huawei_kiwi"
+    ],
     "android_kernel_htc_msm8996": [
         "android_device_htc_pme"
     ],
-    "android_kernel_zte_msm8994": [
-        "android_device_zte_nx510j"
+    "android_kernel_xiaomi_msm8916": [
+        "android_device_xiaomi_ido"
+    ],
+    "android_kernel_lge_hammerhead": [
+        "android_device_lge_hammerheadcaf",
+        "android_device_lge_hammerhead"
+    ],
+    "android_kernel_xiaomi_cancro": [
+        "android_device_xiaomi_cancro"
+    ],
+    "android_kernel_sony_msm8960t": [
+        "android_device_sony_huashan"
+    ],
+    "android_kernel_motorola_msm8974": [
+        "android_device_motorola_victara"
+    ],
+    "android_kernel_huawei_angler": [
+        "android_device_huawei_angler"
+    ],
+    "android_kernel_samsung_jf": [
+        "android_device_samsung_jfltexx",
+        "android_device_samsung_jfvelte",
+        "android_device_samsung_jflteatt",
+        "android_device_samsung_jfltecsp",
+        "android_device_samsung_jfltevzw",
+        "android_device_samsung_jflteusc",
+        "android_device_samsung_jfltespr"
+    ],
+    "android_kernel_samsung_msm8930-common": [
+        "android_device_samsung_serranoltexx",
+        "android_device_samsung_serrano3gxx"
+    ],
+    "android_kernel_samsung_trelte": [
+        "android_device_samsung_trhpltexx",
+        "android_device_samsung_treltexx"
+    ],
+    "android_kernel_wingtech_msm8916": [
+        "android_device_wingtech_wt88047"
     ],
     "android_kernel_motorola_msm8952": [
         "android_device_motorola_athene"
+    ],
+    "android_kernel_asus_grouper": [
+        "android_device_asus_tilapia"
+    ],
+    "android_kernel_sony_msm8930": [
+        "android_device_sony_taoshan"
+    ],
+    "android_kernel_sony_msm8994": [
+        "android_device_sony_karin",
+        "android_device_sony_ivy",
+        "android_device_sony_sumire"
     ],
     "android_kernel_samsung_tuna": [
         "android_device_samsung_toro",
         "android_device_samsung_maguro",
         "android_device_samsung_toroplus"
     ],
-    "android_kernel_huawei_angler": [
-        "android_device_huawei_angler"
+    "android_kernel_lge_v4xx": [
+        "android_device_lge_v410",
+        "android_device_lge_v490",
+        "android_device_lge_v400",
+        "android_device_lge_v480"
     ],
-    "android_kernel_motorola_omap4-common": [
-        "android_device_motorola_umts_spyder",
-        "android_device_motorola_maserati",
-        "android_device_motorola_spyder",
-        "android_device_motorola_targa"
+    "android_kernel_leeco_msm8996": [
+        "android_device_leeco_zl1",
+        "android_device_leeco_x2"
     ],
-    "android_kernel_sony_msm8x27": [
-        "android_device_sony_nicki"
+    "android_kernel_samsung_k3gxx": [
+        "android_device_samsung_k3gxx"
+    ],
+    "android_kernel_sony_msm": [
+        "android_device_sony_tianchi",
+        "android_device_sony_eagle",
+        "android_device_sony_flamingo",
+        "android_device_sony_z3dual",
+        "android_device_sony_z3c",
+        "android_device_sony_togari_gpe",
+        "android_device_sony_amami",
+        "android_device_sony_castor",
+        "android_device_sony_sirius",
+        "android_device_sony_honami",
+        "android_device_sony_scorpion_windy"
     ],
     "android_kernel_samsung_trlte": [
-        "android_device_samsung_trltespr",
         "android_device_samsung_trltexx",
+        "android_device_samsung_trltespr",
         "android_device_samsung_trltetmo"
     ],
-    "android_kernel_samsung_smdk4412": [
-        "android_device_samsung_i777",
-        "android_device_samsung_l900",
-        "android_device_samsung_i9100",
-        "android_device_samsung_i9300",
-        "android_device_samsung_n7100",
-        "android_device_samsung_i9305",
-        "android_device_samsung_n5110",
-        "android_device_samsung_i925",
-        "android_device_samsung_n5120",
-        "android_device_samsung_i605",
-        "android_device_samsung_n5100"
+    "android_kernel_samsung_exynos5410": [
+        "android_device_samsung_i9500"
     ],
-    "android_kernel_nvidia_roth": [
-        "android_device_nvidia_roth"
+    "android_kernel_asus_moorefield": [
+        "android_device_asus_Z008",
+        "android_device_asus_Z00A"
     ],
-    "android_kernel_huawei_msm8916": [
-        "android_device_huawei_cherry",
-        "android_device_huawei_che10"
+    "android_kernel_lge_msm8974": [
+        "android_device_lge_ls980",
+        "android_device_lge_d802",
+        "android_device_lge_l01f",
+        "android_device_lge_d803",
+        "android_device_lge_d800",
+        "android_device_lge_d801",
+        "android_device_lge_vs980"
     ],
-    "android_kernel_sony_msm8930": [
-        "android_device_sony_taoshan"
+    "android_kernel_bq_msm8976": [
+        "android_device_bq_gohan"
     ],
-    "android_kernel_samsung_msm8930-common": [
-        "android_device_samsung_serrano3gxx",
-        "android_device_samsung_serranoltexx",
-        "android_device_samsung_serranodsdd"
+    "android_kernel_xiaomi_msm8992": [
+        "android_device_xiaomi_libra"
     ],
-    "android_kernel_xiaomi_armani": [
-        "android_device_xiaomi_armani"
+    "android_kernel_htc_msm8960": [
+        "android_device_htc_t6vzw",
+        "android_device_htc_t6",
+        "android_device_htc_m7spr",
+        "android_device_htc_zaracl",
+        "android_device_htc_fireball",
+        "android_device_htc_m7vzw",
+        "android_device_htc_zara",
+        "android_device_htc_m7",
+        "android_device_htc_t6spr"
     ],
-    "android_kernel_lge_msm8996": [
-        "android_device_lge_h918",
-        "android_device_lge_h830",
-        "android_device_lge_h850"
+    "android_kernel_motorola_msm8610": [
+        "android_device_motorola_condor",
+        "android_device_motorola_otus"
     ],
-    "android_kernel_htc_msm8994": [
-        "android_device_htc_himawhl",
-        "android_device_htc_himaul",
-        "android_device_htc_himawl"
+    "android_kernel_htc_msm8974": [
+        "android_device_htc_m8d",
+        "android_device_htc_m8",
+        "android_device_htc_a5dwg",
+        "android_device_htc_eyeatt"
+    ],
+    "android_kernel_bq_msm8939": [
+        "android_device_bq_piccolo",
+        "android_device_bq_paella"
+    ],
+    "android_kernel_alcatel_msm8916": [
+        "android_device_alcatel_idol3"
+    ],
+    "android_kernel_lge_v500": [
+        "android_device_lge_v500"
+    ],
+    "android_kernel_samsung_lt03lte": [
+        "android_device_samsung_lt03lte"
+    ],
+    "android_kernel_samsung_s3ve3g": [
+        "android_device_samsung_s3ve3g"
+    ],
+    "android_kernel_motorola_omap4-common": [
+        "android_device_motorola_maserati",
+        "android_device_motorola_spyder",
+        "android_device_motorola_targa",
+        "android_device_motorola_umts_spyder"
+    ],
+    "android_kernel_nvidia_shield": [
+        "android_device_nvidia_shieldtablet",
+        "android_device_nvidia_foster"
+    ],
+    "android_kernel_motorola_apq8084": [
+        "android_device_motorola_quark"
+    ],
+    "android_kernel_samsung_exynos5420": [
+        "android_device_samsung_klimtwifi",
+        "android_device_samsung_picassowifi",
+        "android_device_samsung_chagall-common",
+        "android_device_samsung_n1awifi",
+        "android_device_samsung_klimt-common",
+        "android_device_samsung_chagallwifi"
+    ],
+    "android_kernel_samsung_espresso10": [
+        "android_device_samsung_p5100",
+        "android_device_samsung_p5110",
+        "android_device_samsung_p3100",
+        "android_device_samsung_espresso3g",
+        "android_device_samsung_p3110"
+    ],
+    "android_kernel_google_shamrock": [
+        "android_device_google_shamrock"
+    ],
+    "android_kernel_lenovo_msm8974": [
+        "android_device_lenovo_kingdom"
+    ],
+    "android_kernel_htc_m7": [
+        "android_device_htc_dlx"
+    ],
+    "android_kernel_samsung_mondrianwifi": [
+        "android_device_samsung_mondrianwifi"
+    ],
+    "android_kernel_motorola_msm8996": [
+        "android_device_motorola_griffin"
+    ],
+    "android_kernel_google_seed": [
+        "android_device_google_seed"
+    ],
+    "android_kernel_huawei_msm8928": [
+        "android_device_huawei_mt2"
+    ],
+    "android_kernel_asus_P024": [
+        "android_device_asus_P024"
+    ],
+    "android_kernel_sony_msm8x60": [
+        "android_device_sony_hayabusa",
+        "android_device_sony_mint"
+    ],
+    "android_kernel_oppo_msm8974": [
+        "android_device_oppo_find7",
+        "android_device_oppo_find7s",
+        "android_device_oppo_n3"
+    ],
+    "android_kernel_samsung_klimtwifi": [
+        "android_device_samsung_chagall-common",
+        "android_device_samsung_klimt-common"
+    ],
+    "android_kernel_lge_msm8952": [
+        "android_device_lge_v521"
+    ],
+    "android_kernel_amazon_hdx-common": [
+        "android_device_amazon_thor"
+    ],
+    "android_kernel_mediatek_sprout": [
+        "android_device_google_sprout8",
+        "android_device_google_sprout4"
     ],
     "android_kernel_htc_msm8952": [
-        "android_device_htc_hiaeul",
-        "android_device_htc_hiaeuhl"
+        "android_device_htc_hiaeuhl",
+        "android_device_htc_hiaeul"
     ],
-    "android_kernel_motorola_msm8960dt-common": [
-        "android_device_motorola_xt926",
-        "android_device_motorola_xt907",
-        "android_device_motorola_xt925"
+    "android_kernel_asus_tf300t": [
+        "android_device_asus_tf300t"
+    ],
+    "android_kernel_ark_msm8916": [
+        "android_device_ark_msm8916-common"
+    ],
+    "android_kernel_asus_Z00D": [
+        "android_device_asus_Z00D"
+    ],
+    "android_kernel_samsung_d2": [
+        "android_device_samsung_d2tmo",
+        "android_device_samsung_d2vzw",
+        "android_device_samsung_d2att",
+        "android_device_samsung_d2spr"
+    ],
+    "android_kernel_nubia_msm8996": [
+        "android_device_nubia_nx531j"
+    ],
+    "android_kernel_lge_pplus": [
+        "android_device_lge_v10-common"
+    ],
+    "android_kernel_motorola_msm8960-common": [
+        "android_device_motorola_xt897"
     ],
     "android_kernel_motorola_ghost": [
         "android_device_motorola_obake",
         "android_device_motorola_ghost"
     ],
-    "android_kernel_cyanogen_msm8994": [
-        "android_device_yu_sambar"
+    "android_kernel_zte_msm8994": [
+        "android_device_zte_nx510j"
     ],
-    "android_kernel_ark_msm8916": [
-        "android_device_ark_peach"
+    "android_kernel_motorola_msm8960dt-common": [
+        "android_device_motorola_xt926",
+        "android_device_motorola_xt907"
     ],
-    "android_kernel_cyanogen_msm8974": [
-        "android_device_zuk_ham"
+    "android_kernel_oppo_n1": [
+        "android_device_oppo_n1",
+        "android_device_oppo_find5"
     ],
-    "android_kernel_alcatel_msm8916": [
-        "android_device_alcatel_idol3"
+    "android_kernel_sony_apq8064": [
+        "android_device_sony_odin",
+        "android_device_sony_pollux_windy",
+        "android_device_sony_yuga",
+        "android_device_sony_pollux"
     ],
-    "exynos5420/kernel_samsung_lt03wifi": [
-        "android_device_samsung_n1awifi"
-    ],
-    "android_kernel_samsung_d2": [
-        "android_device_samsung_d2att",
-        "android_device_samsung_d2vzw",
-        "android_device_samsung_d2tmo",
-        "android_device_samsung_d2spr"
-    ],
-    "android_kernel_htc_m7": [
-        "android_device_htc_dlx"
-    ],
-    "android_kernel_xiaomi_cancro": [
-        "android_device_xiaomi_cancro"
+    "android_kernel_samsung_ks01lte": [
+        "android_device_samsung_ks01lte"
     ]
 }
