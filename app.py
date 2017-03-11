@@ -71,7 +71,7 @@ def addcve(cve = None):
     elif cve[:3] != "CVE" or len(cve.split('-')) != 3:
       msg = cve + " is invalid!"
     else:
-      CVE(cve_name=cve).save()
+      CVE(cve_name=cve, notes=request.args.get('notes')).save()
       cve_id = CVE.objects.get(cve_name=cve)['id']
       for k in Kernel.objects():
         Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
