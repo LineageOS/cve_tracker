@@ -2,6 +2,7 @@
 
 import json
 import os
+import subprocess
 import sys
 
 import utils
@@ -29,7 +30,8 @@ def error(msg = ""):
 @app.route("/")
 def index():
     kernels = Kernel.objects().order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels)
+    version = subprocess.check_output(["git", "describe", "--always"])
+    return render_template('index.html', kernels=kernels, version=version)
 
 @app.route("/<string:k>")
 def kernel(k):
