@@ -64,44 +64,58 @@ def update():
   patched = len(Patches.objects(kernel=k, status=Status.objects.get(text='patched').id))
   return jsonify({'error': 'success', 'patched': patched})
 
-@app.route("/addcve")
-@app.route("/addcve/<string:cve>")
-def addcve(cve = None):
-  if cve:
+
+@app.route("/addcve", methods=['POST'])
+def addcve():
+  errstatus = "Generic error"
+  r = request.get_json()
+  cve = r['cve_id']
+  notes = r['cve_notes']
+  if not notes:
+    notes = ""
+
+  if cve and len(notes) > 10:
     if CVE.objects(cve_name=cve):
-      msg = cve + " already exists!"
+      errstatus = cve + " already exists!"
     elif cve[:3] != "CVE" or len(cve.split('-')) != 3:
-      msg = cve + " is invalid!"
+      errstatus = "'" + cve + "' is invalid!"
     else:
-      CVE(cve_name=cve).save()
+      CVE(cve_name=cve, notes=notes).save()
       cve_id = CVE.objects.get(cve_name=cve)['id']
       for k in Kernel.objects():
         Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
-      mitrelink='https://cve.mitre.org/cgi-bin/cvename.cgi?name='
+      mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
       Links(cve_id=cve_id, link=mitrelink+cve).save()
-      msg = "Added " + cve + "!"
-
-    return render_template('addcve.html', msg=msg)
+      errstatus = "success"
   else:
-    return render_template('addcve.html')
+    if not cve:
+      errstatus = "No CVE specified!"
+    elif len(notes) < 10:
+      errstatus = "Notes have to be more than 10 characters!";
 
-@app.route("/addkernel")
-@app.route("/addkernel/<string:kernel>")
-def addkernel(kernel = None):
+  return jsonify({'error': errstatus})
+
+@app.route("/addkernel", methods=['POST'])
+def addkernel():
+  errstatus = "Generic error"
+  r = request.get_json()
+  kernel = r['kernel']
+
   if kernel:
     if Kernel.objects(repo_name=kernel):
-      msg = kernel + " already exists!"
+      errstatus = "'" + kernel + "' already exists!"
     else:
       v, n = utils.getVendorNameFromRepo(kernel)
       if v is "error" or n is "error":
-        msg = kernel + " is invalid!"
+        errstatus = "'" + kernel + "' is invalid!"
       else:
         utils.addKernel(kernel)
-        msg = "Added " + kernel + "!"
-
-    return render_template('addkernel.html', msg=msg)
+        errstatus = "success"
   else:
-    return render_template('addkernel.html')
+    errstatus = "No kernel name specified!"
+
+  return jsonify({'error': errstatus})
+
 
 @app.route("/editcve/<string:cvename>")
 def editcve(cvename = None):
@@ -160,10 +174,13 @@ def editnotes():
   errstatus = "Generic error"
   r = request.get_json()
   c = r['cve_id']
+  n = r['cve_notes']
 
   if c and CVE.objects(id=c):
     CVE.objects(id=c).update(set__notes=r['cve_notes'])
     errstatus = "success"
+  elif not n or len(n) < 10:
+    errstatus = "Notes have to be more than 10 characters!";
   else:
     errstatus = "CVE doesn't exist"
 

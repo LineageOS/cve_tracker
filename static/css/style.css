@@ -184,7 +184,7 @@ span.device {
   padding: 0 10px;
 }
 
-#cveinfodialog, #editnotesdialog, #addlink, #confirmdelete {
+#addcvedialog, #addkerneldialog, #cveinfodialog, #editnotesdialog, #addlink, #confirmdelete {
   display: none;
 }
 
