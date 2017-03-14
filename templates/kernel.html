@@ -21,7 +21,18 @@
         </div>
       {% endfor %}
     </div>
-    <div id="links"></div>
+    <div id='cveinfodialog'>
+      <b>Notes:</b><br/>
+      <span id='cvenotes'></span> <a class='small button' onclick='editnotes(this);'>Edit</a><br/>
+      <b>Links:</b><br/>
+      <span id='cvelinks'></span><br/>
+      <a href='' id='cveeditlink' class='small button'>Edit CVE</a>
+    </div>
+    <div id='editnotesdialog'>
+      <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
+      <input type='button' value='Save!' id='savenoteslink'>
+      <div id='editnoteserror'></div>
+    </div>
     <div class='frame container'>
       <div class='back'><a href='/'>back</a></div>
       <h3>
