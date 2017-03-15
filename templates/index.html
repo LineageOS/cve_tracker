@@ -4,9 +4,27 @@
     <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/normalize.css') }}' />
     <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
     <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
+    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src='{{ url_for('static', filename='js/main.js') }}'></script>
+
     <title>LineageOS CVE Checklist</title>
   </head>
   <body>
+    <div id='addcvedialog'>
+      <input type='text' id='cvetoadd' placeholder='CVE-20XX-XXXX'><br/>
+      <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
+      <a class='button' id='savecvelink' href='javascript:void(0)' />Save!</a>
+      <div id='addcveerror'></div>
+    </div>
+    <div id='addkerneldialog'>
+      <span>Name: (use the full github repo name, e.g. android_kernel_yourvendor_kernelname)</span><br/>
+      <input type='text' id='kerneltoadd' placeholder='android_kernel_vendor_name'><br/>
+      <a class='button' id='savekernellink' href='javascript:void(0)' />Save!</a>
+      <div id='addkernelerror'></div>
+    </div>
     <div class='frame container'>
     {% for column in kernels | slice(3) %}
       <div class='four columns'>
@@ -22,7 +40,8 @@
     {% endfor %}
     </div>
     <div class='frame container'>
-      <a href="/addcve">Add new CVE</a>&nbsp;|&nbsp;<a href="/addkernel">Add new Kernel</a>&nbsp;|&nbsp;<a href="https://github.com/LineageOS/cve_tracker">Source</a>
+      <a href="javascript:void(0)" onclick="addcve()">Add new CVE</a>&nbsp;|&nbsp;
+<a href="javascript:void(0)" onclick="addkernel()">Add new Kernel</a>&nbsp;|&nbsp;<a href="https://github.com/LineageOS/cve_tracker">Source</a>
       <br>
       Version: {{ version }}
     </div>
