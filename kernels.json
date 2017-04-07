@@ -226,6 +226,7 @@
         "android_device_motorola_athene"
     ],
     "android_kernel_asus_grouper": [
+        "android_device_asus_grouper",
         "android_device_asus_tilapia"
     ],
     "android_kernel_sony_msm8930": [
