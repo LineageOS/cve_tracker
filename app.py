@@ -53,6 +53,16 @@ def kernel(k):
                            patches = patches,
                            devices = devs)
 
+@app.route("/status/<string:c>")
+def cve_status(c):
+    kernels = Kernel.objects().order_by('vendor', 'device')
+    cve = CVE.objects.get(cve_name=c)
+    return render_template('status.html',
+                           cve = cve,
+                           kernels = kernels,
+                           patches = Patches.objects(cve=cve.id),
+                           status_ids = Status.objects())
+
 @app.route("/update", methods=['POST'])
 def update():
   r = request.get_json()

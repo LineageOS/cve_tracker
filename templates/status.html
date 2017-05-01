@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/normalize.css') }}' />
+    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
+    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
+    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src='{{ url_for('static', filename='js/cve.js') }}'></script>
+
+    <title>LineageOS Kernel Checklist for {{ cve.cve_name }}</title>
+  </head>
+  <body>
+    <div id='status_ids' style='display: none;'>
+      {% for s in status_ids %}
+        <div id={{ 'status_' ~ s.short_id }}>
+          {{ s.text }}
+        </div>
+      {% endfor %}
+    </div>
+    <div class='frame container'>
+      <div class='back'><a href="javascript:history.back()">back</a></div>
+      <h3>Patch status for {{ cve.cve_name }}</h3>
+      <div>
+        {% for column in kernels | slice(3) %}
+          <div class='four columns'>
+            {% for k in column %}
+              <div class='cvediv' id='{{ k.repo_name }}'>
+                <a href='/{{ k.repo_name }}'>{{ k.repo_name }}</a>
+                <span id='status' kernel_id={{ k.id }} cve_id={{ cve.id }} status_id={{ status_ids.get(id=patches.get(kernel=k.id).status).short_id }}></span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

@@ -16,6 +16,7 @@ function openLinks(cve, cve_id) {
       $("#cvelinks").append("<a href='" + v.link + "' target='_blank' >" + v.link + "</a> - " + v.desc + "<br/>");
     });
     $("#cveeditlink").attr("href", "/editcve/" + cve);
+    $("#cvecomparelink").attr("href", "/status/" + cve);
     $("#cveinfodialog").dialog('option', 'title', cve).dialog('open');
   });
 
