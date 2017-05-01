@@ -209,3 +209,7 @@ a.button.delete {
 a:hover.delete {
   color: #ce0f0f;
 }
+
+.ui-widget .ui-widget-content {
+  word-break: break-word;
+}
