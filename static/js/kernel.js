@@ -39,7 +39,7 @@ function openLinks(cve, cve_id) {
 }
 
 $(document).ready(function() {
-  $("#cveinfodialog").dialog({ autoOpen: false, width: 'auto' });
+  $("#cveinfodialog").dialog({ autoOpen: false, width: 750, maxWidth: 960 });
   $("#editnotesdialog").dialog({ autoOpen: false, width: 'auto' });
 
   $("#cveinfodialog").on('dialogbeforeclose', function(event, ui) {
