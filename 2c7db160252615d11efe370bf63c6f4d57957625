@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_fe9233f5",
+        "filename": "templates/status.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2017-05-01T15:09:19Z",
+      "side": 1,
+      "message": "need to write something to display this nicely (or else you just get \"Patches object\")",
+      "revId": "2c7db160252615d11efe370bf63c6f4d57957625",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_1e862fba",
+        "filename": "templates/status.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2017-05-01T15:09:19Z",
+      "side": 1,
+      "message": "missing {{ }} here",
+      "revId": "2c7db160252615d11efe370bf63c6f4d57957625",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
