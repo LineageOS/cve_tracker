@@ -19,8 +19,12 @@ f = open('cves.txt')
 while True:
   x = f.readline().rstrip()
   if not x: break
-  CVE(cve_name=x).save()
-  Links(cve_id=CVE.objects.get(cve_name=x)['id'], link=mitrelink+x).save()
+  check = CVE.objects.get(cve_name=x)
+  if not check:
+    CVE(cve_name=x).save()
+    Links(cve_id=CVE.objects.get(cve_name=x)['id'], link=mitrelink+x).save()
+  else:
+    print("Skipped '" + x + "' because it was already added!")
 
 f = open('statuses.txt')
 while True:
