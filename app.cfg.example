@@ -3,3 +3,13 @@ MONGODB_HOST = '127.0.0.1'
 
 GITHUBUSER = 'github_username'
 GITHUBTOKEN = 'github_token'
+
+# github organisation user must be part of to be successfully logged in
+GITHUB_ORG = 'LineageOS'
+# github OAuth2 key
+GITHUB_CONSUMER_KEY = 'my_github_app_id'
+# github OAuth2 secret
+GITHUB_CONSUMER_SECRET = 'my_github_app_secret'
+
+# used by flask to secure session info. change this to something random.
+SECRET_KEY = 'default'

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-
+import base64
+import functools
 import json
 import os
 import subprocess
@@ -8,14 +9,19 @@ import sys
 import utils
 
 from classes import *
-from flask import Flask, abort, jsonify, render_template, request
+from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for
 from flask_mongoengine import MongoEngine
+from flask_oauthlib.client import OAuth
 
 devicefile = "kernels.json"
 forceDBUpdate = False
 
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
+app.secret_key = app.config['SECRET_KEY']
+if app.secret_key == 'default':
+    raise Exception("You need to set the secret key!")
+
 
 dir = os.path.dirname(__file__)
 
@@ -23,6 +29,60 @@ with open(os.path.join(dir, devicefile)) as device_file:
   devices = json.load(device_file)
 
 db = MongoEngine(app)
+
+oauth = OAuth(app)
+
+github = oauth.remote_app(
+  'github',
+  consumer_key = app.config['GITHUB_CONSUMER_KEY'],
+  consumer_secret = app.config['GITHUB_CONSUMER_SECRET'],
+  request_token_params = {'scope': 'user:email read:org'},
+  base_url = 'https://api.github.com/',
+  request_token_url = None,
+  access_token_method = 'POST',
+  access_token_url = 'https://github.com/login/oauth/access_token',
+  authorize_url = 'https://github.com/login/oauth/authorize'
+)
+
+def require_login(f):
+  @functools.wraps(f)
+  def wrapper(*args, **kwargs):
+      if 'auth' not in session or not session['auth']:
+          return jsonify({'error': 'not logged in'})
+      return f(*args, **kwargs)
+  return wrapper
+
+@app.route("/login")
+def login():
+  return github.authorize(callback=url_for('authorized', _external=True, _scheme='https'))
+
+@app.route('/login/authorized')
+def authorized():
+  resp = github.authorized_response()
+  if resp is None or resp.get('access_token') is None:
+    return 'Access denied: reason=%s error=%s resp=%s' % (
+      request.args['error'],
+      request.args['error_description'],
+      resp
+    )
+  session['github_token'] = (resp['access_token'], '')
+  orgs = github.get('user/orgs')
+  for org in orgs.data:
+    if 'login' in org and org['login'] == app.config['GITHUB_ORG']:
+      session['auth'] = True
+  if 'auth' not in session:
+    return 'Access Denied - Incorrect Orgs {}'.format(" ".join([org['login'] for org in orgs.data]))
+  return redirect('/')
+
+@github.tokengetter
+def get_github_oauth_token():
+    return session.get('github_token')
+
+@app.route("/secure")
+@require_login
+def secure():
+  return "logged in"
+
 
 def error(msg = ""):
     return render_template('error.html', msg=msg)
@@ -64,6 +124,7 @@ def cve_status(c):
                            status_ids = Status.objects())
 
 @app.route("/update", methods=['POST'])
+@require_login
 def update():
   r = request.get_json()
   k = r['kernel_id'];
@@ -76,6 +137,7 @@ def update():
 
 
 @app.route("/addcve", methods=['POST'])
+@require_login
 def addcve():
   errstatus = "Generic error"
   r = request.get_json()
@@ -106,6 +168,7 @@ def addcve():
   return jsonify({'error': errstatus})
 
 @app.route("/addkernel", methods=['POST'])
+@require_login
 def addkernel():
   errstatus = "Generic error"
   r = request.get_json()
@@ -128,6 +191,7 @@ def addkernel():
 
 
 @app.route("/editcve/<string:cvename>")
+@require_login
 def editcve(cvename = None):
   if cvename and CVE.objects(cve_name=cvename):
     cve = CVE.objects.get(cve_name=cvename)
@@ -139,6 +203,7 @@ def editcve(cvename = None):
     return render_template('editcve.html', msg=msg)
 
 @app.route("/deletecve/<string:cvename>")
+@require_login
 def deletecve(cvename = None):
   if cvename and CVE.objects(cve_name=cvename):
     utils.nukeCVE(cvename)
@@ -146,6 +211,7 @@ def deletecve(cvename = None):
   return error()
 
 @app.route("/addlink", methods=['POST'])
+@require_login
 def addlink():
   errstatus = "Generic error"
   link_id = ""
@@ -166,6 +232,7 @@ def addlink():
   return jsonify({'error': errstatus, 'link_id': str(link_id)})
 
 @app.route("/deletelink", methods=['POST'])
+@require_login
 def deletelink():
   errstatus = "Generic error"
   r = request.get_json()
@@ -180,6 +247,7 @@ def deletelink():
   return jsonify({'error': errstatus})
 
 @app.route("/editnotes", methods=['POST'])
+@require_login
 def editnotes():
   errstatus = "Generic error"
   r = request.get_json()
@@ -197,6 +265,7 @@ def editnotes():
   return jsonify({'error': errstatus})
 
 @app.route("/editlink", methods=['POST'])
+@require_login
 def editlink():
   errstatus = "Generic error"
   r = request.get_json()
@@ -221,3 +290,5 @@ def getnotes():
   r = request.get_json()
   c = r['cve_id']
   return CVE.objects(id=c).to_json()
+
+
