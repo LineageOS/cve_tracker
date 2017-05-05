@@ -21,7 +21,8 @@
         "android_device_lge_ls990",
         "android_device_lge_f400",
         "android_device_lge_d850",
-        "android_device_lge_d855"
+        "android_device_lge_d855",
+        "android_device_lge_vs985"
     ],
     "android_kernel_lge_msm8996": [
         "android_device_lge_h830",
