@@ -16,6 +16,7 @@ from flask_oauthlib.client import OAuth
 devicefile = "kernels.json"
 forceDBUpdate = False
 
+version = subprocess.check_output(["git", "describe", "--always"], cwd=os.path.dirname(os.path.realpath(__file__))).decode('utf-8')
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
 app.secret_key = app.config['SECRET_KEY']
@@ -98,7 +99,6 @@ def error(msg = ""):
 @app.route("/")
 def index():
     kernels = Kernel.objects().order_by('vendor', 'device')
-    version = subprocess.check_output(["git", "describe", "--always"], cwd=os.path.dirname(os.path.realpath(__file__)))
     return render_template('index.html', kernels=kernels, version=version, authorized=logged_in())
 
 @app.route("/<string:k>")
