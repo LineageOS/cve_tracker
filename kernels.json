@@ -347,10 +347,9 @@
     ],
     "android_kernel_samsung_exynos5420": [
         "android_device_samsung_klimtwifi",
-        "android_device_samsung_picassowifi",
-        "android_device_samsung_chagall-common",
+        "android_device_samsung_ha3g",
         "android_device_samsung_n1awifi",
-        "android_device_samsung_klimt-common",
+        "android_device_samsung_n2awifi",
         "android_device_samsung_chagallwifi"
     ],
     "android_kernel_samsung_espresso10": [
