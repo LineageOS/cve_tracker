@@ -44,10 +44,13 @@ github = oauth.remote_app(
   authorize_url = 'https://github.com/login/oauth/authorize'
 )
 
+def logged_in():
+    return 'auth' in session and session['auth']
+
 def require_login(f):
   @functools.wraps(f)
   def wrapper(*args, **kwargs):
-      if 'auth' not in session or not session['auth']:
+      if not logged_in():
           return jsonify({'error': 'not logged in'})
       return f(*args, **kwargs)
   return wrapper
@@ -74,6 +77,11 @@ def authorized():
     return 'Access Denied - Incorrect Orgs {}'.format(" ".join([org['login'] for org in orgs.data]))
   return redirect('/')
 
+@app.route("/logout")
+def logout():
+    session['auth'] = False
+    return redirect('/')
+
 @github.tokengetter
 def get_github_oauth_token():
     return session.get('github_token')
@@ -91,7 +99,7 @@ def error(msg = ""):
 def index():
     kernels = Kernel.objects().order_by('vendor', 'device')
     version = subprocess.check_output(["git", "describe", "--always"], cwd=os.path.dirname(os.path.realpath(__file__)))
-    return render_template('index.html', kernels=kernels, version=version)
+    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in())
 
 @app.route("/<string:k>")
 def kernel(k):
@@ -111,7 +119,8 @@ def kernel(k):
                            cves = CVE.objects().order_by('cve_name'),
                            status_ids = Status.objects(),
                            patches = patches,
-                           devices = devs)
+                           devices = devs,
+                           authorized=logged_in())
 
 @app.route("/status/<string:c>")
 def cve_status(c):
@@ -121,7 +130,8 @@ def cve_status(c):
                            cve = cve,
                            kernels = kernels,
                            patches = Patches.objects(cve=cve.id),
-                           status_ids = Status.objects())
+                           status_ids = Status.objects(),
+                           authorized=logged_in())
 
 @app.route("/update", methods=['POST'])
 @require_login

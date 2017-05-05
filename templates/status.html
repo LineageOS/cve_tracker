@@ -11,6 +11,9 @@
     <script src='{{ url_for('static', filename='js/cve.js') }}'></script>
 
     <title>LineageOS Kernel Checklist for {{ cve.cve_name }}</title>
+    {% if not authorized %}
+    <style>span[class^="status_"] { cursor: unset; }</style>
+    {% endif %}
   </head>
   <body>
     <div id='status_ids' style='display: none;'>

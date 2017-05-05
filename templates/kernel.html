@@ -12,6 +12,9 @@
     <script src='{{ url_for('static', filename='js/kernel.js') }}'></script>
 
     <title>LineageOS CVE Checklist for {{ kernel.repo }}</title>
+    {% if not authorized %}
+    <style>span[class^="status_"] { cursor: unset; }</style>
+    {% endif %}
   </head>
   <body>
     <div id='status_ids' style='display: none;'>
@@ -23,10 +26,16 @@
     </div>
     <div id='cveinfodialog'>
       <b>Notes:</b><br/>
-      <span id='cvenotes'></span> <a class='small button' onclick='editnotes(this);'>Edit</a><br/>
+      <span id='cvenotes'></span>
+      {% if authorized %}
+      <a class='small button' onclick='editnotes(this);'>Edit</a>
+      {% endif %}
+      <br/>
       <b>Links:</b><br/>
       <span id='cvelinks'></span><br/>
+      {% if authorized %}
       <a href='' id='cveeditlink' class='small button'>Edit CVE</a>
+      {% endif %}
       <a href='' id='cvecomparelink' class='small button'>Compare to other kernels</a>
     </div>
     <div id='editnotesdialog'>
