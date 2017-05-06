@@ -19,14 +19,25 @@ f = open('cves.txt')
 while True:
   x = f.readline().rstrip()
   if not x: break
-  CVE(cve_name=x).save()
-  Links(cve_id=CVE.objects.get(cve_name=x)['id'], link=mitrelink+x).save()
+  check = CVE.objects(cve_name=x).first()
+  if not check:
+    CVE(cve_name=x).save()
+    Links(cve_id=CVE.objects.get(cve_name=x)['id'], link=mitrelink+x).save()
+  else:
+    print("Skipped '" + x + "' because it was already added!")
 
 f = open('statuses.txt')
 while True:
   x = f.readline().rstrip()
   if not x: break
-  Status(short_id=x.split('|')[0], text=x.split('|')[1]).save()
+  sid = x.split('|')[0]
+  txt = x.split('|')[1]
+  check1 = Status.objects(short_id=sid).first()
+  check2 = Status.objects(text=txt).first()
+  if not check1 and not check2:
+    Status(short_id=sid, text=txt).save()
+  else:
+    print("Skipped adding status '" + x + "' because either id or text were already added!")
 
 f = open('patches.txt')
 while True:
