@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_0669338b",
+        "filename": "app.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2017-05-08T13:02:45Z",
+      "side": 1,
+      "message": "or app.config[\u0027GITHUB_ORG\u0027] \u003d\u003d \"none\"",
+      "revId": "9782a711bad588264e2437126318fd9544f55b5d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
