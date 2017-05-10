@@ -1,2 +1,2 @@
 DIR=`dirname $0`
-FLASK_APP=$DIR/app.py flask run
+FLASK_APP=$DIR/app.py flask run $@
