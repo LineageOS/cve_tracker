@@ -296,6 +296,16 @@ def getlinks():
   c = r['cve_id'];
   return Links.objects(cve_id=c).to_json()
 
+@app.route("/api/cves")
+def get_cves():
+    obj = {}
+    for el in CVE.objects():
+        obj[el.cve_name] = {'notes': el.notes, 'links': []}
+        links = Links.objects(cve_id=el.id)
+        for link in links:
+            obj[el.cve_name]['links'].append({'link': link.link, 'desc': link.desc})
+    return jsonify(obj)
+
 @app.route("/getnotes", methods=['POST'])
 def getnotes():
   r = request.get_json()
