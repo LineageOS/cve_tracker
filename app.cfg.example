@@ -5,6 +5,7 @@ GITHUBUSER = 'github_username'
 GITHUBTOKEN = 'github_token'
 
 # github organisation user must be part of to be successfully logged in
+# 'none' will disable authentication
 GITHUB_ORG = 'LineageOS'
 # github OAuth2 key
 GITHUB_CONSUMER_KEY = 'my_github_app_id'

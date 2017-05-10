@@ -46,7 +46,7 @@ github = oauth.remote_app(
 )
 
 def logged_in():
-    return 'auth' in session and session['auth']
+    return ('auth' in session and session['auth']) or app.config['GITHUB_ORG'] == 'none'
 
 def require_login(f):
   @functools.wraps(f)
@@ -99,7 +99,8 @@ def error(msg = ""):
 @app.route("/")
 def index():
     kernels = Kernel.objects().order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in())
+    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
+            needs_auth=app.config['GITHUB_ORG'] != 'none')
 
 @app.route("/<string:k>")
 def kernel(k):
