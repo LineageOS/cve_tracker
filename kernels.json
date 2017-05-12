@@ -137,7 +137,9 @@
     "android_kernel_xiaomi_msm8996": [
         "android_device_xiaomi_capricorn",
         "android_device_xiaomi_gemini",
-        "android_device_xiaomi_natrium"
+        "android_device_xiaomi_lithium",
+        "android_device_xiaomi_natrium",
+        "android_device_xiaomi_scorpio"
     ],
     "android_kernel_samsung_universal8890": [
         "android_device_samsung_herolte",
