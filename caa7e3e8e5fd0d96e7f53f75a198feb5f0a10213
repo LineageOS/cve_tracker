@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_7c906fec",
+        "filename": "app.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3671
+      },
+      "writtenOn": "2017-05-12T14:29:42Z",
+      "side": 1,
+      "message": "fix this too?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 98
+      },
+      "revId": "caa7e3e8e5fd0d96e7f53f75a198feb5f0a10213",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
