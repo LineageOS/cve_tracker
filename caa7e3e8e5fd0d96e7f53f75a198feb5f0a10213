@@ -46,6 +46,30 @@
       "revId": "caa7e3e8e5fd0d96e7f53f75a198feb5f0a10213",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_9c2faba1",
+        "filename": "app.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3671
+      },
+      "writtenOn": "2017-05-12T15:22:28Z",
+      "side": 1,
+      "message": "Probably makes sense to calculate it on the backend though",
+      "parentUuid": "1a486d77_3c50b731",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 98
+      },
+      "revId": "caa7e3e8e5fd0d96e7f53f75a198feb5f0a10213",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
