@@ -17,7 +17,7 @@ function update(c) {
     if (data.error == "success") {
       $(c).attr('status_id', newStatus);
       updateCVEStatus($(c));
-      $("#progressbar").attr("value", data.patched);
+      $("#progressbar").attr("value", data.progress);
       updateProgressBar();
     }
   });

@@ -143,8 +143,9 @@ def update():
   s = r['status_id'];
 
   Patches.objects(kernel=k, cve=c).update(status=Status.objects.get(short_id=s).id)
-  patched = len(Patches.objects(kernel=k, status=Status.objects.get(text='patched').id))
-  return jsonify({'error': 'success', 'patched': patched})
+  patched = Patches.objects(kernel=k, status=Status.objects.get(text='patched').id).count()
+  progress = patched / CVE.objects().count() * 100.0;
+  return jsonify({'error': 'success', 'progress': progress})
 
 
 @app.route("/addcve", methods=['POST'])
