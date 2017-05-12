@@ -22,6 +22,30 @@
       "revId": "caa7e3e8e5fd0d96e7f53f75a198feb5f0a10213",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a486d77_3c50b731",
+        "filename": "app.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2017-05-12T15:20:03Z",
+      "side": 1,
+      "message": "this is not broken due to kernel.html already calculating this:\n\u003cdiv id\u003d\u0027progressbar\u0027 value\u003d{{ (patched / cves|length) * 100 }}\u003e\u003c/div\u003e",
+      "parentUuid": "1a486d77_7c906fec",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 98
+      },
+      "revId": "caa7e3e8e5fd0d96e7f53f75a198feb5f0a10213",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
