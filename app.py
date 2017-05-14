@@ -101,7 +101,10 @@ def error(msg = ""):
 @app.route("/")
 def index():
     kernels = Kernel.objects().order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
+    progress = []
+    for k in kernels:
+      progress.append(utils.getProgress(k.id))
+    return render_template('index.html', kernels=kernels, progress=progress, version=version, authorized=logged_in(),
             needs_auth=app.config['GITHUB_ORG'] != 'none')
 
 @app.route("/<string:k>")
@@ -111,9 +114,7 @@ def kernel(k):
     except:
         abort(404)
     patches = Patches.objects(kernel=kernel.id)
-    patched = Patches.objects(kernel=kernel.id, status=Status.objects.get(text='patched').id).count()
-    dna = Patches.objects(kernel=kernel.id, status=Status.objects.get(text='does not apply').id).count()
-    progress = (patched + dna) / CVE.objects().count() * 100.0;
+    progress = utils.getProgress(kernel.id)
     if k in devices:
       devs = devices[k]
     else:
@@ -147,9 +148,7 @@ def update():
   s = r['status_id'];
 
   Patches.objects(kernel=k, cve=c).update(status=Status.objects.get(short_id=s).id)
-  patched = Patches.objects(kernel=k, status=Status.objects.get(text='patched').id).count()
-  dna = Patches.objects(kernel=k, status=Status.objects.get(text='does not apply').id).count()
-  progress = (patched + dna) / CVE.objects().count() * 100.0;
+  progress = utils.getProgress(k)
   return jsonify({'error': 'success', 'progress': progress})
 
 

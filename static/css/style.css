@@ -120,9 +120,18 @@ span.cve {
   color: #00796B;
 }
 
+#progress {
+  text-align: center;
+}
+
 #progressbar {
   height: 20px;
   margin-bottom: 10px;
+}
+
+#progressvalue {
+  float: right;
+  width: 60px;
 }
 
 .ui-progressbar-value {

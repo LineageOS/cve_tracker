@@ -18,6 +18,7 @@ function update(c) {
       $(c).attr('status_id', newStatus);
       updateCVEStatus($(c));
       $("#progressbar").attr("value", data.progress);
+      $("#progressvalue").text(Math.floor(data.progress) + " %");
       updateProgressBar();
     }
   });
