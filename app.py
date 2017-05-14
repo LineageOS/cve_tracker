@@ -23,6 +23,8 @@ app.secret_key = app.config['SECRET_KEY']
 if app.secret_key == 'default':
     raise Exception("You need to set the secret key!")
 
+app.jinja_env.auto_reload = True
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 dir = os.path.dirname(__file__)
 
