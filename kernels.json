@@ -19,6 +19,7 @@
         "android_device_asus_fugu"
     ],
     "android_kernel_asus_grouper": [
+        "android_device_asus_grouper",
         "android_device_asus_tilapia"
     ],
     "android_kernel_asus_moorefield": [
@@ -61,6 +62,7 @@
         "android_device_wileyfox_porridgek3"
     ],
     "android_kernel_google_marlin": [
+        "android_device_google_marlin",
         "android_device_google_sailfish"
     ],
     "android_kernel_google_msm": [
@@ -313,6 +315,7 @@
     ],
     "android_kernel_samsung_espresso10": [
         "android_device_samsung_espresso3g",
+        "android_device_samsung_espressowifi",
         "android_device_samsung_p3100",
         "android_device_samsung_p3110",
         "android_device_samsung_p5100",
@@ -322,11 +325,10 @@
         "android_device_samsung_i9500"
     ],
     "android_kernel_samsung_exynos5420": [
-        "android_device_samsung_chagall-common",
         "android_device_samsung_chagallwifi",
         "android_device_samsung_ha3g",
-        "android_device_samsung_klimt-common",
         "android_device_samsung_klimtwifi",
+        "android_device_samsung_n1awifi",
         "android_device_samsung_n2awifi",
         "android_device_samsung_picassowifi"
     ],
@@ -359,10 +361,7 @@
     "android_kernel_samsung_k3gxx": [
         "android_device_samsung_k3gxx"
     ],
-    "android_kernel_samsung_klimtwifi": [
-        "android_device_samsung_chagall-common",
-        "android_device_samsung_klimt-common"
-    ],
+    "android_kernel_samsung_klimtwifi": [],
     "android_kernel_samsung_klte": [
         "android_device_samsung_klte",
         "android_device_samsung_kltechn",
@@ -417,6 +416,7 @@
         "android_device_samsung_n5120",
         "android_device_samsung_n7100",
         "android_device_samsung_n8000",
+        "android_device_samsung_t0lte",
         "android_device_samsung_t0ltekor",
         "android_device_samsung_t0ltektt",
         "android_device_samsung_t0lteskt"
