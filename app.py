@@ -115,6 +115,11 @@ def kernel(k):
         abort(404)
     patches = Patches.objects(kernel=kernel.id)
     progress = utils.getProgress(kernel.id)
+    cves = CVE.objects().order_by('cve_name')
+    patch_status = []
+    for c in cves:
+      patch_status.append(Status.objects.get(id=patches.get(cve=c.id).status).short_id)
+
     if k in devices:
       devs = devices[k]
     else:
@@ -122,7 +127,8 @@ def kernel(k):
     return render_template('kernel.html',
                            kernel = kernel,
                            progress = progress,
-                           cves = CVE.objects().order_by('cve_name'),
+                           cves = cves,
+                           patch_status = patch_status,
                            status_ids = Status.objects(),
                            patches = patches,
                            devices = devs,

@@ -64,11 +64,14 @@
       </div>
       <div style="clear: both">
         {% for column in cves | slice(3) %}
+        {% set num_per_col = (cves|length / 3)|round %}
+        {% set cveloop = loop %}
           <div class='four columns'>
             {% for c in column %}
+            {% set index = (cveloop.index0 * num_per_col + loop.index0)|int %}
               <div class='cvediv' id='{{ c.cve_name }}'>
                 <a href="javascript:void(0)" onclick='openLinks("{{ c.cve_name }}", "{{ c.id }}")'>{{ c.cve_name }}</a>
-                <span id='status' onclick='update(this)' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ status_ids.get(id=patches.get(cve=c.id).status).short_id }}></span>
+                <span id='status' onclick='update(this)' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ patch_status[index] }}></span>
               </div>
             {% endfor %}
           </div>
