@@ -14,6 +14,7 @@ class Kernel(Document):
   last_github_update = DateTimeField(required=True)
   vendor = StringField(required=True)
   device = StringField(required=True)
+  progress = IntField(required=True, default=0)
 
 class Status(Document):
   short_id = IntField(required=True)

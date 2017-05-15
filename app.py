@@ -103,7 +103,7 @@ def index():
     kernels = Kernel.objects().order_by('vendor', 'device')
     progress = []
     for k in kernels:
-      progress.append(utils.getProgress(k.id))
+      progress.append(Kernel.objects.get(id=k.id).progress)
     return render_template('index.html', kernels=kernels, progress=progress, version=version, authorized=logged_in(),
             needs_auth=app.config['GITHUB_ORG'] != 'none')
 
@@ -155,6 +155,7 @@ def update():
 
   Patches.objects(kernel=k, cve=c).update(status=Status.objects.get(short_id=s).id)
   progress = utils.getProgress(k)
+  Kernel.objects(id=k).update(progress=progress)
   return jsonify({'error': 'success', 'progress': progress})
 
 
