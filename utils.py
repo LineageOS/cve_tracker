@@ -6,6 +6,7 @@ import datetime
 from classes import *
 from github import Github
 from flask_mongoengine import MongoEngine
+from mongoengine.queryset.visitor import Q
 
 def getVendorNameFromRepo(repo):
   v = "error"
@@ -58,7 +59,6 @@ def nukeCVE(cve):
     CVE.objects(id=cve_id).delete()
 
 def getProgress(kernel):
-  patched = Patches.objects(kernel=kernel, status=Status.objects.get(text='patched').id).count()
-  dna = Patches.objects(kernel=kernel, status=Status.objects.get(text='does not apply').id).count()
-  progress = (patched + dna) / CVE.objects().count() * 100;
+  patched = Patches.objects(Q(kernel=kernel) & (Q(status=Status.objects.get(text='patched').id) | Q(status=Status.objects.get(text='does not apply').id))).only('id').count()
+  progress = (100 * patched) / CVE.objects().count()
   return progress
