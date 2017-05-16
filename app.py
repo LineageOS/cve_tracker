@@ -356,6 +356,15 @@ def deprecate():
 
     return jsonify({'error': "success"})
 
+@app.route("/listcves")
+def listcves():
+    cves = []
+
+    for cve in CVE.objects.order_by('cve_name'):
+        cves.append(cve.cve_name)
+
+    return jsonify(cves)
+
 ###
 # cache helper functions
 ###
