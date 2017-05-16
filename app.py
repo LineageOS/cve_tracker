@@ -149,7 +149,7 @@ def cve_status(c):
     statuses = {s.id: s.short_id for s in Status.objects()}
     patches = {p.kernel: p.status for p in Patches.objects(cve=cve.id)}
     return render_template('status.html',
-                           cve = cve,
+                           cve_name = c,
                            kernels = kernels,
                            patches = patches,
                            status_ids = Status.objects(),
