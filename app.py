@@ -332,6 +332,15 @@ def check(k, c):
     status = Status.objects.get(id=statusid).text
     return jsonify({'kernel': k, 'cve': c, 'status': status})
 
+@app.route("/listcves")
+def listcves():
+    cves = []
+
+    for cve in CVE.objects.order_by('cve_name'):
+        cves.append(cve.cve_name)
+
+    return jsonify(cves)
+
 ###
 # cache helper functions
 ###
