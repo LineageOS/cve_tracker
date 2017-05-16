@@ -10,6 +10,8 @@ venv/
 bin/
 include/
 lib/
+lib64
 local/
 share/
 pip-selfcheck.json
+pyvenv.cfg
