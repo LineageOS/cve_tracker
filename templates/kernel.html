@@ -4,10 +4,12 @@
     <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/normalize.css') }}' />
     <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
     <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
+    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/jquery.contextMenu.css') }}' />
     <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
 
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src='{{ url_for('static', filename='js/jquery.contextMenu.js') }}'></script>
     <script src='{{ url_for('static', filename='js/cve.js') }}'></script>
     <script src='{{ url_for('static', filename='js/kernel.js') }}'></script>
 
@@ -71,7 +73,7 @@
             {% set index = (cveloop.index0 * num_per_col + loop.index0)|int %}
               <div class='cvediv' id='{{ c.cve_name }}'>
                 <a href="javascript:void(0)" onclick='openLinks("{{ c.cve_name }}", "{{ c.id }}")'>{{ c.cve_name }}</a>
-                <span id='status' onclick='update(this)' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ patch_status[index] }}></span>
+                <span id='status' class='status-context-menu' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ patch_status[index] }}></span>
               </div>
             {% endfor %}
           </div>
