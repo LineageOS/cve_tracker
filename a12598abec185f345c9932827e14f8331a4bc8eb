@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a486d77_7bdbcc1b",
+        "filename": "kernels.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 16082
+      },
+      "writtenOn": "2017-05-16T19:28:06Z",
+      "side": 1,
+      "message": "Hmmm",
+      "revId": "a12598abec185f345c9932827e14f8331a4bc8eb",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
