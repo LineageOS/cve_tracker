@@ -325,6 +325,13 @@ def getnotes():
     c = r['cve_id']
     return CVE.objects(id=c).to_json()
 
+@app.route("/check/<string:k>/<string:c>")
+def check(k, c):
+    statusid = Patches.objects.get(kernel=Kernel.objects.get(repo_name=k).id,
+                                   cve=CVE.objects.get(cve_name=c).id).status
+    status = Status.objects.get(id=statusid).text
+    return jsonify({'kernel': k, 'cve': c, 'status': status})
+
 ###
 # cache helper functions
 ###
