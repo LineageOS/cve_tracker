@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import base64
+import datetime
 import functools
 import json
 import os
@@ -57,6 +58,10 @@ def update_progress():
         k.progress = utils.getProgress(k.id)
         k.save()
 
+@app.cli.command()
+def update_kernels():
+    utils.getKernelTableFromGithub(app)
+
 def logged_in():
     return ('github_token' in session and session['github_token']) or app.config['GITHUB_ORG'] == None
 
@@ -112,7 +117,8 @@ def error(msg = ""):
 
 @app.route("/")
 def index():
-    kernels = Kernel.objects().order_by('vendor', 'device')
+    min_kernel_update = datetime.datetime.now() - datetime.timedelta(weeks=15)
+    kernels = Kernel.objects(last_github_update__gt=min_kernel_update).order_by('vendor', 'device')
     return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
           needs_auth=app.config['GITHUB_ORG'] != 'none')
 
