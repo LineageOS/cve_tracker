@@ -15,6 +15,7 @@ class Kernel(Document):
     vendor = StringField(required=True)
     device = StringField(required=True)
     progress = IntField(required=True, default=0)
+    deprecated = BooleanField(required=True, default=False)
 
 class Status(Document):
     short_id = IntField(required=True)

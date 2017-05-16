@@ -26,7 +26,7 @@ def getVendorNameFromRepo(repo):
 
     return v, n
 
-def getKernelTableFromGithub():
+def getKernelTableFromGithub(app):
     print("Updating kernel list from github...this may take a long time...")
 
     u = app.config['GITHUBUSER']
@@ -37,8 +37,11 @@ def getKernelTableFromGithub():
 
     for repo in org.get_repos():
         if "android_kernel_" in repo.name or "-kernel-" in repo.name:
-            if repo.name not in Kernel.objects().order_by('repo_name'):
+            print(repo.name)
+            if Kernel.objects(repo_name=repo.name).count() == 0:
                 addKernel(repo.name, repo.updated_at)
+            else:
+                Kernel.objects(repo_name=repo.name).update(last_github_update=repo.updated_at)
 
     print("Done!")
     return

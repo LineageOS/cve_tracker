@@ -69,8 +69,40 @@ $(document).ready(function() {
       }
     });
   });
+
+  $( "#deprecationdialog" ).dialog({
+      resizable: false,
+      height: "auto",
+      width: "auto",
+      modal: true,
+      autoOpen: false,
+      buttons: {
+        "Do eet!": function() {
+            var kernel_id = $('#deprecationdialog').attr('kernel_id');
+            var deprecated = $('#deprecationdialog').attr('deprecated')
+            $.ajax({
+              'type': 'POST',
+              'url': '/deprecate',
+              'contentType': 'application/json',
+              'data': JSON.stringify({
+                       kernel_id: kernel_id,
+                       deprecate: deprecated,
+              })
+            }).done(function(data) {
+              location.reload();
+            });
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
 });
 
 function editnotes() {
   $('#editnotesdialog').dialog('option', 'title', 'Edit CVE notes').dialog('open');
+}
+
+function deprecate(c) {
+  $('#deprecationdialog').dialog('open');
 }
