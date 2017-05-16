@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import base64
+import datetime
 import functools
 import json
 import os
@@ -57,6 +58,10 @@ def update_progress():
         k.progress = utils.getProgress(k.id)
         k.save()
 
+@app.cli.command()
+def update_kernels():
+    utils.getKernelTableFromGithub(app)
+
 def logged_in():
     return ('github_token' in session and session['github_token']) or app.config['GITHUB_ORG'] == None
 
@@ -112,7 +117,7 @@ def error(msg = ""):
 
 @app.route("/")
 def index():
-    kernels = Kernel.objects().order_by('vendor', 'device')
+    kernels = Kernel.objects(deprecated__in=[False, None]).order_by('vendor', 'device')
     return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
           needs_auth=app.config['GITHUB_ORG'] != 'none')
 
@@ -324,6 +329,20 @@ def getnotes():
     r = request.get_json()
     c = r['cve_id']
     return CVE.objects(id=c).to_json()
+
+@app.route("/deprecate", methods=['POST'])
+@require_login
+def deprecate():
+    r = request.get_json()
+    k = r['kernel_id']
+    d = r['deprecate']
+    if d == 'True':
+      new_state = False
+    else:
+      new_state = True
+    Kernel.objects(id=k).update(deprecated=new_state)
+
+    return jsonify({'error': "success"})
 
 ###
 # cache helper functions
