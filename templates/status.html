@@ -10,10 +10,8 @@
     <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
     <script src='{{ url_for('static', filename='js/cve.js') }}'></script>
 
-    <title>LineageOS Kernel Checklist for {{ cve.cve_name }}</title>
-    {% if not authorized %}
+    <title>LineageOS Kernel Checklist for {{ cve_name }}</title>
     <style>span[class^="status_"] { cursor: unset; }</style>
-    {% endif %}
   </head>
   <body>
     <div id='status_ids' style='display: none;'>
@@ -25,7 +23,7 @@
     </div>
     <div class='frame container'>
       <div class='back'><a href="javascript:history.back()">back</a></div>
-      <h3>Patch status for {{ cve.cve_name }}</h3>
+      <h3>Patch status for {{ cve_name }}</h3>
       <div>
         {% for column in kernels | slice(3) %}
           <div class='four columns'>
@@ -35,7 +33,7 @@
             {% endif %}
             <div class='cvediv' id='{{ k.repo_name }}'>
               <a href='/{{ k.repo_name }}'>{{ k.device }}</a>
-              <span id='status' kernel_id={{ k.id }} cve_id={{ cve.id }} status_id={{ statuses[patches[k.id]] }}></span>
+              <span id='status' status_id={{ statuses[patches[k.id]] }}></span>
             </div>
           {% endfor %}
           </div>
