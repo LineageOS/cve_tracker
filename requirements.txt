@@ -1,5 +1,5 @@
 flask
 flask_mongoengine
-flask_oauthlib
+Github-Flask
 mongoengine
 pygithub

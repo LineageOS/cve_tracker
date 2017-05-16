@@ -10,8 +10,8 @@ import utils
 
 from classes import *
 from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for
+from flask_github import GitHub
 from flask_mongoengine import MongoEngine
-from flask_oauthlib.client import OAuth
 
 devicefile = "kernels.json"
 forceDBUpdate = False
@@ -32,23 +32,10 @@ with open(os.path.join(dir, devicefile)) as device_file:
     devices = json.load(device_file)
 
 db = MongoEngine(app)
-
-oauth = OAuth(app)
-
-github = oauth.remote_app(
-    'github',
-    consumer_key = app.config['GITHUB_CONSUMER_KEY'],
-    consumer_secret = app.config['GITHUB_CONSUMER_SECRET'],
-    request_token_params = {'scope': 'user:email read:org'},
-    base_url = 'https://api.github.com/',
-    request_token_url = None,
-    access_token_method = 'POST',
-    access_token_url = 'https://github.com/login/oauth/access_token',
-    authorize_url = 'https://github.com/login/oauth/authorize'
-)
+github = GitHub(app)
 
 def logged_in():
-    return ('auth' in session and session['auth']) or app.config['GITHUB_ORG'] == 'none'
+    return ('github_token' in session and session['github_token']) or app.config['GITHUB_ORG'] == None
 
 def require_login(f):
     @functools.wraps(f)
@@ -60,33 +47,35 @@ def require_login(f):
 
 @app.route("/login")
 def login():
-    return github.authorize(callback=url_for('authorized', _external=True, _scheme='https'))
+    if 'github_token' not in session or not session['github_token']:
+        return github.authorize(scope="user:email, read:org")
+    else:
+        return redirect(url_for('index'))
+    return response
 
 @app.route('/login/authorized')
-def authorized():
-    resp = github.authorized_response()
-    if resp is None or resp.get('access_token') is None:
-        return 'Access denied: reason=%s error=%s resp=%s' % (
-            request.args['error'],
-            request.args['error_description'],
-            resp
-        )
-    session['github_token'] = (resp['access_token'], '')
-    orgs = github.get('user/orgs')
-    for org in orgs.data:
-        if 'login' in org and org['login'] == app.config['GITHUB_ORG']:
-            session['auth'] = True
-    if 'auth' not in session:
-        return 'Access Denied - Incorrect Orgs {}'.format(" ".join([org['login'] for org in orgs.data]))
-    return redirect('/')
+@github.authorized_handler
+def authorized(access_token):
+    next_url = request.args.get('next') or url_for('index')
+    if access_token is None:
+        return redirect(next_url)
+    req = github.raw_request("GET", "user/orgs", access_token=access_token)
+    if req.status_code == 200:
+        orgs = [x['login'] for x in req.json()]
+    if app.config['GITHUB_ORG'] in orgs:
+        session['github_token'] = access_token
+        return redirect(next_url)
+    else:
+        return 'Invalid org, {} not in [{}]'.format(app.config['GITHUB_ORG'], ', '.join(orgs))
 
 @app.route("/logout")
 def logout():
-    session['auth'] = False
-    return redirect('/')
+    session.pop('github_token', None)
+    return redirect(url_for('index'))
 
-@github.tokengetter
-def get_github_oauth_token():
+
+@github.access_token_getter
+def get_github_token():
     return session.get('github_token')
 
 @app.route("/secure")
@@ -105,7 +94,7 @@ def index():
     for k in kernels:
         progress.append(Kernel.objects.get(id=k.id).progress)
     return render_template('index.html', kernels=kernels, progress=progress, version=version, authorized=logged_in(),
-          s_auth=app.config['GITHUB_ORG'] != 'none')
+          needs_auth=app.config['GITHUB_ORG'] != 'none')
 
 @app.route("/<string:k>")
 def kernel(k):
