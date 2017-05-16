@@ -193,7 +193,7 @@ span.device {
   padding: 0 10px;
 }
 
-#addcvedialog, #addkerneldialog, #cveinfodialog, #editnotesdialog, #addlink, #confirmdelete {
+#addcvedialog, #addkerneldialog, #cveinfodialog, #editnotesdialog, #addlink, #confirmdelete, #deprecationdialog {
   display: none;
 }
 
@@ -221,4 +221,8 @@ a:hover.delete {
 
 .ui-widget .ui-widget-content {
   word-break: break-word;
+}
+
+.deprecated {
+  color: #ff0000;
 }

@@ -19,13 +19,18 @@
       <a class='button' id='savecvelink' href='javascript:void(0)' />Save!</a>
       <div id='addcveerror'></div>
     </div>
+
     <div id='addkerneldialog'>
       <span>Name: (use the full github repo name, e.g. android_kernel_yourvendor_kernelname)</span><br/>
       <input type='text' id='kerneltoadd' placeholder='android_kernel_vendor_name'><br/>
       <a class='button' id='savekernellink' href='javascript:void(0)' />Save!</a>
       <div id='addkernelerror'></div>
     </div>
+
     <div class='frame container'>
+    {% if deprecated %}
+    <h3 class="deprecated">List of deprecated kernels</h3>
+    {% endif %}
     {% for column in kernels | slice(3) %}
       <div class='four columns'>
       {% for k in column %}
@@ -44,10 +49,17 @@
       {% if needs_auth %}
       <a href="/logout">Logout</a> &nbsp;|&nbsp;
       {% endif %}
+      {% if not deprecated %}
       <a href="javascript:void(0)" onclick="addcve()">Add new CVE</a> &nbsp;|&nbsp;
       <a href="javascript:void(0)" onclick="addkernel()">Add new Kernel</a> &nbsp;|&nbsp;
+      {% endif %}
       {% elif needs_auth %}
       <a href="/login">Login</a> &nbsp;|&nbsp;
+      {% endif %}
+      {% if not deprecated %}
+      <a href="/deprecated">Show deprecated kernels</a> &nbsp;|&nbsp;
+      {% else %}
+      <a href="/">Show non-deprecated kernels</a> &nbsp;|&nbsp;
       {% endif %}
       <a href="https://github.com/LineageOS/cve_tracker">Source</a>
       <br>

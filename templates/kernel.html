@@ -24,6 +24,7 @@
         </div>
       {% endfor %}
     </div>
+
     <div id='cveinfodialog'>
       <b>Notes:</b><br/>
       <span id='cvenotes'></span>
@@ -38,14 +39,24 @@
       {% endif %}
       <a href='' id='cvecomparelink' class='small button'>Compare to other kernels</a>
     </div>
+
     <div id='editnotesdialog'>
       <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
       <input type='button' value='Save!' id='savenoteslink'>
       <div id='editnoteserror'></div>
     </div>
+
+    <div id='deprecationdialog' title='Are you sure?' kernel_id={{ kernel.id }} deprecated={{ kernel.deprecated }}>
+      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>You are about to mark this kernel as
+      '{% if kernel.deprecated %}non-deprecated{% else %}deprecated{% endif %}'. Are you sure?
+      </p>
+    </div>
+
     <div class='frame container'>
       <div class='back'><a href="javascript:history.back()">back</a></div>
-      <h3>CVE Status for <a href='https://github.com/LineageOS/{{ kernel.repo_name }}'>{{ kernel.repo_name }}</a></h3>
+      <h3>CVE Status for <a href='https://github.com/LineageOS/{{ kernel.repo_name }}'>{{ kernel.repo_name }}</a>
+        {% if kernel.deprecated %} (deprecated){% endif %}
+      </h3>
       <div>Devices:</div>
       <div id='devices'>
         {% for d in devices %}
@@ -76,6 +87,22 @@
             {% endfor %}
           </div>
         {% endfor %}
+      </div>
+    </div>
+    <div class='frame container'>
+      <div style="display: inline; float: left;">
+        {% if authorized %}
+          <a href="javascript:void(0)" onClick="deprecate(this)">
+          {% if kernel.deprecated %}
+            Mark as non-deprecated
+          {% else %}
+            Mark as deprecated
+          {% endif %}
+          </a>
+        {% endif %}
+      </div>
+      <div style="display: inline; float: right;">
+        Last repo update: {{ kernel.last_github_update.strftime('%Y-%m-%d') }}
       </div>
     </div>
   </body>
