@@ -193,7 +193,7 @@ span.device {
   padding: 0 10px;
 }
 
-#addcvedialog, #addkerneldialog, #cveinfodialog, #editnotesdialog, #addlink, #confirmdelete {
+#addcvedialog, #addkerneldialog, #cveinfodialog, #editnotesdialog, #addlink, #confirmdelete, #deprecationdialog {
   display: none;
 }
 
