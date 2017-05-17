@@ -36,6 +36,9 @@
     "android_kernel_bn_acclaim": [
         "android_device_bn_acclaim"
     ],
+    "android_kernel_bq_msm8937": [
+        "android_device_bq_tenshi"
+    ],
     "android_kernel_bq_msm8939": [
         "android_device_bq_paella",
         "android_device_bq_piccolo",
