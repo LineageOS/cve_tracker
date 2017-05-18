@@ -239,3 +239,36 @@ a:hover.delete {
 #cvelinks a:hover {
   text-decoration: underline;
 }
+
+#cvss_score {
+  background-color: #ff0000;
+  margin-left: 5px;
+  font-size: 0.85em;
+}
+
+#cvss_score.s0,
+#cvss_score.s1,
+#cvss_score.s2,
+#cvss_score.s3 {
+  background-color: #00ff00;
+}
+
+#cvss_score.s4,
+#cvss_score.s5,
+#cvss_score.s6 {
+  background-color: #ff8000;
+}
+
+#cvss_score.s7,
+#cvss_score.s8 {
+  background-color: #ff4000;
+}
+
+#cvss_score.s9,
+#cvss_score.s10 {
+  background-color: #ff0000;
+}
+
+a.dangerous {
+  color: #ffa0a0;
+}
