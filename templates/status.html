@@ -23,7 +23,10 @@
     </div>
     <div class='frame container'>
       <div class='back'><a href="javascript:history.back()">back</a></div>
-      <h3>Patch status for {{ cve_name }}</h3>
+      <h3>
+        Patch status for {{ cve_name }}
+        <span id='cvss_score' class='s{{ cvss_score|int }}'>{{ cvss_score }}</span>
+      </h3>
       <div>
         {% for column in kernels | slice(3) %}
           <div class='four columns'>
