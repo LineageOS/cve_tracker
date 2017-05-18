@@ -1,4 +1,4 @@
-function openLinks(cve, cve_id) {
+function openLinks(cve, cve_id, cvss_score) {
   $("#cvelinks").text("Loading...");
   $("#cvenotes").text("Loading...");
 
@@ -19,6 +19,10 @@ function openLinks(cve, cve_id) {
     $("#cvecomparelink").attr("href", "/status/" + cve);
     $("#cveinfodialog").dialog('close');
     $("#cveinfodialog").dialog('option', 'title', cve).dialog('open');
+    if (cvss_score > 0) {
+        var scorespan = "<span id='cvss_score' class='s" + Math.floor(cvss_score) + "'>" + cvss_score.toString() + "</span>";
+        $("#ui-id-1").append(scorespan);
+    }
   });
 
   $.ajax({

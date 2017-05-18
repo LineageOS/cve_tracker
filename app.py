@@ -12,6 +12,7 @@ import flask_debugtoolbar
 import flask_debugtoolbar_mongo
 
 from classes import *
+from cvescore import *
 from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for
 from flask_github import GitHub
 from flask_mongoengine import MongoEngine
@@ -50,6 +51,13 @@ app.config['DEBUG_TB_PANELS'] = [
 ]
 
 toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
+
+if CVE.objects(cvss_score=-1).count() > 0:
+    print("Detected CVEs without scores. Updating...")
+    for c in CVE.objects(cvss_score=-1):
+        print("Getting score for " + c.cve_name)
+        c.update(cvss_score=get_score(c.cve_name))
+    print("Done!")
 
 @app.cli.command()
 def update_progress():
@@ -160,6 +168,7 @@ def cve_status(c):
     patches = {p.kernel: p.status for p in Patches.objects(cve=cve.id)}
     return render_template('status.html',
                            cve_name = c,
+                           cvss_score = cve.cvss_score,
                            kernels = kernels,
                            patches = patches,
                            status_ids = Status.objects(),
@@ -197,7 +206,7 @@ def addcve():
                 (splitted[0] != "CVE" and splitted[0] != "LVT")):
             errstatus = "'" + cve + "' is invalid!"
         else:
-            CVE(cve_name=cve, notes=notes).save()
+            CVE(cve_name=cve, notes=notes, cvss_score=get_score(cve)).save()
             cve_id = CVE.objects.get(cve_name=cve)['id']
             for k in Kernel.objects():
                 Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
