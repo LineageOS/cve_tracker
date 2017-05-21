@@ -189,19 +189,21 @@ def addcve():
     notes = r['cve_notes']
     if not notes:
         notes = ""
-
-    if cve and len(notes) > 10:
+    if cve and len(notes) >= 10:
+        splitted = cve.split('-')
         if CVE.objects(cve_name=cve):
             errstatus = cve + " already exists!"
-        elif cve[:3] != "CVE" or len(cve.split('-')) != 3:
+        elif (len(splitted) != 3 or len(splitted[1]) != 4 or
+                (splitted[0] != "CVE" and splitted[0] != "LVT")):
             errstatus = "'" + cve + "' is invalid!"
         else:
             CVE(cve_name=cve, notes=notes).save()
             cve_id = CVE.objects.get(cve_name=cve)['id']
             for k in Kernel.objects():
                 Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
-            mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
-            Links(cve_id=cve_id, link=mitrelink+cve).save()
+            if splitted[0] != "LVT":
+                mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
+                Links(cve_id=cve_id, link=mitrelink+cve).save()
             errstatus = "success"
     else:
         if not cve:
