@@ -64,6 +64,9 @@
     "android_kernel_cyanogen_mt6735": [
         "android_device_wileyfox_porridgek3"
     ],
+    "android_kernel_google_dragon": [
+        "android_device_google_dragon"
+    ],
     "android_kernel_google_marlin": [
         "android_device_google_marlin",
         "android_device_google_sailfish"
