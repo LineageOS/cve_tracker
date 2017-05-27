@@ -13,10 +13,11 @@ function openLinks(cve, cve_id) {
     $("#cvelinks").empty();
     $.each(JSON.parse(data), function(i, v) {
       if (!v.desc) v.desc = 'No description';
-      $("#cvelinks").append("<a href='" + v.link + "' target='_blank' >" + v.link + "</a> - " + v.desc + "<br/>");
+      $("#cvelinks").append("<a href='" + v.link + "' target='_blank'>" + shorten(v.link, 80) + "</a> - " + v.desc + "<hr>");
     });
     $("#cveeditlink").attr("href", "/editcve/" + cve);
     $("#cvecomparelink").attr("href", "/status/" + cve);
+    $("#cveinfodialog").dialog('close');
     $("#cveinfodialog").dialog('option', 'title', cve).dialog('open');
   });
 
@@ -39,7 +40,7 @@ function openLinks(cve, cve_id) {
 }
 
 $(document).ready(function() {
-  $("#cveinfodialog").dialog({ autoOpen: false, width: 750, maxWidth: 960 });
+  $("#cveinfodialog").dialog({ autoOpen: false, width: 'auto' });
   $("#editnotesdialog").dialog({ autoOpen: false, width: 'auto' });
 
   $("#cveinfodialog").on('dialogbeforeclose', function(event, ui) {
@@ -78,8 +79,8 @@ $(document).ready(function() {
       autoOpen: false,
       buttons: {
         "Do eet!": function() {
-            var kernel_id = $('#deprecationdialog').attr('kernel_id');
-            var deprecated = $('#deprecationdialog').attr('deprecated')
+            var kernel_id = $( this ).attr('kernel_id');
+            var deprecated = $( this ).attr('deprecated')
             $.ajax({
               'type': 'POST',
               'url': '/deprecate',
@@ -100,9 +101,17 @@ $(document).ready(function() {
 });
 
 function editnotes() {
-  $('#editnotesdialog').dialog('option', 'title', 'Edit CVE notes').dialog('open');
+  $('#editnotesdialog').dialog('open');
 }
 
-function deprecate(c) {
+function deprecate() {
   $('#deprecationdialog').dialog('open');
+}
+
+function shorten(text, maxLength) {
+  var ret = text;
+  if (ret.length > maxLength) {
+    ret = ret.substr(0, maxLength - 3) + "...";
+  }
+  return ret;
 }

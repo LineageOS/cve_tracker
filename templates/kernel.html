@@ -47,7 +47,7 @@
       <a href='' id='cvecomparelink' class='small button'>Compare to other kernels</a>
     </div>
 
-    <div id='editnotesdialog'>
+    <div id='editnotesdialog' title='Edit CVE notes'>
       <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
       <input type='button' value='Save!' id='savenoteslink'>
       <div id='editnoteserror'></div>
@@ -99,7 +99,7 @@
     <div class='frame container'>
       <div style="display: inline; float: left;">
         {% if authorized %}
-          <a href="javascript:void(0)" onClick="deprecate(this)">
+          <a href="javascript:void(0)" onClick="deprecate()">
           {% if kernel.deprecated %}
             Mark as non-deprecated
           {% else %}
