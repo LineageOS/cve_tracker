@@ -201,6 +201,8 @@ def addcve():
             cve_id = CVE.objects.get(cve_name=cve)['id']
             for k in Kernel.objects():
                 Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
+                k.progress = utils.getProgress(k.id)
+                k.save()
             if splitted[0] != "LVT":
                 mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
                 Links(cve_id=cve_id, link=mitrelink+cve).save()
