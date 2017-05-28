@@ -46,6 +46,7 @@ $(document).ready(function() {
 
 function savecve() {
   $("#savecve").button("disable");
+  $("#addcveerror").empty().append("Saving...");
   var cve_id = $("#cvetoadd").val();
   var cve_notes = $("#cvenotes_input").val();
   $.ajax({
@@ -60,6 +61,7 @@ function savecve() {
     $("#savecve").button("enable");
     if (data.error == "success") {
       $("#addcvedialog").dialog('close');
+      location.reload();
     } else {
       $("#addcveerror").empty().append(data.error);
     }
