@@ -159,7 +159,9 @@
         "android_device_lge_vs985"
     ],
     "android_kernel_lge_hammerhead": [
-        "android_device_lge_hammerhead",
+        "android_device_lge_hammerhead"
+    ],
+    "android_kernel_lge_hammerhead-caf": [
         "android_device_lge_hammerheadcaf"
     ],
     "android_kernel_lge_msm8226": [
