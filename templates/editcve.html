@@ -12,30 +12,27 @@
     <title>LineageOS CVE Checklist - Edit {{ cve.cve_name }}</title>
   </head>
   <body>
-    <div cve_id="{{ cve.id }}" id="addlink">
-      <input placeholder="link" type="text" name="link" id="linktoadd"><br>
-      <input placeholder="description" type="text" name="desc" id="linkdesc"><br>
-      <input type="button" value="Add!" id="confirmaddlink">
+    <div id="addlink" title="Enter new link" cve_id="{{ cve.id }}">
+      <input placeholder="link" type="text" name="link" id="linktoadd"><br/>
+      <input placeholder="description" type="text" name="desc" id="linkdesc">
       <div id="addlinkerror"></div>
     </div>
-    <div id="editlink">
-      <input placeholder="link" type="text" name="link" id="linktoedit"><br>
-      <input placeholder="description" type="text" name="desc" id="linkeditdesc"><br>
-      <input type="button" value="Save!" id="confirmeditlink">
+    <div id="editlink" title="Edit">
+      Link:<br/>
+      <input placeholder="http://" type="text" name="link" id="linktoedit" size="30"><br/>
+      Description:<br/>
+      <input placeholder="'Patch for version xxx', ..." type="text" name="desc" id="linkeditdesc" size="30">
       <div id="editlinkerror"></div>
     </div>
-    <div cve_id="{{ cve.id }}" id="editnotes">
-      <textarea placeholder="Applicable versions/platforms..." type="text" name="notes" id="cvenotes" ></textarea><br>
-      <input type="button" value="Save!" id="savenoteslink">
+    <div id="editnotes" title="Edit CVE notes" cve_id="{{ cve.id }}">
+      <textarea placeholder="Applicable versions/platforms..." type="text" name="notes" id="cvenotes" cols="30"></textarea>
       <div id="editnoteserror"></div>
     </div>
-    <div cve_name="{{ cve.cve_name }}" id="confirmdeletecve">
-      <input type="button" value="Yes!" id="yesdeletecve">
-      <input type="button" value="NOOOOO!" id="nodeletecve">
+    <div id="confirmdeletecve" title="Confirm deletion?" cve_name="{{ cve.cve_name }}">
+      Are you sure that you want to delete this CVE?<br/>This can <b>not</b> be undone!
     </div>
-    <div link_id="" id="confirmdeletelink">
-      <input type="button" value="Yes!" id="yesdeletelink">
-      <input type="button" value="NOOOOO!" id="nodeletelink">
+    <div id="confirmdeletelink" title="Confirm deletion?" link_id="">
+      Are you sure that you want to delete this link?<br/>This can <b>not</b> be undone!
       <div id="deletelinkerror"></div>
     </div>
     <div class='frame container'>
