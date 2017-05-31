@@ -226,3 +226,16 @@ a:hover.delete {
 .deprecated {
   color: #ff0000;
 }
+
+#cvelinks hr {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#cvelinks a {
+  color: #ff0000;
+}
+
+#cvelinks a:hover {
+  text-decoration: underline;
+}
