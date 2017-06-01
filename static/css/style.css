@@ -493,6 +493,10 @@ input {
     display: none;
 }
 
+span.status-context-menu {
+  min-width: 140px;
+}
+
 /* CVE Info Dialog */
 #cve-info-dialog .title .name {
     display: inline-block;
@@ -512,3 +516,37 @@ input {
     right: 0px;
     top: 0px;
 }
+
+#cvss_score {
+  background-color: #ff0000;
+  margin-left: 5px;
+  font-size: 0.85em;
+}
+
+#cvss_score.s0,
+#cvss_score.s1,
+#cvss_score.s2,
+#cvss_score.s3 {
+  background-color: #FFEB3B;
+}
+
+#cvss_score.s4,
+#cvss_score.s5,
+#cvss_score.s6 {
+  background-color: #FF9C27;
+}
+
+#cvss_score.s7,
+#cvss_score.s8 {
+  background-color: #FF4E13;
+}
+
+#cvss_score.s9,
+#cvss_score.s10 {
+  background-color: #FF0000 ;
+}
+
+.severity-critical { color: #FF0000; }
+.severity-high { color: #FF4E13; }
+.severity-medium { color: #FF9C27; }
+.severity-low { color: #FFEB3B; }
