@@ -86,7 +86,15 @@
           <div class='four columns'>
             {% for c in column %}
               <div class='cvediv' id='{{ c.cve_name }}'>
-                <a href="javascript:void(0)" onclick='openLinks("{{ c.cve_name }}", "{{ c.id }}")'>{{ c.cve_name }}</a>
+                <span class="cvelabel">
+                  {% if   c.cvss_score >= 9 %}{% set severity = "critical" %}
+                  {% elif c.cvss_score >= 7 %}{% set severity = "high" %}
+                  {% elif c.cvss_score >= 4 %}{% set severity = "medium" %}
+                  {% else                   %}{% set severity = "low" %}
+                  {% endif %}
+                  {% if severity %}<span class="severity-{{ severity }}" title="{{ severity }} severity">&#128293;</span>{% endif %}
+                  <a class="cvelink" href="javascript:void(0)" onclick='openLinks("{{ c.cve_name }}", "{{ c.id }}", "{{ c.cvss_score }}")'>{{ c.cve_name }}</a>
+                </span>
                 <span id='status' class='status-context-menu' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ patch_status[counter[0]] }}></span>
               </div>
             {% if counter.append(counter.pop() + 1) %} {% endif %}
