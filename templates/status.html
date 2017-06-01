@@ -11,6 +11,7 @@
     <div class="card container">
         <div class="header">
             <span class="title">Patch status for {{ cve_name }}</span>
+            <span id='cvss_score' class='s{{ cvss_score|int }}'>{{ cvss_score }}</span>
         </div>
         <div class="kernels container">
             {% for column in kernels | slice(3) %}

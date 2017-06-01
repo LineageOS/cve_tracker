@@ -90,7 +90,7 @@
         }
     }
 
-    function openInfo(cve_name, cve_id) {
+    function openInfo(cve_name, cve_id, cvss_score) {
         CVEInfoDialog.access.name.innerHTML = cve_name;
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
         CVEInfoDialog.access.notesField.innerHTML = 'Loading ...';
@@ -101,14 +101,15 @@
         CVEInfoDialog.open();
 
         getNotes(cve_id);
-        getLinks(cve_id);
+        getLinks(cve_id, cvss_score);
     }
     var cves = [].slice.call(document.querySelectorAll('.cve .name'));
     cves.forEach(function(cve) {
         var name = cve.getAttribute('cve_name');
         var id = cve.getAttribute('cve_id');
+        var cvss_score = cve.getAttribute('cvss_score');
         cve.addEventListener('click', function() {
-            openInfo(name, id);
+            openInfo(name, id, cvss_score);
         });
     });
 
@@ -131,7 +132,7 @@
         });
     }
 
-    function getLinks(cve_id) {
+    function getLinks(cve_id, cvss_score) {
         $.ajax({
             'type': 'POST',
             'url': '/getlinks',
@@ -172,6 +173,11 @@
                 });
             } else {
                 linkList.innerHTML = 'No links available';
+            }
+            if (cvss_score > 0) {
+                // FIXME
+                var scorespan = "<span id='cvss_score' class='s" + Math.floor(cvss_score) + "'>" + cvss_score.toString() + "</span>";
+                $("#ui-id-1").append(scorespan);
             }
         });
     }
