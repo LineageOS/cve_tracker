@@ -231,6 +231,17 @@ a:hover.delete {
   color: #ff0000;
 }
 
+div#cvenotes {
+  max-width: 900px;
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+}
+
+div#cvenotes[contenteditable="true"] {
+  border: 1px solid black;
+}
+
 #cvelinks hr {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
