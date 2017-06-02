@@ -14,6 +14,7 @@
     {% if authorized %}
     <!-- this is not done for security, the backend handles that. this only ensures a non-auth'd user won't see the context menus for setting the status -->
     <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/jquery.contextMenu.css') }}' />
+    <script src='{{ url_for('static', filename='js/edit.js') }}'></script>
     <script src='{{ url_for('static', filename='js/jquery.contextMenu.js') }}'></script>
     <script src='{{ url_for('static', filename='js/updates.js') }}'></script>
     {% endif %}
@@ -33,23 +34,46 @@
     </div>
 
     <div id='cveinfodialog'>
-      <b>Notes:</b><br/>
-      <span id='cvenotes'></span>
+      <b>Notes:</b>
       {% if authorized %}
-      <a class='small button' onclick='editnotes(this);'>Edit</a>
+      <a class='small button' href="javascript: editorsavenotes();" id="btn_notes">Edit</a>
       {% endif %}
       <br/>
-      <b>Links:</b><br/>
-      <span id='cvelinks'></span><br/>
+      <div id='cvenotes'></div><br/>
+      <b>Links:</b>
       {% if authorized %}
-      <a href='' id='cveeditlink' class='small button'>Edit CVE</a>
+      <a class="small button" href="javascript:void(0)" onclick='addlink();'>Add New Link</a>
       {% endif %}
-      <a href='' id='cvecomparelink' class='small button'>Compare to other kernels</a>
+      <br/>
+      <span id='cvelinks'></span>
+      <a id='cvecomparelink' class='small button'>Compare to other kernels</a>
+      {% if authorized %}
+      <a onclick='deletecve();' class="small button delete"  style="float: right;">Delete CVE</a>
+      {% endif %}
     </div>
 
-    <div id='editnotesdialog' title='Edit CVE notes'>
-      <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
-      <div id='editnoteserror'></div>
+    {% if authorized %}
+    <div id="addlink" title="Enter new link">
+      <input placeholder="link" type="text" name="link" id="linktoadd"><br/>
+      <input placeholder="description" type="text" name="desc" id="linkdesc">
+      <div id="addlinkerror"></div>
+    </div>
+
+    <div id="editlink" title="Edit">
+      Link:<br/>
+      <input placeholder="http://" type="text" name="link" id="linktoedit" size="30"><br/>
+      Description:<br/>
+      <input placeholder="'Patch for version xxx', ..." type="text" name="desc" id="linkeditdesc" size="30">
+      <div id="editlinkerror"></div>
+    </div>
+
+    <div id="confirmdeletelink" title="Confirm deletion?" link_id="">
+      Are you sure that you want to delete this link?<br/>This can <b>not</b> be undone!
+      <div id="deletelinkerror"></div>
+    </div>
+
+    <div id="confirmdeletecve" title="Confirm deletion?" cve_name="">
+      Are you sure that you want to delete this CVE?<br/>This can <b>not</b> be undone!
     </div>
 
     <div id='deprecationdialog' title='Are you sure?' kernel_id={{ kernel.id }} deprecated={{ kernel.deprecated }}>
@@ -57,6 +81,7 @@
       '{% if kernel.deprecated %}non-deprecated{% else %}deprecated{% endif %}'. Are you sure?
       </p>
     </div>
+    {% endif %}
 
     <div class='frame container'>
       <div class='back'><a href="/">back</a></div>
@@ -92,8 +117,9 @@
                   {% elif c.cvss_score >= 4 %}{% set severity = "medium" %}
                   {% else                   %}{% set severity = "low" %}
                   {% endif %}
+                  {% if authorized %}{% set editable="true" %}{% else %}{% set editable="false" %}{% endif %}
                   {% if severity %}<span class="severity-{{ severity }}" title="{{ severity }} severity">&#128293;</span>{% endif %}
-                  <a class="cvelink" href="javascript:void(0)" onclick='openLinks("{{ c.cve_name }}", "{{ c.id }}", "{{ c.cvss_score }}")'>{{ c.cve_name }}</a>
+                  <a class="cvelink" href='javascript: openLinks("{{ c.cve_name }}", "{{ c.id }}", "{{ c.cvss_score }}", {{ editable }})'>{{ c.cve_name }}</a>
                 </span>
                 <span id='status' class='status-context-menu' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ patch_status[counter[0]] }}></span>
               </div>
