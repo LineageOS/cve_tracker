@@ -34,9 +34,9 @@
 
     <div id='cveinfodialog'>
       <b>Notes:</b><br/>
-      <span id='cvenotes'></span>
+      <div id='cvenotes'></div><br/>
       {% if authorized %}
-      <a class='small button' onclick='editnotes(this);'>Edit</a>
+      <a class='small button' href="javascript:editnotes();" id="btn_notes">Edit</a>
       {% endif %}
       <br/>
       <b>Links:</b><br/>
@@ -45,11 +45,6 @@
       <a href='' id='cveeditlink' class='small button'>Edit CVE</a>
       {% endif %}
       <a href='' id='cvecomparelink' class='small button'>Compare to other kernels</a>
-    </div>
-
-    <div id='editnotesdialog' title='Edit CVE notes'>
-      <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
-      <div id='editnoteserror'></div>
     </div>
 
     <div id='deprecationdialog' title='Are you sure?' kernel_id={{ kernel.id }} deprecated={{ kernel.deprecated }}>

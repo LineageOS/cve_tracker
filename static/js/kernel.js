@@ -1,4 +1,7 @@
 function openLinks(cve, cve_id, cvss_score) {
+  $("#btn_notes").text("Edit");
+  $("#btn_notes").attr("href", "javascript: editnotes();");
+
   $("#cvelinks").text("Loading...");
   $("#cvenotes").text("Loading...");
 
@@ -39,7 +42,7 @@ function openLinks(cve, cve_id, cvss_score) {
       data[0].notes = 'No notes';
     }
     $("#cvenotes").text(data[0].notes);
-    $('#editnotesdialog').attr('cve_id', cve_id);
+    $("#cveinfodialog").attr("cve_id", cve_id);
   });
 }
 
@@ -47,18 +50,6 @@ $(document).ready(function() {
   $("#cveinfodialog").dialog({autoOpen: false, width: 'auto' });
   $("#cveinfodialog").on('dialogbeforeclose', function(event, ui) {
     $("#editnotesdialog").dialog('close');
-  });
-
-  $("#editnotesdialog").dialog({
-    autoOpen: false,
-    width: 'auto',
-    buttons: [
-      {
-        text: "Save!",
-        id: "savenotes",
-        click: savenotes
-      }
-    ]
   });
 
   $("#deprecationdialog").dialog({
@@ -75,11 +66,15 @@ $(document).ready(function() {
 });
 
 function editnotes() {
-  $('#editnotesdialog').dialog('open');
+  $("#cvenotes").html("<textarea rows='5' id='cvenotes_input' \
+    placeholder='Applicable versions/platforms...'>"
+    + $("#cvenotes").text() + "</textarea>");
+  $("#btn_notes").text("Save!");
+  $("#btn_notes").attr("href", "javascript: savenotes();");
 }
 
 function savenotes() {
-  var cve_id = $('#editnotesdialog').attr('cve_id');
+  var cve_id = $('#cveinfodialog').attr('cve_id');
   var notes = $('#cvenotes_input').val();
   $.ajax({
     'type': 'POST',
@@ -94,8 +89,10 @@ function savenotes() {
       if (!notes) {
         notes = 'No notes';
       }
+
       $('#cvenotes').text(notes);
-      $('#editnotesdialog').dialog('close');
+      $("#btn_notes").text("Edit");
+      $("#btn_notes").attr("href", "javascript: editnotes();");
     } else {
         $("#editnoteserror").empty().append(data.error);
     }
