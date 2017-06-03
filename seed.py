@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json
+import utils
 import os
 
 from classes import *
@@ -15,6 +16,10 @@ db = MongoEngine(app)
 
 mitrelink='https://cve.mitre.org/cgi-bin/cvename.cgi?name='
 
+# Add / update kernels
+utils.getKernelTableFromGithub(app)
+
+# Add / update CVEs
 f = open('cves.txt')
 while True:
     x = f.readline().rstrip()
@@ -26,6 +31,7 @@ while True:
     else:
         print("Skipped '" + x + "' because it was already added!")
 
+# Add possible statuses
 f = open('statuses.txt')
 while True:
     x = f.readline().rstrip()
@@ -39,6 +45,7 @@ while True:
     else:
         print("Skipped adding status '" + x + "' because either id or text were already added!")
 
+# Add patch statuses for each kernel
 f = open('patches.txt')
 while True:
     x = f.readline().rstrip()
