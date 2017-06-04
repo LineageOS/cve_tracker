@@ -123,8 +123,8 @@ def index():
 @app.route("/deprecated")
 def show_deprecated():
     kernels = Kernel.objects(deprecated=True).order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
-          needs_auth=app.config['GITHUB_ORG'] != 'none', deprecated=True)
+    return render_template('deprecated.html', kernels=kernels, version=version,
+          authorized=logged_in(), needs_auth=app.config['GITHUB_ORG'] != 'none')
 
 @app.route("/<string:k>")
 def kernel(k):
@@ -142,7 +142,7 @@ def kernel(k):
     if k in devices:
         devs = devices[k]
     else:
-        devs = ['No officially supported devices!']
+        devs = []
     return render_template('kernel.html',
                            kernel = kernel,
                            cves = cves,
