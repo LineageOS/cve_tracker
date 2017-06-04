@@ -11,38 +11,29 @@ function update(c, s) {
              status_id: s,
              cve_id: cve_id,
             })
-  }).done(function(data) {
+  })
+  .done(function(data) {
+    console.log(data);
     if (data.error == "success") {
       c.attr('status_id', s);
       updateCVEStatus(c);
-      $("#progressbar").attr("value", data.progress);
-      $("#progressvalue").text(Math.floor(data.progress) + " %");
-      updateProgressBar();
+      progressBar.set(data.progress);
     }
   });
 }
 
-function initializeContextMenus(items) {
-  $(function(){
-      $.contextMenu({
-          selector: '.status-context-menu',
-          trigger: 'left',
-          callback: function(key, options) {
-              if ($(this).attr('status_id') != key)
-                  update($(this), key);
-          },
-          items: items,
-      });
-  });
-}
-
-$(document).ready(function() {
-  items = {};
-  $('#status_ids').children().each(function() {
-      id = $(this).attr('id').replace("status_", "")
-      status = $(this).text().trim();
-      items[id] = { "name": status };
-  });
-
-  initializeContextMenus(items);
+var items = [].slice.call(document.querySelector('#status_ids').children).map(function(child) {
+  return {
+    value: child.id.slice(7),
+    class: child.id,
+    content: child.innerHTML
+  };
+});
+var statusContext = new Context({
+  selector: '.status-context-menu',
+  trigger: 'click',
+  callback: function(from, value) {
+    update($(from), value);
+  },
+  items: items
 });
