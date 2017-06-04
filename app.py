@@ -154,7 +154,7 @@ def kernel(k):
 
 @app.route("/status/<string:c>")
 def cve_status(c):
-    kernels = Kernel.objects().order_by('vendor', 'device')
+    kernels = Kernel.objects(deprecated__in=[False, None]).order_by('vendor', 'device')
     cve = CVE.objects.get(cve_name=c)
     statuses = {s.id: s.short_id for s in Status.objects()}
     patches = {p.kernel: p.status for p in Patches.objects(cve=cve.id)}
