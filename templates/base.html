@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/normalize.css') }}' />
+    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
+    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
+    <link rel=stylesheet type=text/css href='https://cdn.materialdesignicons.com/1.9.32/css/materialdesignicons.min.css'>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+      <title>{% block title %}LineageOS CVE Tracker{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <nav id='navbar'>
+      <div class='container'>
+        <a class='logo' href='/'>
+          <img src='/static/img/logo-teal.png' alt='LineageOS Logo'>
+        </a>
+        <a class="mdi mdi-github-circle" href="https://github.com/LineageOS/cve_tracker"></a>
+        <a href="https://www.lineageos.org">BLOG</a>
+        {% if authorized %}
+          <a href="/logout">LOGOUT</a>
+        {% else %}
+          <a href="/login">LOGIN</a>
+        {% endif %}
+        <a class="{% block nav_deprecated %}{% endblock %}" href="/deprecated">DEPRECATED</a>
+        <a class="{% block nav_home %}{% endblock %}" href="/">HOME</a>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <div id='footer'>
+      <div class='container'>
+        <div class='twelve columns'>
+          <img class='logo' src='/static/img/logo-grey.png' alt='LineageOS Logo'>
+          <p class='muted'>
+            <b>© 2017 The LineageOS Project</b><br>
+            {% if version %}
+            Version: {{ version }}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

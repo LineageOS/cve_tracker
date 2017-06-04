@@ -125,3 +125,10 @@ function shorten(text, maxLength) {
   }
   return ret;
 }
+
+var progressBar = new Progress({
+  container: document.querySelector('#progress-bar'),
+  element: document.querySelector('#progress-bar-inner'),
+  valueField: document.querySelector('#progress-value'),
+  value: document.querySelector('#progress-bar').getAttribute('value')
+});

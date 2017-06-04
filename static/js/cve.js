@@ -1,9 +1,3 @@
-function updateProgressBar() {
-  $("#progressbar").progressbar({
-    value: parseInt($("#progressbar").attr("value")),
-  });
-}
-
 function updateCVEStatus(target) {
   status_id = target.attr('status_id');
   target.removeClass (function (index, css) {
@@ -15,12 +9,11 @@ function updateCVEStatus(target) {
 }
 
 function initializeCVEStatuses() {
-  $.each($(".cvediv"), function(key, value) {
-    updateCVEStatus($("#" + $(value).attr('id') + " :nth-child(2)"));
+  $.each($(".status"), function(key, value) {
+    updateCVEStatus($(value));
   });
 }
 
 $(document).ready(function() {
-  updateProgressBar();
   initializeCVEStatuses();
 });
