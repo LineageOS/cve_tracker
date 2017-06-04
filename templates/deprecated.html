@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}LineageOS CVE Tracker{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src='{{ url_for('static', filename='js/main.js') }}'></script>
+{% endblock %}
+{% block nav_deprecated %}active{% endblock %}
+{% block content %}
+  <div class='kernels card container'>
+    <div class="header">
+      <span class="title">Deprecated kernels</span>
+    </div>
+    <div class="container">
+      {% for column in kernels | slice(3) %}
+        <div class='four columns'>
+        {% for k in column %}
+          {% if loop.index0 == 0 or column[loop.index0-1].vendor != k.vendor%}
+            <span class='vendor'>{{ k.vendor }}</span>
+          {% endif %}
+            <div class='kernel'>
+              <a  class='repo' href='/{{ k.repo_name }}'>{{ k.device }}</a>
+              <span class='progress'>({{ k.progress | int }}%)</span>
+            </div>
+        {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
