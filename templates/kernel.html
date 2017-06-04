@@ -1,115 +1,101 @@
-<!doctype html>
-<html>
-  <head>
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/normalize.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
-    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
+{% extends "base.html" %}
+{% block title %}LineageOS Kernel Tracker for {{ kernel.repo_name }}{% endblock %}
+{% block content %}
+  <div id='status_ids'>
+    {% for s in status_ids %}
+      <div id={{ 'status_' ~ s.short_id }}>
+        {{ s.text }}
+      </div>
+    {% endfor %}
+  </div>
 
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src='{{ url_for('static', filename='js/cve.js') }}'></script>
-    <script src='{{ url_for('static', filename='js/kernel.js') }}'></script>
-
+  <div id='cveinfodialog'>
+    <b>Notes:</b><br/>
+    <span id='cvenotes'></span>
     {% if authorized %}
-    <!-- this is not done for security, the backend handles that. this only ensures a non-auth'd user won't see the context menus for setting the status -->
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/jquery.contextMenu.css') }}' />
-    <script src='{{ url_for('static', filename='js/jquery.contextMenu.js') }}'></script>
-    <script src='{{ url_for('static', filename='js/updates.js') }}'></script>
+      <a class='small button' onclick='editnotes(this);'>Edit</a>
     {% endif %}
+    <br/>
+    <b>Links:</b><br/>
+    <span id='cvelinks'></span><br/>
+    {% if authorized %}
+      <a href='' id='cveeditlink' class='small button'>Edit CVE</a>
+    {% endif %}
+    <a href='' id='cvecomparelink' class='small button'>Compare to other kernels</a>
+  </div>
 
-    <title>LineageOS CVE Checklist for {{ kernel.repo }}</title>
-    {% if not authorized %}
-    <style>span[class^="status_"] { cursor: unset; }</style>
-    {% endif %}
-  </head>
-  <body>
-    <div id='status_ids' style='display: none;'>
-      {% for s in status_ids %}
-        <div id={{ 'status_' ~ s.short_id }}>
-          {{ s.text }}
+  <div id='editnotesdialog' title='Edit CVE notes'>
+    <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
+    <div id='editnoteserror'></div>
+  </div>
+
+  <div id='deprecationdialog' title='Are you sure?' kernel_id={{ kernel.id }} deprecated={{ kernel.deprecated }}>
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>You are about to mark this kernel as
+    '{% if kernel.deprecated %}non-deprecated{% else %}deprecated{% endif %}'. Are you sure?
+    </p>
+  </div>
+
+  <div class='cves card container'>
+    <div class="header">
+      <span class='title'>
+        CVE status for 
+        <a href='https://github.com/LineageOS/{{ kernel.repo_name }}'>{{ kernel.repo_name }}</a>
+      </span>
+      <span class="subtitle">
+        updated on {{ kernel.last_github_update.strftime('%b %d, %Y') }}
+      </span>
+      {% if devices %}
+      <div id='devices'>
+        used by
+        {% for d in devices %}
+            <a class="device" href="https://github.com/LineageOS/{{ d }}">
+            {{ d }}{% if not loop.last %},{% endif %}
+            </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div id="progress">
+        <div id='progress-bar' value='{{ kernel.progress }}'>
+          <div id="progress-bar-inner"></div>
+        </div>
+        <div id='progress-value'></div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% set counter = [0] %}
+      {% for column in cves | slice(3) %}
+      {% set cveloop = loop %}
+        <div class='four columns'>
+          {% for c in column %}
+            <div class='cve' id='{{ c.cve_name }}'>
+              <span onclick='openLinks("{{ c.cve_name }}", "{{ c.id }}")'>{{ c.cve_name }}</span>
+              <span class='status status-context-menu' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ patch_status[counter[0]] }}></span>
+            </div>
+          {% if counter.append(counter.pop() + 1) %} {% endif %}
+          {% endfor %}
         </div>
       {% endfor %}
     </div>
-
-    <div id='cveinfodialog'>
-      <b>Notes:</b><br/>
-      <span id='cvenotes'></span>
-      {% if authorized %}
-      <a class='small button' onclick='editnotes(this);'>Edit</a>
-      {% endif %}
-      <br/>
-      <b>Links:</b><br/>
-      <span id='cvelinks'></span><br/>
-      {% if authorized %}
-      <a href='' id='cveeditlink' class='small button'>Edit CVE</a>
-      {% endif %}
-      <a href='' id='cvecomparelink' class='small button'>Compare to other kernels</a>
-    </div>
-
-    <div id='editnotesdialog' title='Edit CVE notes'>
-      <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' ></textarea><br/>
-      <div id='editnoteserror'></div>
-    </div>
-
-    <div id='deprecationdialog' title='Are you sure?' kernel_id={{ kernel.id }} deprecated={{ kernel.deprecated }}>
-      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>You are about to mark this kernel as
-      '{% if kernel.deprecated %}non-deprecated{% else %}deprecated{% endif %}'. Are you sure?
-      </p>
-    </div>
-
-    <div class='frame container'>
-      <div class='back'><a href="/">back</a></div>
-      <h3>CVE Status for <a href='https://github.com/LineageOS/{{ kernel.repo_name }}'>{{ kernel.repo_name }}</a>
-        {% if kernel.deprecated %} (deprecated){% endif %}
-      </h3>
-      <div>Devices:</div>
-      <div id='devices'>
-        {% for d in devices %}
-          <span class='device'>
-            {% if ' ' not in d %}
-              <a href="https://github.com/LineageOS/{{ d }}">{{ d }}</a>
-            {% else %}
-              {{ d }}
-            {% endif %}
-          </span>
-        {% endfor %}
-      </div>
-      <div id="progress">
-        <div id='progressvalue'>{{ kernel.progress|int }} %</div>
-        <div id='progressbar' value='{{ kernel.progress }}'></div>
-      </div>
-      <div style="clear: both">
-        {% set counter = [0] %}
-        {% for column in cves | slice(3) %}
-        {% set cveloop = loop %}
-          <div class='four columns'>
-            {% for c in column %}
-              <div class='cvediv' id='{{ c.cve_name }}'>
-                <a href="javascript:void(0)" onclick='openLinks("{{ c.cve_name }}", "{{ c.id }}")'>{{ c.cve_name }}</a>
-                <span id='status' class='status-context-menu' kernel_id={{ kernel.id }} cve_id={{ c.id }} status_id={{ patch_status[counter[0]] }}></span>
-              </div>
-            {% if counter.append(counter.pop() + 1) %} {% endif %}
-            {% endfor %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-    <div class='frame container'>
-      <div style="display: inline; float: left;">
-        {% if authorized %}
-          <a href="javascript:void(0)" onClick="deprecate()">
+    {% if authorized %}
+      <div class="actions container">
+        <button onclick="deprecate()">
           {% if kernel.deprecated %}
-            Mark as non-deprecated
+            MARK AS NOT DEPRECATED
           {% else %}
-            Mark as deprecated
+            MARK AS DEPRECATED
           {% endif %}
-          </a>
-        {% endif %}
+        </button>
       </div>
-      <div style="display: inline; float: right;">
-        Last repo update: {{ kernel.last_github_update.strftime('%Y-%m-%d') }}
-      </div>
-    </div>
-  </body>
-</html>
+    {% endif %}
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script src='{{ url_for('static', filename='js/progress.js') }}'></script>
+  <script src='{{ url_for('static', filename='js/cve.js') }}'></script>
+  <script src='{{ url_for('static', filename='js/kernel.js') }}'></script>
+  {% if authorized %}
+    <script src='{{ url_for('static', filename='js/context.js') }}'></script>
+    <script src='{{ url_for('static', filename='js/updates.js') }}'></script>
+  {% endif %}
+{% endblock %}
