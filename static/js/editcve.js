@@ -4,6 +4,7 @@ function closedialogs() {
   $('#editnotes').dialog('close');
   $("#confirmdeletelink").dialog('close');
   $("#confirmdeletecve").dialog('close');
+  $("#confirmresetcve").dialog('close');
 }
 
 function deletelink(elem) {
@@ -37,6 +38,13 @@ function deletecve() {
   $("#yesdeletecve").button('enable');
   $("#nodeletecve").button('enable');
   $("#confirmdeletecve").dialog('open');
+}
+
+function resetcve() {
+  closedialogs();
+  $("#yesresetcve").button('enable');
+  $("#noresetcve").button('enable');
+  $("#confirmresetcve").dialog('open');
 }
 
 $(document).ready(function() {
@@ -113,6 +121,30 @@ $(document).ready(function() {
       {
         text: "NOOOOO!",
         id: "nodeletecve",
+        click: function() {
+          $(this).dialog('close');
+        }
+      }
+    ]
+  });
+
+  $("#confirmresetcve").dialog({
+    autoOpen: false,
+    width: 'auto',
+    modal: true,
+    buttons: [
+      {
+        text: "Yes",
+        id: "yesresetcve",
+        click: function() {
+          $("#yesresetcve").button('disable');
+          $("#noresetcve").button('disable');
+          window.location = "/resetcve/" + $(this).attr("cve_name")
+        }
+      },
+      {
+        text: "No",
+        id: "noresetcve",
         click: function() {
           $(this).dialog('close');
         }
