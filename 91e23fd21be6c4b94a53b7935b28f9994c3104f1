@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_b5608a36",
+        "filename": "app.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 16082
+      },
+      "writtenOn": "2017-06-07T16:16:46Z",
+      "side": 1,
+      "message": "Again, resetted is not a word",
+      "range": {
+        "startLine": 271,
+        "startChar": 32,
+        "endLine": 271,
+        "endChar": 43
+      },
+      "revId": "91e23fd21be6c4b94a53b7935b28f9994c3104f1",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_1574d6fb",
+        "filename": "templates/resettedcve.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 16082
+      },
+      "writtenOn": "2017-06-07T16:16:46Z",
+      "side": 1,
+      "message": "resetted is not a word\nreset is the past tense\n\nSuccessfully reset {{ cve_name }} [...]",
+      "range": {
+        "startLine": 16,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "91e23fd21be6c4b94a53b7935b28f9994c3104f1",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
