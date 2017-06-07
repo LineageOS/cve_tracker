@@ -63,10 +63,25 @@
         </div>
     </div>
 
+    <div id="reset-cve-dialog" class="dialog">
+        <div class="title">
+            Confirm reset
+        </div>
+        <div class="content">
+            Are you sure that you want to reset the state of the CVE to 'unpatched' on all kernels?<br/>This can <b>not</b> be undone!
+        </div>
+        <div class="error"></div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="delete">RESET</button>
+        </div>
+    </div>
+
     <div class="card container">
         <h3 id="title" cve_id="{{ cve.id }}">{{ cve.cve_name }}</h3>
         <div class="actions">
             <button class="delete-cve">Delete CVE</button>
+            <button class="reset-cve">Reset CVE</button>
         </div>
         <h4>Links</h4>
         <div id="linklist">
