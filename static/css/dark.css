@@ -100,6 +100,9 @@ input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus {
 .status_5 {
     color: #009688; /* Teal 500 */
 }
+.status_6 {
+    color: #ff9800; /* Orange 500 */
+}
 
 #import-statuses-dialog label[for=override_all] {
     color: white;
