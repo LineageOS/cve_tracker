@@ -319,6 +319,19 @@ def deletecve(cvename = None):
         return render_template('deletedcve.html', cve_name=cvename)
     return error()
 
+@app.route("/resetcve/<string:cvename>")
+@require_login
+def resetcve(cvename = None):
+    if cvename and CVE.objects(cve_name=cvename):
+        cve_id = CVE.objects.get(cve_name=cvename).id
+        status_id = Status.objects.get(short_id=1).id
+        for k in Kernel.objects():
+            Patches.objects(cve=cve_id, kernel=k.id).update(status=status_id)
+            k.progress = utils.getProgress(k.id)
+            k.save()
+        return render_template('resetcve.html', cve_name=cvename)
+    return error()
+
 @app.route("/addlink", methods=['POST'])
 @require_login
 def addlink():
