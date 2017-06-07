@@ -31,6 +31,9 @@
     <div id="confirmdeletecve" title="Confirm deletion?" cve_name="{{ cve.cve_name }}">
       Are you sure that you want to delete this CVE?<br/>This can <b>not</b> be undone!
     </div>
+    <div id="confirmresetcve" title="Confirm reset?" cve_name="{{ cve.cve_name }}">
+      Are you sure that you want to reset the state of the CVE to 'unpatched' on all kernels?<br/>This can <b>not</b> be undone!
+    </div>
     <div id="confirmdeletelink" title="Confirm deletion?" link_id="">
       Are you sure that you want to delete this link?<br/>This can <b>not</b> be undone!
       <div id="deletelinkerror"></div>
@@ -44,6 +47,7 @@
       {% else %}
         <h3>{{ cve.cve_name }}</h3>
         <a href="javascript:void(0)" class='small button delete' onclick='deletecve();'>Delete</a>
+        <a href="javascript:void(0)" class='small button delete' onclick='resetcve();'>Reset</a>
         <h4>Notes</h4>
         <div cve_id="{{ cve.id }}" >
           <span id="notes">{{ cve.notes }}</span><br><br>

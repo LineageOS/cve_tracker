@@ -68,3 +68,8 @@ while True:
                     print("Couldn't determine id for " + c)
         except:
             print("Couldn't determine id for " + k)
+
+# Update progress
+for k in Kernel.objects():
+    k.progress = utils.getProgress(k.id)
+    k.save()
