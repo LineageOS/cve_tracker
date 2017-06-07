@@ -16,9 +16,6 @@ db = MongoEngine(app)
 
 mitrelink='https://cve.mitre.org/cgi-bin/cvename.cgi?name='
 
-# Add / update kernels
-utils.getKernelTableFromGithub(app)
-
 # Add / update CVEs
 f = open('cves.txt')
 while True:
@@ -44,6 +41,9 @@ while True:
         Status(short_id=sid, text=txt).save()
     else:
         print("Skipped adding status '" + x + "' because either id or text were already added!")
+
+# Add / update kernels
+utils.getKernelTableFromGithub(app)
 
 # Add patch statuses for each kernel
 f = open('patches.txt')
