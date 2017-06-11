@@ -209,7 +209,8 @@ def kernel(k):
                            devices = devs,
                            needs_auth=needs_auth(),
                            authorized=logged_in(),
-                           show_last_update=show_last_update())
+                           show_last_update=show_last_update()),
+                           org = app.config['GITHUB_ORG']
 
 @app.route("/status/<string:c>")
 def cve_status(c):
