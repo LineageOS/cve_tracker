@@ -12,9 +12,6 @@
     "android_kernel_asus_P024": [
         "android_device_asus_P024"
     ],
-    "android_kernel_asus_Z00D": [
-        "android_device_asus_Z00D"
-    ],
     "android_kernel_asus_fugu": [
         "android_device_asus_fugu"
     ],
@@ -35,9 +32,6 @@
     ],
     "android_kernel_bn_acclaim": [
         "android_device_bn_acclaim"
-    ],
-    "android_kernel_bq_msm8937": [
-        "android_device_bq_tenshi"
     ],
     "android_kernel_bq_msm8939": [
         "android_device_bq_paella",
@@ -64,9 +58,6 @@
     "android_kernel_cyanogen_mt6735": [
         "android_device_wileyfox_porridgek3"
     ],
-    "android_kernel_google_dragon": [
-        "android_device_google_dragon"
-    ],
     "android_kernel_google_marlin": [
         "android_device_google_marlin",
         "android_device_google_sailfish"
@@ -90,8 +81,7 @@
     ],
     "android_kernel_htc_msm8952": [
         "android_device_htc_hiaeuhl",
-        "android_device_htc_hiaeul",
-        "android_device_htc_hiaewhl"
+        "android_device_htc_hiaeul"
     ],
     "android_kernel_htc_msm8960": [
         "android_device_htc_evita",
@@ -137,16 +127,6 @@
     "android_kernel_leeco_msm8976": [
         "android_device_leeco_s2"
     ],
-    "android_kernel_leeco_msm8996": [
-        "android_device_leeco_x2",
-        "android_device_leeco_zl1"
-    ],
-    "android_kernel_lenovo_msm8916": [
-        "android_device_lenovo_A6020"
-    ],
-    "android_kernel_lenovo_msm8974": [
-        "android_device_lenovo_kingdom"
-    ],
     "android_kernel_lge_bullhead": [
         "android_device_lge_bullhead"
     ],
@@ -170,9 +150,6 @@
         "android_device_lge_w5",
         "android_device_lge_w7"
     ],
-    "android_kernel_lge_msm8952": [
-        "android_device_lge_v521"
-    ],
     "android_kernel_lge_msm8974": [
         "android_device_lge_d800",
         "android_device_lge_d801",
@@ -189,12 +166,8 @@
     "android_kernel_lge_msm8996": [
         "android_device_lge_h830",
         "android_device_lge_h850",
-        "android_device_lge_h872",
-        "android_device_lge_h910",
         "android_device_lge_h918",
-        "android_device_lge_ls997",
-        "android_device_lge_us996",
-        "android_device_lge_vs995"
+        "android_device_lge_us996"
     ],
     "android_kernel_lge_pplus": [
         "android_device_lge_h901"
@@ -204,9 +177,6 @@
         "android_device_lge_v410",
         "android_device_lge_v480",
         "android_device_lge_v490"
-    ],
-    "android_kernel_lge_v500": [
-        "android_device_lge_v500"
     ],
     "android_kernel_mediatek_sprout": [
         "android_device_google_sprout4",
@@ -233,17 +203,12 @@
         "android_device_motorola_otus"
     ],
     "android_kernel_motorola_msm8916": [
-        "android_device_motorola_harpia",
         "android_device_motorola_lux",
-        "android_device_motorola_merlin",
         "android_device_motorola_osprey",
         "android_device_motorola_surnia"
     ],
     "android_kernel_motorola_msm8952": [
         "android_device_motorola_athene"
-    ],
-    "android_kernel_motorola_msm8953": [
-        "android_device_motorola_addison"
     ],
     "android_kernel_motorola_msm8960-common": [
         "android_device_motorola_mb886",
@@ -259,9 +224,6 @@
     ],
     "android_kernel_motorola_msm8992": [
         "android_device_motorola_clark"
-    ],
-    "android_kernel_motorola_msm8996": [
-        "android_device_motorola_griffin"
     ],
     "android_kernel_motorola_omap4-common": [
         "android_device_motorola_maserati",
@@ -310,13 +272,8 @@
         "android_device_oppo_find5",
         "android_device_oppo_n1"
     ],
-    "android_kernel_samsung_apq8084": [
-        "android_device_samsung_kccat6",
-        "android_device_samsung_lentislte"
-    ],
     "android_kernel_samsung_d2": [
         "android_device_samsung_d2att",
-        "android_device_samsung_d2refreshspr",
         "android_device_samsung_d2spr",
         "android_device_samsung_d2tmo",
         "android_device_samsung_d2vzw"
@@ -334,10 +291,8 @@
     ],
     "android_kernel_samsung_exynos5420": [
         "android_device_samsung_chagallwifi",
-        "android_device_samsung_ha3g",
         "android_device_samsung_klimtwifi",
         "android_device_samsung_n1awifi",
-        "android_device_samsung_n2awifi",
         "android_device_samsung_picassowifi"
     ],
     "android_kernel_samsung_exynos7420": [
@@ -345,9 +300,7 @@
     ],
     "android_kernel_samsung_gts2": [
         "android_device_samsung_gts210ltexx",
-        "android_device_samsung_gts210wifi",
-        "android_device_samsung_gts28ltexx",
-        "android_device_samsung_gts28wifi"
+        "android_device_samsung_gts210wifi"
     ],
     "android_kernel_samsung_hlte": [
         "android_device_samsung_hlte",
@@ -363,11 +316,7 @@
         "android_device_samsung_jfltetmo",
         "android_device_samsung_jflteusc",
         "android_device_samsung_jfltevzw",
-        "android_device_samsung_jfltexx",
-        "android_device_samsung_jfvelte"
-    ],
-    "android_kernel_samsung_k3gxx": [
-        "android_device_samsung_k3gxx"
+        "android_device_samsung_jfltexx"
     ],
     "android_kernel_samsung_klimtwifi": [],
     "android_kernel_samsung_klte": [
@@ -395,17 +344,11 @@
         "android_device_samsung_mondrianwifi"
     ],
     "android_kernel_samsung_msm8930-common": [
-        "android_device_samsung_lt02ltespr",
         "android_device_samsung_serrano3gxx",
         "android_device_samsung_serranodsdd",
         "android_device_samsung_serranoltexx"
     ],
-    "android_kernel_samsung_msm8976": [
-        "android_device_samsung_gts210vewifi",
-        "android_device_samsung_gts28vewifi"
-    ],
     "android_kernel_samsung_noblelte": [
-        "android_device_samsung_nobleltejv",
         "android_device_samsung_nobleltetmo"
     ],
     "android_kernel_samsung_s3ve3g": [
@@ -424,10 +367,7 @@
         "android_device_samsung_n5120",
         "android_device_samsung_n7100",
         "android_device_samsung_n8000",
-        "android_device_samsung_t0lte",
-        "android_device_samsung_t0ltekor",
-        "android_device_samsung_t0ltektt",
-        "android_device_samsung_t0lteskt"
+        "android_device_samsung_t0lte"
     ],
     "android_kernel_samsung_trelte": [
         "android_device_samsung_treltexx",
@@ -442,10 +382,6 @@
         "android_device_samsung_maguro",
         "android_device_samsung_toro",
         "android_device_samsung_toroplus"
-    ],
-    "android_kernel_samsung_universal8890": [
-        "android_device_samsung_hero2lte",
-        "android_device_samsung_herolte"
     ],
     "android_kernel_sony_apq8064": [
         "android_device_sony_dogo",
@@ -471,12 +407,6 @@
         "android_device_sony_sirius",
         "android_device_sony_z3c",
         "android_device_sony_z3dual"
-    ],
-    "android_kernel_sony_msm8994": [
-        "android_device_sony_ivy",
-        "android_device_sony_karin",
-        "android_device_sony_sumire",
-        "android_device_sony_suzuran"
     ],
     "android_kernel_sony_msm8x27": [
         "android_device_sony_nicki"
@@ -505,21 +435,8 @@
         "android_device_xiaomi_hydrogen",
         "android_device_xiaomi_kenzo"
     ],
-    "android_kernel_xiaomi_msm8992": [
-        "android_device_xiaomi_libra"
-    ],
-    "android_kernel_xiaomi_msm8996": [
-        "android_device_xiaomi_capricorn",
-        "android_device_xiaomi_gemini",
-        "android_device_xiaomi_lithium",
-        "android_device_xiaomi_natrium",
-        "android_device_xiaomi_scorpio"
-    ],
     "android_kernel_zte_msm8994": [
         "android_device_zte_nx510j"
-    ],
-    "android_kernel_zte_msm8996": [
-        "android_device_zte_axon7"
     ],
     "lge-kernel-mako": [
         "android_device_lge_mako"
