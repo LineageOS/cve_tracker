@@ -6,9 +6,7 @@ function openLinks(cve, cve_id) {
     'type': 'POST',
     'url': '/getlinks',
     'contentType': 'application/json',
-    'data': JSON.stringify({
-             cve_id: cve_id,
-            })
+    'data': JSON.stringify({ cve_id: cve_id })
   }).done(function(data) {
     $("#cvelinks").empty();
     $.each(JSON.parse(data), function(i, v) {
@@ -125,3 +123,10 @@ function shorten(text, maxLength) {
   }
   return ret;
 }
+
+var progressBar = new Progress({
+  container: document.querySelector('#progress-bar'),
+  element: document.querySelector('#progress-bar-inner'),
+  valueField: document.querySelector('#progress-value'),
+  value: document.querySelector('#progress-bar').getAttribute('value')
+});
