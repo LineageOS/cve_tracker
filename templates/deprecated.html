@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}LineageOS CVE Tracker{% endblock %}
+{% block nav_deprecated %}active{% endblock %}
+{% block content %}
+  <div class='kernels card container'>
+    <div class="header">
+      <span class="title">Deprecated kernels</span>
+    </div>
+    <div class="container">
+      {% for key, value in rows.items() -%}
+        <div class="four columns">
+        {% set lastVendor = [] -%}
+        {% for row in value -%}
+          {% if loop.first or row.vendor != lastVendor[lastVendor|length - 1] -%}
+            <div class="vendor">
+              <span class="title">{{ row.vendor }}</span>
+            {%- if lastVendor.append(row.vendor) %}{% endif -%}
+          {%- endif %}
+            <div class="kernel">
+              <a class="repo" href="/{{ row.repo_name }}">{{ row.device }}</a>
+              <span>({{ row.progress | int }}%)</span>
+            </div>
+          {% if loop.last or value[loop.index0 + 1].vendor != lastVendor[lastVendor|length - 1] -%}
+          </div>
+          {% endif -%}
+        {% endfor -%}
+        </div>
+      {% endfor -%}
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
