@@ -226,7 +226,8 @@ def addcve():
         splitted = cve.split('-')
         if CVE.objects(cve_name=cve):
             errstatus = cve + " already exists!"
-        elif (len(splitted) != 3 or len(splitted[1]) != 4 or
+        elif (len(splitted) != 3 or len(splitted[1]) != 4 or not splitted[1].isdigit() or
+            len(splitted[2]) < 4 or not splitted[2].isdigit() or
                 (splitted[0] != "CVE" and splitted[0] != "LVT")):
             errstatus = "'" + cve + "' is invalid!"
         else:
