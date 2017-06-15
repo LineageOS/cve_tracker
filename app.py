@@ -5,6 +5,7 @@ import functools
 import json
 import math
 import os
+import re
 import subprocess
 import sys
 
@@ -220,14 +221,14 @@ def addcve():
     r = request.get_json()
     cve = r['cve_id']
     notes = r['cve_notes']
+    # Match CVE-1990-0000 to CVE-2999-99999 (CVE or LVT) to ensure at least a little sanity
+    pattern = re.compile("^(CVE|LVT)-(199\d{1}|2\d{3})-\d{4,6}$")
     if not notes:
         notes = ""
     if cve and len(notes) >= 10:
-        splitted = cve.split('-')
         if CVE.objects(cve_name=cve):
             errstatus = cve + " already exists!"
-        elif (len(splitted) != 3 or len(splitted[1]) != 4 or
-                (splitted[0] != "CVE" and splitted[0] != "LVT")):
+        elif (not pattern.match(cve)):
             errstatus = "'" + cve + "' is invalid!"
         else:
             CVE(cve_name=cve, notes=notes).save()
@@ -236,7 +237,8 @@ def addcve():
                 Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
                 k.progress = utils.getProgress(k.id)
                 k.save()
-            if splitted[0] != "LVT":
+            # add a mitre link for non-internal CVEs
+            if not cve.startswith("LVT"):
                 mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
                 Links(cve_id=cve_id, link=mitrelink+cve).save()
             errstatus = "success"
