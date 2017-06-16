@@ -22,11 +22,6 @@ function editlink(elem) {
   $("#editlink").dialog('open');
 }
 
-function editnotes() {
-  $('#cvenotes').val($('#notes').html());
-  $('#editnotes').dialog('open');
-}
-
 function addlink() {
   closedialogs();
   $("#addlink").dialog('open');
@@ -80,18 +75,6 @@ $(document).ready(function() {
         click: function() {
           $(this).dialog('close');
         }
-      }
-    ]
-  });
-
-  $("#editnotes").dialog({
-    autoOpen: false,
-    width: 'auto',
-    buttons: [
-      {
-        text: "Save!",
-        id: "savenotes",
-        click: savenotes
       }
     ]
   });
@@ -172,27 +155,6 @@ function confirmeditlink() {
       $("#editlink").dialog('close');
     } else {
       $("#editlinkerror").empty().append(data.error);
-    }
-  });
-}
-
-function savenotes() {
-  var cve_id = $('#editnotes').attr('cve_id');
-  var notes = $('#cvenotes').val();
-  $.ajax({
-    'type': 'POST',
-    'url': '/editnotes',
-    'contentType': 'application/json',
-    'data': JSON.stringify({
-         cve_id: cve_id,
-         cve_notes: notes,
-    })
-  }).done(function(data) {
-    if (data.error == "success") {
-      $('#notes').text(notes);
-      $('#editnotes').dialog('close');
-    } else {
-      $("#editnoteserror").empty().append(data.error);
     }
   });
 }
