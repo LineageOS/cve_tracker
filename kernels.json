@@ -90,8 +90,7 @@
     ],
     "android_kernel_htc_msm8952": [
         "android_device_htc_hiaeuhl",
-        "android_device_htc_hiaeul",
-        "android_device_htc_hiaewhl"
+        "android_device_htc_hiaeul"
     ],
     "android_kernel_htc_msm8960": [
         "android_device_htc_evita",
@@ -190,11 +189,8 @@
         "android_device_lge_h830",
         "android_device_lge_h850",
         "android_device_lge_h872",
-        "android_device_lge_h910",
         "android_device_lge_h918",
-        "android_device_lge_ls997",
-        "android_device_lge_us996",
-        "android_device_lge_vs995"
+        "android_device_lge_us996"
     ],
     "android_kernel_lge_pplus": [
         "android_device_lge_h901"
@@ -310,10 +306,6 @@
         "android_device_oppo_find5",
         "android_device_oppo_n1"
     ],
-    "android_kernel_samsung_apq8084": [
-        "android_device_samsung_kccat6",
-        "android_device_samsung_lentislte"
-    ],
     "android_kernel_samsung_d2": [
         "android_device_samsung_d2att",
         "android_device_samsung_d2refreshspr",
@@ -395,7 +387,6 @@
         "android_device_samsung_mondrianwifi"
     ],
     "android_kernel_samsung_msm8930-common": [
-        "android_device_samsung_lt02ltespr",
         "android_device_samsung_serrano3gxx",
         "android_device_samsung_serranodsdd",
         "android_device_samsung_serranoltexx"
@@ -474,7 +465,7 @@
     ],
     "android_kernel_sony_msm8994": [
         "android_device_sony_ivy",
-        "android_device_sony_karin",
+        "android_device_sony_karin_windy",
         "android_device_sony_sumire",
         "android_device_sony_suzuran"
     ],
@@ -509,11 +500,7 @@
         "android_device_xiaomi_libra"
     ],
     "android_kernel_xiaomi_msm8996": [
-        "android_device_xiaomi_capricorn",
-        "android_device_xiaomi_gemini",
-        "android_device_xiaomi_lithium",
-        "android_device_xiaomi_natrium",
-        "android_device_xiaomi_scorpio"
+        "android_device_xiaomi_gemini"
     ],
     "android_kernel_zte_msm8994": [
         "android_device_zte_nx510j"
