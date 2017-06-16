@@ -1,22 +1,13 @@
-<!doctype html>
-<html>
-  <head>
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
-    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
-
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src='{{ url_for('static', filename='js/editcve.js') }}'></script>
-
-    <title>LineageOS CVE Checklist - Deleted {{ cve_name }}</title>
-  </head>
-  <body>
-    <div class='frame container'>
-      <h3>Error!</h3>
+{% extends "base.html" %}
+{% block title %}LineageOS Kernel Tracker - Error }}{% endblock %}
+{% block content %}
+  <div class='card container'>
+    <h3>Error!</h3>
+    {% if msg %}
       <h4>{{ msg }}</h4>
-      <a href="/">Return to Home Page</a>
-      </div>
+    {% endif %}
+    <div class="actions container">
+      <a href="/"><button>BACK</button></a>
     </div>
-  </body>
-</html>
+  </div>
+{% endblock %}
