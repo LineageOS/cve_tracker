@@ -1,223 +1,235 @@
-function closedialogs() {
-  $("#addlink").dialog('close');
-  $("#editlink").dialog('close');
-  $('#editnotes').dialog('close');
-  $("#confirmdeletelink").dialog('close');
-  $("#confirmdeletecve").dialog('close');
-}
+(function() {
+	var deleteLinkDialog = new Dialog({
+		element: document.querySelector('#delete-link-dialog'),
+		drag: '.title',
+		actions: [{
+			id: 'delete',
+			callback: deleteLink,
+			selector: '.actions .delete'
+		}, {
+			id: 'cancel',
+			callback: 'close',
+			selector: '.actions .cancel'
+		}],
+		access: {
+			title: '.title'
+		}
+	});
 
-function deletelink(elem) {
-  closedialogs();
-  $("#confirmdeletelink").attr("link_id", elem.parentElement.id);
-  $("#yesdeletelink").button('enable');
-  $("#nodeletelink").button('enable');
-  $("#confirmdeletelink").dialog('open');
-}
+	function deleteLink(button) {
+		var d = this;
+		var linkId = d.element.getAttribute('link_id');
+		d.actions.delete.disabled = true;
+		d.actions.cancel.disabled = true;
 
-function editlink(elem) {
-  closedialogs();
-  $("#editlink").attr('link_id', elem.parentElement.id);
-  $("#linktoedit").val(elem.parentElement.attributes.link.value);
-  $("#linkeditdesc").val(elem.parentElement.attributes.desc.value);
-  $("#editlink").dialog('open');
-}
+		$.ajax({
+			'type': 'POST',
+			'url': '/deletelink',
+			'contentType': 'application/json',
+			'data': JSON.stringify({
+				link_id: linkId,
+			})
+		}).done(function(data) {
+			d.actions.delete.disabled = false;
+			d.actions.cancel.disabled = false;
+			if (data.error == "success") {
+				getLinks();
+				d.close();
+			} else {
+				d.access.error.innerHTML = data.error;
+			}
+		});
+	}
 
-function editnotes() {
-  $('#cvenotes').val($('#notes').html());
-  $('#editnotes').dialog('open');
-}
+	function getLinks() {
+		var cveId = document.getElementById('title').getAttribute('cve_id');
+		$.ajax({
+			type: 'POST',
+			url: '/getlinks',
+			contentType: 'application/json',
+			data: JSON.stringify({
+				cve_id: cveId
+			})
+		}).done(function(data) {
+			var linkList = document.getElementById('linklist');
+			if (data.length) {
+				var links = JSON.parse(data);
+				linkList.innerHTML = "";
+				links.forEach(function(v) {
+					if (!v.desc) {
+						v.desc = 'No description';
+					}
 
-function addlink() {
-  closedialogs();
-  $("#addlink").dialog('open');
-}
+					var linkItem = createElement('div', {
+						id: v._id.$oid,
+						link: v.link,
+						desc: v.desc,
+						parent: linkList
+					});
 
-function deletecve() {
-  closedialogs();
-  $("#yesdeletecve").button('enable');
-  $("#nodeletecve").button('enable');
-  $("#confirmdeletecve").dialog('open');
-}
+					createElement('a', {
+						class: 'link',
+						href: v.link,
+						content: v.link
+					});
+					createElement('span', {
+						class: 'linkdesc',
+						content: v.desc
+					});
 
-$(document).ready(function() {
-  $("#addlink").dialog({
-    autoOpen: false,
-    width: 'auto',
-    buttons: [
-      {
-        text: "Add!",
-        id: "confirmaddlink",
-        click: confirmaddlink
-      }
-    ]
-  });
+					var deleteButton = createElement('button', {
+						class: 'delete',
+						link_id: v._id.$oid,
+						content: 'Delete'
+					});
+					deleteButton.addEventListener('click', function() {
+						deleteLinkDialog.element.setAttribute('link_id', linkId);
+						deleteLinkDialog.open();
+					});
 
-  $("#editlink").dialog({
-    autoOpen: false,
-    width: 'auto',
-    buttons: [
-      {
-        text: "Save!",
-        id: "cofirmeditlink",
-        click: confirmeditlink
-      }
-    ]
-  });
+					var editButton = createElement('button', {
+						class: 'edit',
+						link_id: v._id.$oid,
+						content: 'Edit'
+					});
+					editButton.addEventListener('click', function() {
+						editLinkDialog.element.setAttribute('link_id', linkId);
+						editLinkDialog.access.link.value = button.parentElement.getAttribute('link');
+						editLinkDialog.access.description.value = button.parentElement.getAttribute('desc');
+						editLinkDialog.open();
+					});
+				});
+			} else {
+				linkList.innerHTML = "No links available";
+			}
+		});
+	}
 
-  $("#confirmdeletelink").dialog({
-    autoOpen: false,
-    width: 'auto',
-    modal: true,
-    buttons: [
-      {
-        text: "Yes!",
-        id: "yesdeletelink",
-        click: confirmdeletelink
-      },
-      {
-        text: "NOOOOO!",
-        id: "nodeletelink",
-        click: function() {
-          $(this).dialog('close');
-        }
-      }
-    ]
-  });
+	var addLinkDialog = new Dialog({
+		element: document.querySelector('#add-link-dialog'),
+		drag: '.title',
+		actions: [{
+			id: 'add',
+			callback: addLink,
+			selector: '.actions .add'
+		}, {
+			id: 'cancel',
+			callback: 'close',
+			selector: '.actions .cancel'
+		}],
+		access: {
+			title: '.title',
+			link: '.link',
+			description: '.description',
+			error: '.error'
+		},
+		trigger: document.querySelector('.add-link')
+	});
 
-  $("#editnotes").dialog({
-    autoOpen: false,
-    width: 'auto',
-    buttons: [
-      {
-        text: "Save!",
-        id: "savenotes",
-        click: savenotes
-      }
-    ]
-  });
+	function addLink(button) {
+		var d = this;
+		var cveId = document.getElementById('title').getAttribute('cve_id');
+		var link = d.access.link.value;
+		var description = d.access.description.value;
 
-  $("#confirmdeletecve").dialog({
-    autoOpen: false,
-    width: 'auto',
-    modal: true,
-    buttons: [
-      {
-        text: "Yes!",
-        id: "yesdeletecve",
-        click: function() {
-          $("#yesdeletecve").button('disable');
-          $("#nodeletecve").button('disable');
-          window.location = "/deletecve/" + $(this).attr("cve_name")
-        }
-      },
-      {
-        text: "NOOOOO!",
-        id: "nodeletecve",
-        click: function() {
-          $(this).dialog('close');
-        }
-      }
-    ]
-  });
-});
+		d.actions.add.disabled = true;
+		d.actions.cancel.disabled = true;
 
-function confirmaddlink() {
-  var link_url = $("#linktoadd").val();
-  var link_desc = $("#linkdesc").val();
-  $.ajax({
-    'type': 'POST',
-    'url': '/addlink',
-	'contentType': 'application/json',
-	'data': JSON.stringify({
-	         cve_id: $("#addlink").attr("cve_id"),
-             link_url: link_url,
-             link_desc: link_desc,
-    })
-  }).done(function(data) {
-    if (data.error == "success") {
-      var url = link_url;
-      var desc = link_desc;
-      var id = data.link_id;
-      var template = `<li link="${url}" desc="${desc}" id="${id}">
-        <a class="link" href="${url}">${url}</a> -
-        <span class="linkdesc">${desc}</span>
-        <a class="small button delete" onclick='deletelink(this);'>Delete</a>
-        <a class="small button" onclick='editlink(this);'>Edit</a>`;
-      $("#linklist ul").append(template);
-      $("#addlink").dialog('close');
-    } else {
-      $("#addlinkerror").empty().append(data.error);
-    }
-  });
-}
+		$.ajax({
+			'type': 'POST',
+			'url': '/addlink',
+			'contentType': 'application/json',
+			'data': JSON.stringify({
+				cve_id: cveId,
+				link_url: link,
+				link_desc: description,
+			})
+		}).done(function(data) {
+			d.actions.add.disabled = false;
+			d.actions.cancel.disabled = false;
 
-function confirmeditlink() {
-  var link_url = $("#linktoedit").val();
-  var link_desc = $("#linkeditdesc").val();
-  var link_id = $("#editlink").attr("link_id");
-  $.ajax({
-    'type': 'POST',
-    'url': '/editlink',
-    'contentType': 'application/json',
-    'data': JSON.stringify({
-             link_id: link_id,
-             link_url: link_url,
-             link_desc: link_desc,
-    })
-  }).done(function(data) {
-    if (data.error == "success") {
-      var li = $("#linklist #" + link_id);
-      $(".linkdesc", li).text(link_desc);
-      $(".link", li).attr("href", link_url).text(link_url);
-      $("#editlink").dialog('close');
-    } else {
-      $("#editlinkerror").empty().append(data.error);
-    }
-  });
-}
+			if (data.error == "success") {
+				getLinks();
+				d.close();
+			} else {
+				d.access.error.innerHTML = data.error;
+			}
+		});
+	}
 
-function savenotes() {
-  var cve_id = $('#editnotes').attr('cve_id');
-  var notes = $('#cvenotes').val();
-  $.ajax({
-    'type': 'POST',
-    'url': '/editnotes',
-    'contentType': 'application/json',
-    'data': JSON.stringify({
-         cve_id: cve_id,
-         cve_notes: notes,
-    })
-  }).done(function(data) {
-    if (data.error == "success") {
-      $('#notes').text(notes);
-      $('#editnotes').dialog('close');
-    } else {
-      $("#editnoteserror").empty().append(data.error);
-    }
-  });
-}
+	var editLinkDialog = new Dialog({
+		element: document.querySelector('#edit-link-dialog'),
+		drag: '.title',
+		actions: [{
+			id: 'save',
+			callback: editLink,
+			selector: '.actions .save'
+		}, {
+			id: 'cancel',
+			callback: 'close',
+			selector: '.actions .cancel'
+		}],
+		access: {
+			title: '.title',
+			link: '.link',
+			description: '.description',
+			error: '.error'
+		}
+	});
 
-function confirmdeletelink() {
-  $("#yesdeletelink").button("disable");
-  $("#nodeletelink").button("disable");
+	function editLink(button) {
+		var d = this;
+		var linkId = d.element.getAttribute('link_id');
+		var link = d.access.link.value;
+		var description = d.access.description.value;
 
-  link_id = $("#confirmdeletelink").attr("link_id")
+		d.actions.save.disabled = true;
+		d.actions.cancel.disabled = true;
 
-  $.ajax({
-    'type': 'POST',
-    'url': '/deletelink',
-    'contentType': 'application/json',
-    'data': JSON.stringify({
-             link_id: link_id,
-    })
-  }).done(function(data) {
-    $("#yesdeletelink").button("enable");
-    $("#nodeletelink").button("enable");
-    if (data.error == "success") {
-      $("#linklist > ul > li#" + link_id).remove()
-      $("#confirmdeletelink").dialog('close');
-    } else {
-      $("#addlinkerror").empty().append(data.error);
-    }
-  });
-}
+		$.ajax({
+			'type': 'POST',
+			'url': '/editlink',
+			'contentType': 'application/json',
+			'data': JSON.stringify({
+				link_id: linkId,
+				link_url: link,
+				link_desc: description,
+			})
+		}).done(function(data) {
+			d.actions.save.disabled = false;
+			d.actions.cancel.disabled = false;
+
+			if (data.error == "success") {
+				getLinks();
+				d.close();
+			} else {
+				d.access.error.innerHTML = data.error;
+			}
+		});
+	}
+
+	var deleteCVEDialog = new Dialog({
+		element: document.querySelector('#delete-cve-dialog'),
+		drag: '.title',
+		actions: [{
+			id: 'delete',
+			callback: deleteCVE,
+			selector: '.actions .delete'
+		}, {
+			id: 'cancel',
+			callback: 'close',
+			selector: '.actions .cancel'
+		}],
+		access: {
+			title: '.title'
+		},
+		trigger: document.querySelector('.delete-cve')
+	});
+
+	function deleteCVE(button) {
+		var cveName = document.getElementById('title').innerHTML;
+		window.location = "/deletecve/" + cveName;
+	}
+
+	getLinks();
+})();
