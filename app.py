@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 import base64
+import collections
 import functools
 import json
+import math
 import os
 import subprocess
 import sys
@@ -62,7 +64,10 @@ def update_kernels():
     utils.getKernelTableFromGithub(app)
 
 def logged_in():
-    return ('github_token' in session and session['github_token']) or app.config['GITHUB_ORG'] == None
+    return ('github_token' in session and session['github_token']) or not needs_auth()
+
+def needs_auth():
+    return app.config['GITHUB_ORG'] != None
 
 def require_login(f):
     @functools.wraps(f)
@@ -110,21 +115,52 @@ def get_github_token():
 def secure():
     return "logged in"
 
-
 def error(msg = ""):
     return render_template('error.html', msg=msg)
 
+def show_kernels(deprecated):
+    if not deprecated:
+        deprecated_status = [False, None]
+        template = "index.html"
+    else:
+        deprecated_status = [True]
+        template = "deprecated.html"
+    vendors = {}
+    rows = {}
+    col = 0
+    headers = 0
+    kernels = Kernel.objects(deprecated__in=deprecated_status).order_by('vendor', 'device')
+    vendorCount = len(Kernel.objects(deprecated__in=deprecated_status).distinct('vendor'))
+    rowlimit = math.ceil((len(kernels) + vendorCount * 2) / 3)
+    for kernel in kernels:
+        currCol = str(col)
+        rows.setdefault(currCol, [])
+        # remember and count headers
+        vendors.setdefault(currCol, [])
+        if not kernel.vendor in vendors[currCol]:
+            vendors[currCol].append(kernel.vendor)
+            headers = headers + 1
+        # add current kernel
+        rows.setdefault(currCol, []).append(kernel)
+        # check if rowlimit was reached and move to next column
+        if len(rows[currCol]) + headers * 2 > rowlimit:
+            col = col + 1
+            headers = 0
+    # order by key to preserve vendor order
+    orderedRows = collections.OrderedDict(sorted(rows.items()))
+    return render_template(template,
+                           rows=orderedRows,
+                           version=version,
+                           authorized=logged_in(),
+                           needs_auth=needs_auth())
+
 @app.route("/")
 def index():
-    kernels = Kernel.objects(deprecated__in=[False, None]).order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
-          needs_auth=app.config['GITHUB_ORG'] != 'none')
+    return show_kernels(False)
 
 @app.route("/deprecated")
 def show_deprecated():
-    kernels = Kernel.objects(deprecated=True).order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
-          needs_auth=app.config['GITHUB_ORG'] != 'none', deprecated=True)
+    return show_kernels(True)
 
 @app.route("/<string:k>")
 def kernel(k):
@@ -142,7 +178,7 @@ def kernel(k):
     if k in devices:
         devs = devices[k]
     else:
-        devs = ['No officially supported devices!']
+        devs = []
     return render_template('kernel.html',
                            kernel = kernel,
                            cves = cves,
