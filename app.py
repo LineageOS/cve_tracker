@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 import base64
+import collections
 import functools
 import json
+import math
 import os
 import subprocess
 import sys
@@ -62,7 +64,10 @@ def update_kernels():
     utils.getKernelTableFromGithub(app)
 
 def logged_in():
-    return ('github_token' in session and session['github_token']) or app.config['GITHUB_ORG'] == None
+    return ('github_token' in session and session['github_token']) or not needs_auth()
+
+def needs_auth():
+    return app.config['GITHUB_ORG'] != None
 
 def require_login(f):
     @functools.wraps(f)
@@ -110,28 +115,36 @@ def get_github_token():
 def secure():
     return "logged in"
 
-
 def error(msg = ""):
     return render_template('error.html', msg=msg)
 
+def show_kernels(deprecated):
+    if not deprecated:
+        deprecated_status = [False, None]
+        template = "index.html"
+    else:
+        deprecated_status = [True]
+        template = "deprecated.html"
+
+    kernels = Kernel.objects(deprecated__in=deprecated_status).order_by('vendor', 'device')
+    return (render_template(template, kernels=kernels, version=version, authorized=logged_in(),
+        needs_auth=needs_auth()))
+
 @app.route("/")
 def index():
-    kernels = Kernel.objects(deprecated__in=[False, None]).order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
-          needs_auth=app.config['GITHUB_ORG'] != 'none')
+    return show_kernels(False)
 
 @app.route("/deprecated")
 def show_deprecated():
-    kernels = Kernel.objects(deprecated=True).order_by('vendor', 'device')
-    return render_template('index.html', kernels=kernels, version=version, authorized=logged_in(),
-          needs_auth=app.config['GITHUB_ORG'] != 'none', deprecated=True)
+    return show_kernels(True)
 
 @app.route("/<string:k>")
 def kernel(k):
     try:
         kernel = Kernel.objects.get(repo_name=k)
     except:
-        abort(404)
+        return error("The requested kernel could not be found!");
+        
     cves = CVE.objects().order_by('cve_name')
     statuses = {s.id: s.short_id for s in Status.objects()}
     patches = {p.cve: p.status for p in Patches.objects(kernel=kernel.id)}
@@ -142,7 +155,7 @@ def kernel(k):
     if k in devices:
         devs = devices[k]
     else:
-        devs = ['No officially supported devices!']
+        devs = []
     return render_template('kernel.html',
                            kernel = kernel,
                            cves = cves,
@@ -248,7 +261,7 @@ def editcve(cvename = None):
                                links=Links.objects(cve_id=cve['id']))
     else:
         msg = cvename + " is invalid or doesn't exist!"
-        return render_template('editcve.html', msg=msg)
+        return error(msg)
 
 @app.route("/deletecve/<string:cvename>")
 @require_login
