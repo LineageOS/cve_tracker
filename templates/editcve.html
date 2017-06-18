@@ -1,78 +1,82 @@
-<!doctype html>
-<html>
-  <head>
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
-    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
-
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src='{{ url_for('static', filename='js/editcve.js') }}'></script>
-
-    <title>LineageOS CVE Checklist - Edit {{ cve.cve_name }}</title>
-  </head>
-  <body>
-    <div id="addlink" title="Enter new link" cve_id="{{ cve.id }}">
-      <input placeholder="link" type="text" name="link" id="linktoadd"><br/>
-      <input placeholder="description" type="text" name="desc" id="linkdesc">
-      <div id="addlinkerror"></div>
-    </div>
-    <div id="editlink" title="Edit">
-      Link:<br/>
-      <input placeholder="http://" type="text" name="link" id="linktoedit" size="30"><br/>
-      Description:<br/>
-      <input placeholder="'Patch for version xxx', ..." type="text" name="desc" id="linkeditdesc" size="30">
-      <div id="editlinkerror"></div>
-    </div>
-    <div id="editnotes" title="Edit CVE notes" cve_id="{{ cve.id }}">
-      <textarea placeholder="Applicable versions/platforms..." type="text" name="notes" id="cvenotes" cols="30"></textarea>
-      <div id="editnoteserror"></div>
-    </div>
-    <div id="confirmdeletecve" title="Confirm deletion?" cve_name="{{ cve.cve_name }}">
-      Are you sure that you want to delete this CVE?<br/>This can <b>not</b> be undone!
-    </div>
-    <div id="confirmdeletelink" title="Confirm deletion?" link_id="">
-      Are you sure that you want to delete this link?<br/>This can <b>not</b> be undone!
-      <div id="deletelinkerror"></div>
-    </div>
-    <div class='frame container'>
-      <div class='back'><a href="javascript:history.back()">back</a></div>
-      {% if msg %}
-        <div>
-          {{ msg }}
+{% extends "base.html" %}
+{% block title %}LineageOS CVE Tracker - Edit {{ cve.cve_name }}{% endblock %}
+{% block content %}
+    <div id="add-link-dialog" class="dialog">
+        <div class="title">
+            Enter new link
         </div>
-      {% else %}
-        <h3>{{ cve.cve_name }}</h3>
-        <a href="javascript:void(0)" class='small button delete' onclick='deletecve();'>Delete</a>
-        <h4>Notes</h4>
-        <div cve_id="{{ cve.id }}" >
-          <span id="notes">{{ cve.notes }}</span><br><br>
-            <a class="button" href="javascript:void(0)" onclick="editnotes()"><strong>
-              {% if cve.notes %}
-                Edit notes
-              {% else %}
-                Add notes
-              {% endif %}
-            </strong></a>
+        <div class="content">
+            <label>Link</label>
+            <input class="link" type="text" placeholder="http://">
+            <label>Description</label>
+            <textarea class="description" placeholder="'Patch', '3.10', ..."></textarea>
+            <div class="error"></div>
         </div>
-        <hr>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="add">ADD</button>
+        </div>
+    </div>
+
+    <div id="edit-link-dialog" class="dialog">
+        <div class="title">
+            Edit
+        </div>
+        <div class="content">
+            <label>Link</label>
+            <input class="link" type="text" placeholder="http://">
+            <label>Description</label>
+            <textarea class="description" placeholder="'Patch', '3.10', ..."></textarea>
+            <div class="error"></div>
+        </div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="save">SAVE</button>
+        </div>
+    </div>
+
+    <div id="delete-link-dialog" class="dialog">
+        <div class="title">
+            Confirm deletion
+        </div>
+        <div class="content">
+            Are you sure that you want to delete this link?<br/>This can <b>not</b> be undone!
+        </div>
+        <div class="error"></div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="delete">DELETE</button>
+        </div>
+    </div>
+
+    <div id="delete-cve-dialog" class="dialog">
+        <div class="title">
+            Confirm deletion
+        </div>
+        <div class="content">
+            Are you sure that you want to delete this CVE?<br/>This can <b>not</b> be undone!
+        </div>
+        <div class="error"></div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="delete">DELETE</button>
+        </div>
+    </div>
+
+    <div class="card container">
+        <h3 id="title" cve_id="{{ cve.id }}">{{ cve.cve_name }}</h3>
+        <div class="actions">
+            <button class="delete-cve">Delete CVE</button>
+        </div>
         <h4>Links</h4>
         <div id="linklist">
-          <ul>
-          {% for l in links %}
-            {% if l.desc %}{% set desc = l.desc %}{% else %}{% set desc = "No description" %}{% endif %}
-            <li link="{{l.link}}" desc="{{desc}}" id="{{ l.id }}">
-              <a class="link" href="{{l.link}}">{{l.link}}</a> - 
-              <span class="linkdesc">{{desc}}</span>
-              <a class="small button delete" onclick='deletelink(this);'>Delete</a>
-              <a class="small button" onclick='editlink(this);'>Edit</a>
-            </li>
-            {% endfor %}
-          </ul>
+            Loading ...
         </div>
-        <a class="button" href="javascript:void(0)" onclick='addlink();'>Add New Link</a>
-        <br><br>
-      {% endif %}
+        <div class="actions container">
+            <button class="add-link">Add New Link</button>
+        </div>
     </div>
-  </body>
-</html>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/editcve.js') }}"></script>
+{% endblock %}
