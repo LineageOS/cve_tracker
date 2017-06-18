@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}LineageOS CVE Tracker{% endblock %}
+{% block nav_devices %}active{% endblock %}
+{% block content %}
+    <div class="card container">
+        <div class="header">
+            <span class="title">Devices</span>
+        </div>
+        <div class="kernels container">
+            {%- for column in devices | slice(3) %}
+                <div class="four columns">
+                {%- for d in column %}
+                    {% if loop.first or column[loop.index0 - 1].vendor != d.vendor -%}
+                        <div class="vendor">
+                            <span class="title">{{ d.vendor }}</span>
+                    {%- endif %}
+                            <div class="kernel">
+                                <a class="repo" href="/{{ d.kernel }}">{{ d.device }}</a>
+                                <span>({{ d.progress | int }} %)</span>
+                            </div>
+                    {%- if loop.last or column[loop.index0 + 1].vendor != d.vendor %}
+                    </div>
+                    {% endif -%}
+                {%- endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
