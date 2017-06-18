@@ -14,3 +14,6 @@ GITHUB_CLIENT_SECRET = 'my_github_app_secret'
 
 # used by flask to secure session info. change this to something random.
 SECRET_KEY = 'default'
+
+# used to define whether to show the last update date of the kernel
+SHOW_LAST_UPDATE = False
