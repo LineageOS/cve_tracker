@@ -1,26 +1,26 @@
-function updateProgressBar() {
-  $("#progressbar").progressbar({
-    value: parseInt($("#progressbar").attr("value")),
-  });
-}
+(function() {
+    var statusOptions = [null];
+    [].slice.call(document.querySelector('#status_ids').children)
+    .forEach(function(s, i) {
+        statusOptions.push({
+            class: s.id,
+            text: s.innerHTML,
+            value: i + 1
+        });
+    });
+    window.statusOptions = statusOptions;
 
-function updateCVEStatus(target) {
-  status_id = target.attr('status_id');
-  target.removeClass (function (index, css) {
-    return (css.match (/(^|\s)status_\S+/g) || []).join(' ');
-  });
-  target.addClass("status_" + status_id);
-  target.html($("#status_" + status_id).html());
-  
-}
+    function setCVEStatus(statusElement, id) {
+        statusOptions.slice(1).forEach(function(statusOption) {
+            statusElement.classList.remove(statusOption.class);
+        });
+        statusElement.classList.add(statusOptions[id].class);
+        statusElement.innerHTML = statusOptions[id].text;
+    }
+    window.setCVEStatus = setCVEStatus;
 
-function initializeCVEStatuses() {
-  $.each($(".cvediv"), function(key, value) {
-    updateCVEStatus($("#" + $(value).attr('id') + " :nth-child(2)"));
-  });
-}
-
-$(document).ready(function() {
-  updateProgressBar();
-  initializeCVEStatuses();
-});
+    function loadCVEStatus(statusElement) {
+        setCVEStatus(statusElement, statusElement.getAttribute('status_id'));
+    }
+    [].slice.call(document.querySelectorAll('.status')).forEach(loadCVEStatus);
+})();

@@ -1,44 +1,38 @@
-<!doctype html>
-<html>
-  <head>
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/normalize.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
-    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
-
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src='{{ url_for('static', filename='js/cve.js') }}'></script>
-
-    <title>LineageOS Kernel Checklist for {{ cve_name }}</title>
-    <style>span[class^="status_"] { cursor: unset; }</style>
-  </head>
-  <body>
-    <div id='status_ids' style='display: none;'>
-      {% for s in status_ids %}
-        <div id={{ 'status_' ~ s.short_id }}>
-          {{ s.text }}
-        </div>
-      {% endfor %}
-    </div>
-    <div class='frame container'>
-      <div class='back'><a href="javascript:history.back()">back</a></div>
-      <h3>Patch status for {{ cve_name }}</h3>
-      <div>
-        {% for column in kernels | slice(3) %}
-          <div class='four columns'>
-          {% for k in column %}
-            {% if column[loop.index0-1].vendor != k.vendor or loop.index0 == 0 %}
-              <div class='header'>{{ k.vendor }}</div>
-            {% endif %}
-            <div class='cvediv' id='{{ k.repo_name }}'>
-              <a href='/{{ k.repo_name }}'>{{ k.device }}</a>
-              <span id='status' status_id={{ statuses[patches[k.id]] }}></span>
+{% extends "base.html" %}
+{% block title %}LineageOS Kernel Tracker for {{ cve_name }}{% endblock %}
+{% block content %}
+    <div id="status_ids">
+        {% for s in status_ids -%}
+            <div id={{ "status_" ~ s.short_id }}>
+                {{ s.text }}
             </div>
-          {% endfor %}
-          </div>
-        {% endfor %}
-      </div>
+        {%- endfor %}
     </div>
-  </body>
-</html>
+    <div class="card container">
+        <div class="header">
+            <span class="title">Patch status for {{ cve_name }}</span>
+        </div>
+        <div class="kernels container">
+            {% for column in kernels | slice(3) %}
+                <div class="four columns">
+                {% for k in column %}
+                    {% if loop.first or column[loop.index0 - 1].vendor != k.vendor -%}
+                        <div class="vendor">
+                            <span class="title">{{ k.vendor }}</span>
+                    {%- endif %}
+                            <div class="kernel" id="{{ k.repo_name }}">
+                                <a href="/{{ k.repo_name }}">{{ k.device }}</a>
+                                <span class="status" status_id="{{ statuses[patches[k.id]] }}"></span>
+                            </div>
+                    {%- if loop.last or column[loop.index0 + 1].vendor != k.vendor %}
+                        </div>
+                    {% endif -%}
+                {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/cve.js') }}"></script>
+{% endblock %}
