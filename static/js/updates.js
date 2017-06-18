@@ -1,48 +1,31 @@
-function update(c, s) {
-  cve_id = c.attr('cve_id');
-  kernel_id = c.attr('kernel_id');
+(function() {
+    function updateCVEStatus(statusElement, statusId) {
+        var kernelId = statusElement.getAttribute('kernel_id');
+        var cveId = statusElement.getAttribute('cve_id');
 
-  $.ajax({
-    'type': 'POST',
-    'url': '/update',
-    'contentType': 'application/json',
-    'data': JSON.stringify({
-             kernel_id: kernel_id,
-             status_id: s,
-             cve_id: cve_id,
+        $.ajax({
+            type: 'POST',
+            url: '/update',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                kernel_id: kernelId,
+                cve_id: cveId,
+                status_id: statusId
             })
-  }).done(function(data) {
-    if (data.error == "success") {
-      c.attr('status_id', s);
-      updateCVEStatus(c);
-      $("#progressbar").attr("value", data.progress);
-      $("#progressvalue").text(Math.floor(data.progress) + " %");
-      updateProgressBar();
+        })
+        .done(function(data) {
+            if (data.error == 'success') {
+                setCVEStatus(statusElement, statusId);
+                progressBar.set(Math.floor(data.progress));
+            }
+        });
     }
-  });
-}
 
-function initializeContextMenus(items) {
-  $(function(){
-      $.contextMenu({
-          selector: '.status-context-menu',
-          trigger: 'left',
-          callback: function(key, options) {
-              if ($(this).attr('status_id') != key)
-                  update($(this), key);
-          },
-          items: items,
-      });
-  });
-}
-
-$(document).ready(function() {
-  items = {};
-  $('#status_ids').children().each(function() {
-      id = $(this).attr('id').replace("status_", "")
-      status = $(this).text().trim();
-      items[id] = { "name": status };
-  });
-
-  initializeContextMenus(items);
-});
+    var items = statusOptions.slice(1);
+    var statusMenu = new ContextMenu({
+        selector: '.status-menu',
+        trigger: 'click',
+        callback: updateCVEStatus,
+        items: items
+    });
+})();
