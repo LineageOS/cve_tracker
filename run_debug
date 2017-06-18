@@ -1,0 +1,3 @@
+DIR=`dirname $0`
+export FLASK_DEBUG=1
+FLASK_APP=$DIR/app.py flask run --host 0.0.0.0
