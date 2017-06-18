@@ -1,68 +1,67 @@
-<!doctype html>
-<html>
-  <head>
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/normalize.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/skeleton.css') }}' />
-    <link rel=stylesheet type=text/css href='{{ url_for('static', filename='css/style.css') }}' />
-    <link rel=stylesheet type=text/css href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' />
-
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-    <script src='{{ url_for('static', filename='js/main.js') }}'></script>
-
-    <title>LineageOS CVE Checklist</title>
-  </head>
-  <body>
-    <div id='addcvedialog' title='Add new CVE'>
-      <input type='text' id='cvetoadd' placeholder='CVE-20XX-XXXX' size='30'><sup>1)</sup><br/>
-      <textarea placeholder='Applicable versions/platforms...' type='text' name='notes' id='cvenotes_input' cols='30'></textarea><br/>
-      <span style="font-size: 10pt;"><sup>1)</sup> You can use the prefix "LVT" for vulnerabilities without official CVE-ID</span>
-      <div id='addcveerror'></div>
-    </div>
-
-    <div id='addkerneldialog' title='Add new Kernel'>
-      <input type='text' id='kerneltoadd' placeholder='android_kernel_vendor_name' size='30'><sup>1)</sup><br/>
-      <span style="font-size: 10pt;"><sup>1)</sup> Use the full github repo name, e.g. <i>android_kernel_yourvendor_kernelname</i></span>
-      <div id='addkernelerror'></div>
-    </div>
-
-    <div class='frame container'>
-    {% if deprecated %}
-    <h3 class="deprecated">List of deprecated kernels</h3>
-    {% endif %}
-    {% for column in kernels | slice(3) %}
-      <div class='four columns'>
-      {% for k in column %}
-        {% if loop.index0 == 0 or column[loop.index0-1].vendor != k.vendor%}
-          <div class='header'>{{ k.vendor }}</div>
-        {% endif %}
-        <div class='kernelrow'>
-          <a href='/{{ k.repo_name }}'>{{ k.device }} ({{ k.progress|int }} %)</a></br>
+{% extends "base.html" %}
+{% block title %}LineageOS CVE Tracker{% endblock %}
+{% block nav_home %}active{% endblock %}
+{% block content %}
+    <div id="add-cve-dialog" class="dialog">
+        <div class="title">Add CVE</div>
+        <div class="content">
+            <label>Name</label>
+            <input class="name" type="text" placeholder="CVE-20YY-XXXX">
+            <label>Details</label>
+            <textarea class="details" placeholder="CVE details..."></textarea>
+            <div class="error"></div>
         </div>
-      {% endfor %}
-      </div>
-    {% endfor %}
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="add">ADD</button>
+        </div>
     </div>
-    <div class='frame container'>
-      {% if authorized %}
-      {% if needs_auth %}
-      <a href="/logout">Logout</a> &nbsp;|&nbsp;
-      {% endif %}
-      {% if not deprecated %}
-      <a href="javascript:void(0)" onclick="addcve()">Add new CVE</a> &nbsp;|&nbsp;
-      <a href="javascript:void(0)" onclick="addkernel()">Add new Kernel</a> &nbsp;|&nbsp;
-      {% endif %}
-      {% elif needs_auth %}
-      <a href="/login">Login</a> &nbsp;|&nbsp;
-      {% endif %}
-      {% if not deprecated %}
-      <a href="/deprecated">Show deprecated kernels</a> &nbsp;|&nbsp;
-      {% else %}
-      <a href="/">Show non-deprecated kernels</a> &nbsp;|&nbsp;
-      {% endif %}
-      <a href="https://github.com/LineageOS/cve_tracker">Source</a>
-      <br>
-      Version: {{ version }}
+
+    <div id="add-kernel-dialog" class="dialog">
+        <div class="title">Add kernel</div>
+        <div class="content">
+            <label>Repository</label>
+            <input class="repo" type="text" placeholder="android_kernel_vendor_device">
+            <div class="error"></div>
+        </div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="add">ADD</button>
+        </div>
     </div>
-  </body>
-</html>
+
+    <div class="card container">
+        <div class="header">
+            <span class="title">Kernels</span>
+        </div>
+        <div class="kernels container">
+            {%- for column in kernels | slice(3) %}
+                <div class="four columns">
+                {%- for k in column %}
+                    {% if loop.first or column[loop.index0 - 1].vendor != k.vendor -%}
+                        <div class="vendor">
+                            <span class="title">{{ k.vendor }}</span>
+                    {%- endif %}
+                            <div class="kernel">
+                                <a class="repo" href="/{{ k.repo_name }}">{{ k.device }}</a>
+                                <span>({{ k.progress | int }} %)</span>
+                            </div>
+                    {%- if loop.last or column[loop.index0 + 1].vendor != k.vendor %}
+                        </div>
+                    {% endif -%}
+                {%- endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if authorized %}
+            <div class="actions container">
+                <button id="open-add-cve-dialog">ADD CVE</button>
+                <button id="open-add-kernel-dialog">ADD KERNEL</button>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
