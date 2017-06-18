@@ -2,6 +2,7 @@
 import base64
 import functools
 import json
+import operator
 import os
 import subprocess
 import sys
@@ -137,6 +138,31 @@ def index():
 @app.route("/deprecated")
 def show_deprecated():
     return show_kernels(True)
+
+@app.route("/devices")
+def show_devices():
+    devs = []
+    for kernelRepo, deviceRepos in devices.items():
+        try:
+            kernel = Kernel.objects.get(repo_name=kernelRepo)
+        except:
+            next
+
+        if kernel["deprecated"]:
+            next
+
+        for repo in deviceRepos:
+            vendor, device = utils.getVendorNameFromRepo(repo)
+            devs.append({
+            'vendor': vendor,
+            'device': device,
+            'kernel': kernelRepo,
+            'progress': kernel["progress"]
+            })
+    devs.sort(key=operator.itemgetter('vendor', 'device'))
+    return render_template('devices.html',
+                           devices=devs,
+                           authorized=logged_in())
 
 @app.route("/<string:k>")
 def kernel(k):
