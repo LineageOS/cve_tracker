@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_fcbb44c2",
+        "filename": "app.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2017-06-19T07:27:24Z",
+      "side": 1,
+      "message": "Opening and closing brackets in python? Heretics",
+      "range": {
+        "startLine": 240,
+        "startChar": 9,
+        "endLine": 240,
+        "endChar": 10
+      },
+      "revId": "04442ca3cb00818b938a67fc2916d309f93ba8e3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
