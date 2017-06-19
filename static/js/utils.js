@@ -61,4 +61,36 @@
         textarea.parentElement.removeChild(textarea);
     }
     window.copyToClipboard = copyToClipboard;
+
+    function registerDialogCloseOnKey(dialogList, key) {
+        if (!dialogList || !(dialogList instanceof Array)) {
+            console.log("No dialogList (Array of Dialog) passed!");
+            return;
+        }
+
+        document.addEventListener('keydown', function(event) {
+            event = event || window.event;
+            var keyCode = event.keyCode || event.which;
+            if (keyCode == key || keyCode == key) {
+                var dlg;
+                var zIndex = 0;
+                dialogList.forEach(function(dialog, index, array) {
+                    if (dialog.isOpen() && dialog.element.style.zIndex > zIndex) {
+                        dlg = dialog;
+                        zIndex = dialog.element.style.zIndex;
+                    }
+                });
+
+                if (dlg && zIndex != 0) {
+                    dlg.close();
+                }
+            }
+        });
+    }
+    window.registerDialogCloseOnKey = registerDialogCloseOnKey;
+
+    function registerDialogCloseOnESC(dialogList) {
+        registerDialogCloseOnKey(dialogList, 27);
+    }
+    window.registerDialogCloseOnESC = registerDialogCloseOnESC;
 })();

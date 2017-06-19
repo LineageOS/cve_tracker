@@ -234,4 +234,10 @@
         value: document.querySelector('#progress-bar').getAttribute('value')
     });
     window.progressBar = progressBar;
+
+    var dialogList = [
+        CVEInfoDialog,
+        deprecateKernelDialog
+    ];
+    registerDialogCloseOnESC(dialogList);
 })();

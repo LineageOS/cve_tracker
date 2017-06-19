@@ -234,4 +234,12 @@
     }
 
     getLinks();
+
+    var dialogList = [
+        deleteLinkDialog,
+        deleteCVEDialog,
+        addLinkDialog,
+        editLinkDialog
+    ];
+    registerDialogCloseOnESC(dialogList);
 })();
