@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_d525f3ab",
+        "filename": "utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2017-06-20T08:13:57Z",
+      "side": 1,
+      "message": "\u0027splitted\u0027 isn\u0027t a word. The past tense of split is split. Maybe \u0027parts\u0027 would be a better name",
+      "revId": "2504127a91308f70bfd1598e1d5f6c023fbae9ac",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_753ae7ce",
+        "filename": "utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2017-06-20T08:13:57Z",
+      "side": 1,
+      "message": "\u003e\u003d 5",
+      "revId": "2504127a91308f70bfd1598e1d5f6c023fbae9ac",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_95376be3",
+        "filename": "utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2017-06-20T08:13:57Z",
+      "side": 1,
+      "message": "\u0027_\u0027.join(splitted[3:])",
+      "revId": "2504127a91308f70bfd1598e1d5f6c023fbae9ac",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
