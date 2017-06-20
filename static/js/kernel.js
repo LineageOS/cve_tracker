@@ -212,11 +212,16 @@
     }
 
     function restoreNotesEditable() {
-        CVEInfoDialog.actions.editNotes.classList.add('mdi-pencil');
         CVEInfoDialog.access.notesField.setAttribute('contenteditable', false);
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
         CVEInfoDialog.access.error.innerHTML = '';
-        CVEInfoDialog.actions.save.disabled = true
+        // Only logged in users do have these
+        if (CVEInfoDialog.actions.editNotes) {
+            CVEInfoDialog.actions.editNotes.classList.add('mdi-pencil');
+        }
+        if (CVEInfoDialog.actions.save) {
+            CVEInfoDialog.actions.save.disabled = true;
+        }
     }
 
     function shorten(text, maxLength) {

@@ -14,15 +14,21 @@ def getVendorNameFromRepo(repo):
     if len(repo) == 0:
         return v, n
 
-    if len(repo.split('_')) < 2:
+    splitted = repo.split('_')
+    splittedLen = len(splitted)
+    if splittedLen < 2:
         # lge-kernel-mako
         if len(repo.split('-')) >= 3:
             v = repo.split('-')[0]
             n = repo.split('-')[2]
-    elif len(repo.split('_')) == 4:
+    elif splittedLen == 4:
         # android_kernel_samsung_manta
-        v = repo.split('_')[2]
-        n = repo.split('_')[3]
+        v = splitted[2]
+        n = splitted[3]
+    elif splittedLen == 5:
+        # android_device_sony_pollux_windy
+        v = splitted[2]
+        n = splitted[3] + '_' + splitted[4]
 
     return v, n
 
