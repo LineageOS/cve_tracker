@@ -100,7 +100,8 @@ def authorized(access_token):
         session['github_token'] = access_token
         return redirect(next_url)
     else:
-        return 'Invalid org, {} not in [{}]'.format(app.config['GITHUB_ORG'], ', '.join(orgs))
+        msg = 'You need to be part of the GitHub organisation {}, only found membership in [{}]'
+        return msg.format(app.config['GITHUB_ORG'], ', '.join(orgs))
 
 @app.route("/logout")
 def logout():
@@ -162,6 +163,7 @@ def show_devices():
     devs.sort(key=operator.itemgetter('vendor', 'device'))
     return render_template('devices.html',
                            devices=devs,
+                           needs_auth=needs_auth(),
                            authorized=logged_in())
 
 @app.route("/<string:k>")
@@ -196,6 +198,7 @@ def kernel(k):
                            status_ids = Status.objects(),
                            patches = patches,
                            devices = devs,
+                           needs_auth=needs_auth(),
                            authorized=logged_in(),
                            show_last_update=show_last_update())
 
@@ -211,6 +214,7 @@ def cve_status(c):
                            patches = patches,
                            status_ids = Status.objects(),
                            statuses = statuses,
+                           needs_auth=needs_auth(),
                            authorized=logged_in())
 
 @app.route("/update", methods=['POST'])
