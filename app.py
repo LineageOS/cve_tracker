@@ -53,6 +53,9 @@ app.config['DEBUG_TB_PANELS'] = [
 
 toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
 
+# Ensure status descriptions are in sync with statuses.txt
+utils.updateStatusDescriptions()
+
 @app.cli.command()
 def update_progress():
     for k in Kernel.objects():
