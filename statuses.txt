@@ -1,5 +1,5 @@
 1|unpatched
 2|patched
-3|does not apply
-4|waiting on upstream
+3|unaffected
+4|upstream hold
 5|on gerrit

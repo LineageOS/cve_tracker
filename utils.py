@@ -57,7 +57,7 @@ def addKernel(reponame, last_update=datetime.datetime.now()):
     if v is not "error" and n is not "error":
         Kernel(repo_name=reponame, last_github_update=last_update, vendor=v, device=n).save()
         for c in CVE.objects():
-            Patches(cve=c.id, kernel=Kernel.objects.get(repo_name=reponame).id, status=Status.objects.get(text='unpatched').id).save()
+            Patches(cve=c.id, kernel=Kernel.objects.get(repo_name=reponame).id, status=Status.objects.get(short_id=1).id).save()
 
 def nukeCVE(cve):
     if CVE.objects(cve_name=cve):
@@ -67,7 +67,20 @@ def nukeCVE(cve):
         CVE.objects(id=cve_id).delete()
 
 def getProgress(kernel):
-    patched = Patches.objects(kernel=kernel, status=Status.objects.get(text='patched').id).count()
-    dna = Patches.objects(kernel=kernel, status=Status.objects.get(text='does not apply').id).count()
+    patched = Patches.objects(kernel=kernel, status=Status.objects.get(short_id=2).id).count()
+    dna = Patches.objects(kernel=kernel, status=Status.objects.get(short_id=3).id).count()
     progress = 100 * (patched + dna) / CVE.objects().count()
     return progress
+
+def updateStatusDescriptions():
+    f = open('statuses.txt')
+    while True:
+        x = f.readline().rstrip()
+        if not x: break
+        sid = x.split('|')[0]
+        txt = x.split('|')[1]
+        if Status.objects(short_id=sid).count() > 0:
+            if not Status.objects(short_id=sid).first()['text'] == txt:
+                Status.objects(short_id=sid).update(text=txt)
+        else:
+            Status(short_id=sid, text=txt).save()
