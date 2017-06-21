@@ -52,6 +52,19 @@ app.config['DEBUG_TB_PANELS'] = [
 
 toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
 
+# Ensure status descriptions are in sync with statuses.txt
+f = open('statuses.txt')
+while True:
+    x = f.readline().rstrip()
+    if not x: break
+    sid = x.split('|')[0]
+    txt = x.split('|')[1]
+    if Status.objects(short_id=sid).count() > 0:
+        if not Status.objects(short_id=sid).first()['text'] == txt:
+            Status.objects(short_id=sid).update(text=txt)
+    else:
+        Status(short_id=sid, text=txt).save()
+
 @app.cli.command()
 def update_progress():
     for k in Kernel.objects():
