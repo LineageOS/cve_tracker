@@ -162,6 +162,7 @@ def show_devices():
     devs.sort(key=operator.itemgetter('vendor', 'device'))
     return render_template('devices.html',
                            devices=devs,
+                           needs_auth=needs_auth(),
                            authorized=logged_in())
 
 @app.route("/<string:k>")
@@ -196,6 +197,7 @@ def kernel(k):
                            status_ids = Status.objects(),
                            patches = patches,
                            devices = devs,
+                           needs_auth=needs_auth(),
                            authorized=logged_in(),
                            show_last_update=show_last_update())
 
@@ -211,6 +213,7 @@ def cve_status(c):
                            patches = patches,
                            status_ids = Status.objects(),
                            statuses = statuses,
+                           needs_auth=needs_auth(),
                            authorized=logged_in())
 
 @app.route("/update", methods=['POST'])
