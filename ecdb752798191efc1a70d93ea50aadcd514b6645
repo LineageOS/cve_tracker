@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_ab200c9c",
+        "filename": "utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 15734
+      },
+      "writtenOn": "2017-06-21T19:04:56Z",
+      "side": 1,
+      "message": "If we already know the ID here, why don\u0027t we use it directly? Or is ID !\u003d short-id in this case?",
+      "revId": "ecdb752798191efc1a70d93ea50aadcd514b6645",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
