@@ -78,7 +78,7 @@ def nukeCVE(cve):
 def getProgress(kernel):
     patched = Patches.objects(kernel=kernel, status=Status.objects.get(short_id=2).id).count()
     dna = Patches.objects(kernel=kernel, status=Status.objects.get(short_id=3).id).count()
-    progress = 100 * (patched + dna) / CVE.objects().count()
+    progress = 100 * patched / max(1, CVE.objects().count() - dna)
     return progress
 
 def updateStatusDescriptions():
