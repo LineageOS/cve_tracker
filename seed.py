@@ -29,18 +29,7 @@ while True:
         print("Skipped '" + x + "' because it was already added!")
 
 # Add possible statuses
-f = open('statuses.txt')
-while True:
-    x = f.readline().rstrip()
-    if not x: break
-    sid = x.split('|')[0]
-    txt = x.split('|')[1]
-    check1 = Status.objects(short_id=sid).first()
-    check2 = Status.objects(text=txt).first()
-    if not check1 and not check2:
-        Status(short_id=sid, text=txt).save()
-    else:
-        print("Skipped adding status '" + x + "' because either id or text were already added!")
+utils.updateStatusDescriptions()
 
 # Add / update kernels
 utils.getKernelTableFromGithub(app)
