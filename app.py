@@ -4,6 +4,7 @@ import functools
 import json
 import operator
 import os
+import re
 import subprocess
 import sys
 
@@ -243,31 +244,29 @@ def addcve():
     r = request.get_json()
     cve = r['cve_id']
     notes = r['cve_notes']
-    if not notes:
-        notes = ""
-    if cve and len(notes) >= 10:
-        splitted = cve.split('-')
-        if CVE.objects(cve_name=cve):
-            errstatus = cve + " already exists!"
-        elif (len(splitted) != 3 or len(splitted[1]) != 4 or
-                (splitted[0] != "CVE" and splitted[0] != "LVT")):
-            errstatus = "'" + cve + "' is invalid!"
-        else:
-            CVE(cve_name=cve, notes=notes).save()
-            cve_id = CVE.objects.get(cve_name=cve)['id']
-            for k in Kernel.objects():
-                Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
-                k.progress = utils.getProgress(k.id)
-                k.save()
-            if splitted[0] != "LVT":
-                mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
-                Links(cve_id=cve_id, link=mitrelink+cve).save()
-            errstatus = "success"
+    # Match CVE-1990-0000 to CVE-2999-NNNNNNN (CVE or LVT) to ensure at least a little sanity
+    pattern = re.compile("^(CVE|LVT)-(199\d|2\d{3})-(\d{4}|[1-9]\d{4,})$")
+
+    if not cve:
+        errstatus = "No CVE specified!"
+    elif not pattern.match(cve):
+        errstatus = "CVE '" + cve + "' is invalid!"
+    elif CVE.objects(cve_name=cve):
+        errstatus = cve + " already exists!"
+    elif not notes or len(notes) < 10:
+        errstatus = "Notes have to be at least 10 characters!";
     else:
-        if not cve:
-            errstatus = "No CVE specified!"
-        elif len(notes) < 10:
-            errstatus = "Notes have to be at least 10 characters!";
+        CVE(cve_name=cve, notes=notes).save()
+        cve_id = CVE.objects.get(cve_name=cve)['id']
+        for k in Kernel.objects():
+            Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
+            k.progress = utils.getProgress(k.id)
+            k.save()
+        # add a mitre link for non-internal CVEs
+        if not cve.startswith("LVT"):
+            mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
+            Links(cve_id=cve_id, link=mitrelink+cve).save()
+        errstatus = "success"
 
     return jsonify({'error': errstatus})
 
@@ -324,8 +323,10 @@ def addlink():
     l = r['link_url']
     d = r['link_desc']
 
-    if not CVE.objects(id=c):
+    if not c or not CVE.objects(id=c):
         errstatus = "CVE doesn't exist"
+    elif not l or not urllib.parse.urlparse(l):
+        errstatus = "Link is invalid!"
     elif Links.objects(cve_id=c, link=l):
         errstatus = "Link already exists!"
     else:
@@ -358,11 +359,11 @@ def editnotes():
     c = r['cve_id']
     n = r['cve_notes']
 
-    if c and CVE.objects(id=c):
+    if not n or len(n) < 10:
+        errstatus = "Notes have to be at least 10 characters!";
+    elif c and CVE.objects(id=c):
         CVE.objects(id=c).update(set__notes=r['cve_notes'])
         errstatus = "success"
-    elif not n or len(n) < 10:
-        errstatus = "Notes have to be at least 10 characters!";
     else:
         errstatus = "CVE doesn't exist"
 
