@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import base64
+import datetime
 import functools
 import json
 import operator
@@ -103,6 +104,7 @@ def authorized(access_token):
         orgs = [x['login'] for x in req.json()]
     if app.config['GITHUB_ORG'] in orgs:
         session['github_token'] = access_token
+        getUserEmail(access_token)
         return redirect(next_url)
     elif len(orgs) == 0:
         msg = 'Couldn\'t find a GitHub membership in \'{}\''
@@ -111,6 +113,20 @@ def authorized(access_token):
         msg = ('Couldn\'t find a GitHub membership in \'{}\', only found these: {}')
         formatted = msg.format(app.config['GITHUB_ORG'], ', '.join(orgs))
     return error(formatted)
+
+def getUserEmail(access_token = None):
+    if access_token != None:
+        req = github.raw_request("GET", "user/emails", access_token=access_token)
+
+        if req.status_code == 200:
+            for x in req.json():
+                if x['primary'] == True:
+                    session['email'] = x['email']
+
+    if 'email' not in session:
+        session['email'] = ''
+
+    return session['email']
 
 @app.route("/logout")
 def logout():
@@ -273,9 +289,11 @@ def update():
     c = r['cve_id'];
     s = r['status_id'];
 
-    Patches.objects(kernel=k, cve=c).update(status=Status.objects.get(short_id=s).id)
+    status = Status.objects.get(short_id=s)
+    Patches.objects(kernel=k, cve=c).update(status=status.id)
     progress = utils.getProgress(k)
     Kernel.objects(id=k).update(progress=progress)
+    writeLog("patched", c, status.text)
     return jsonify({'error': 'success', 'progress': progress})
 
 
@@ -352,6 +370,7 @@ def editcve(cvename = None):
 def deletecve(cvename = None):
     if cvename and CVE.objects(cve_name=cvename):
         utils.nukeCVE(cvename)
+        writeLog("cve_delete", None, cvename)
         return render_template('deletedcve.html', cve_name=cvename)
     return error()
 
@@ -374,6 +393,7 @@ def addlink():
     else:
         Links(cve_id=c, link=l, desc=d).save()
         link_id = Links.objects.get(cve_id=c, link=l)['id']
+        writeLog("link_add", link_id, l + ' - ' + d)
         errstatus = "success"
 
     return jsonify({'error': errstatus, 'link_id': str(link_id)})
@@ -383,10 +403,14 @@ def addlink():
 def deletelink():
     errstatus = "Generic error"
     r = request.get_json()
-    l = r['link_id']
+    linkId = r['link_id']
 
-    if l and Links.objects(id=l):
-        Links.objects(id=l).delete()
+    if l and Links.objects(id=linkId):
+        data = Links.objects.get(id=linkId)
+        linkUrl = data['link']
+        linkDesc = data['desc']
+        Links.objects(id=linkId).delete()
+        writeLog("link_delete", linkId, linkUrl + ' - ' + linkDesc)
         errstatus = "success"
     else:
         errstatus = "Link doesn't exist"
@@ -398,13 +422,14 @@ def deletelink():
 def editnotes():
     errstatus = "Generic error"
     r = request.get_json()
-    c = r['cve_id']
-    n = r['cve_notes']
+    cveId = r['cve_id']
+    notes = r['cve_notes']
 
-    if not n or len(n) < 10:
+    if not notes or len(notes) < 10:
         errstatus = "Notes have to be at least 10 characters!";
-    elif c and CVE.objects(id=c):
-        CVE.objects(id=c).update(set__notes=r['cve_notes'])
+    elif cveId and CVE.objects(id=cveId):
+        CVE.objects(id=cveId).update(set__notes=notes)
+        writeLog("notes_edit", cveId, notes)
         errstatus = "success"
     else:
         errstatus = "CVE doesn't exist"
@@ -416,10 +441,14 @@ def editnotes():
 def editlink():
     errstatus = "Generic error"
     r = request.get_json()
-    l = r['link_id']
+    linkId = r['link_id']
+    url = r['link_url']
+    desc = r['link_desc']
 
-    if l and Links.objects(id=l):
-        Links.objects(id=l).update(set__link=r['link_url'], set__desc=r['link_desc'])
+    if l and Links.objects(id=linkId):
+        Links.objects(id=linkId).update(set__link=url, set__desc=desc)
+        writeLog("link_edit_url", l, url);
+        writeLog("link_edit_desc", l, desc);
         errstatus = "success"
     else:
         errstatus = "Link doesn't exist"
@@ -466,5 +495,10 @@ def deprecate():
     else:
       new_state = True
     Kernel.objects(id=k).update(deprecated=new_state)
+    writeLog("deprecated", k, str(new_state))
 
     return jsonify({'error': "success"})
+
+def writeLog(action, affectedId, result):
+    Log(user=getUserEmail(), action=action, dateAndTime=datetime.datetime.now(),
+        affectedId=affectedId, result=result).save()
