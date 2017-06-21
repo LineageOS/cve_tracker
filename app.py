@@ -94,13 +94,19 @@ def authorized(access_token):
     if access_token is None:
         return redirect(next_url)
     req = github.raw_request("GET", "user/orgs", access_token=access_token)
+    orgs = []
     if req.status_code == 200:
         orgs = [x['login'] for x in req.json()]
     if app.config['GITHUB_ORG'] in orgs:
         session['github_token'] = access_token
         return redirect(next_url)
+    elif len(orgs) == 0:
+        msg = 'Couldn\'t find any a GitHub membership in \'{}\''
+        formatted = msg.format(app.config['GITHUB_ORG'])
     else:
-        return 'Invalid org, {} not in [{}]'.format(app.config['GITHUB_ORG'], ', '.join(orgs))
+        msg = ('Couldn\'t find a GitHub membership in \'{}\', only found these: {}')
+        formatted = msg.format(app.config['GITHUB_ORG'], ', '.join(orgs))
+    return error(formatted)
 
 @app.route("/logout")
 def logout():
@@ -162,6 +168,7 @@ def show_devices():
     devs.sort(key=operator.itemgetter('vendor', 'device'))
     return render_template('devices.html',
                            devices=devs,
+                           needs_auth=needs_auth(),
                            authorized=logged_in())
 
 @app.route("/<string:k>")
@@ -196,6 +203,7 @@ def kernel(k):
                            status_ids = Status.objects(),
                            patches = patches,
                            devices = devs,
+                           needs_auth=needs_auth(),
                            authorized=logged_in(),
                            show_last_update=show_last_update())
 
@@ -211,6 +219,7 @@ def cve_status(c):
                            patches = patches,
                            status_ids = Status.objects(),
                            statuses = statuses,
+                           needs_auth=needs_auth(),
                            authorized=logged_in())
 
 @app.route("/update", methods=['POST'])
