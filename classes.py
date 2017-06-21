@@ -30,3 +30,10 @@ class Links(Document):
     cve_id = ObjectIdField()
     link = StringField(required=True)
     desc = StringField(required=False)
+
+class Log(Document):
+    user = StringField(required=True)
+    action = StringField(required=True)
+    dateAndTime = DateTimeField(required=True)
+    affectedId = ObjectIdField(required=False)
+    result = StringField(required=True)
