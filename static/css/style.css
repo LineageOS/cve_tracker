@@ -7,6 +7,7 @@ html {
     height: 100%;
 }
 body {
+    height: 100%;
     min-height: 100%;
     padding-top: 100px;
     color: rgba(0, 0, 0, 0.87);
@@ -374,6 +375,13 @@ input {
     .dialog > .title {
         pointer-events: none;
     }
+}
+
+/* Wrapper */
+#wrapper {
+    min-height: 100%;
+    padding-bottom: 150px;
+    position: relative;
 }
 
 /* Footer */

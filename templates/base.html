@@ -41,18 +41,21 @@
                 </div>
             </div>
         </div>
-        {% block content %}{% endblock %}
-        <div id="footer">
-            <div class="container">
-                <div class="twelve columns">
-                    <img class="logo" src="/static/img/logo-grey.png" alt="LineageOS Logo">
-                    <p class="muted">
-                        <b>© 2017 The LineageOS Project</b><br>
-                        {% if version %}
-                        Version: {{ version }}<br>
-                        {% endif %}
-                        <a href="https://github.com/LineageOS/cve_tracker">Source code on GitHub</a>
-                    </p>
+        <div id="wrapper">
+            {% block content %}{% endblock %}
+
+            <div id="footer" class="fixed">
+                <div class="container">
+                    <div class="twelve columns">
+                        <img class="logo" src="/static/img/logo-grey.png" alt="LineageOS Logo">
+                        <p class="muted">
+                            <b>© 2017 The LineageOS Project</b><br>
+                            {% if version %}
+                            Version: {{ version }}<br>
+                            {% endif %}
+                            <a href="https://github.com/LineageOS/cve_tracker">Source code on GitHub</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
