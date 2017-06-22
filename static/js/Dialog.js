@@ -1,4 +1,12 @@
 (function() {
+    function isEscapeKey(e) {
+        var isEscape = false;
+        if (e.key == 'Escape' || e.key == 'Esc' || e.keyCode == 27) {
+            isEscape = true;
+        }
+        return isEscape;
+    }
+
     function _draggable(element, target) {
         var moveOffsetX;
         var moveOffsetY;
@@ -23,15 +31,33 @@
         target.addEventListener('mousedown', dragStart);
     }
 
+    var dialogs = [];
     var focused;
     var focusedZIndex = 1000;
 
+    function sortDialogs() {
+        dialogs.sort(function(a, b) {
+            var isOpen = b.isOpen() - a.isOpen();
+            var elevationDelta = b.getElevation() - a.getElevation();
+            return isOpen || elevationDelta;
+        });
+    }
+
     function Dialog(o) {
         var d = this;
+        dialogs.push(d);
         d.element = o.element;
         d.access = {};
         d.actions = {};
         var drag = d.element.querySelector(o.drag);
+
+        d.getElevation = function() {
+            return parseInt(d.element.style.zIndex, 10);
+        };
+
+        d.setElevation = function(elevation) {
+            d.element.style.zIndex = elevation;
+        };
 
         d.isFocused = function() {
             return focused == d;
@@ -39,7 +65,7 @@
 
         d.focus = function() {
             if (!d.isFocused()) {
-                d.element.style.zIndex = focusedZIndex++;
+                d.setElevation(focusedZIndex++);
                 focused = d;
             }
         };
@@ -127,6 +153,13 @@
             });
         }
     }
+
+    document.addEventListener('keydown', function(e) {
+        if (isEscapeKey(e)) {
+            sortDialogs();
+            dialogs[0].close();
+        }
+    });
 
     window.Dialog = Dialog;
 })();
