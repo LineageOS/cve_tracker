@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_ab0c8c95",
+        "filename": "static/js/Dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2017-06-22T08:31:35Z",
+      "side": 1,
+      "message": "space",
+      "revId": "ef60a3b4ce9e537865a7d9714bf856580fdb1948",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_cb11d0ad",
+        "filename": "static/js/Dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2017-06-22T08:31:35Z",
+      "side": 1,
+      "message": "space",
+      "revId": "ef60a3b4ce9e537865a7d9714bf856580fdb1948",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
