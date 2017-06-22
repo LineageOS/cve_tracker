@@ -328,6 +328,8 @@ def addlink():
 
     if not c or not CVE.objects(id=c):
         errstatus = "CVE doesn't exist"
+    elif not l or not utils.isValidUrl(l):
+        errstatus = "Link is invalid!"
     elif Links.objects(cve_id=c, link=l):
         errstatus = "Link already exists!"
     else:

@@ -2,10 +2,18 @@
 
 import app
 import datetime
+import urllib
 
 from classes import *
 from github import Github
 from flask_mongoengine import MongoEngine
+
+def isValidUrl(x):
+    result = urllib.parse.urlparse(x)
+    if result.scheme and result.netloc:
+        return True
+    else:
+        return False
 
 def getVendorNameFromRepo(repo):
     v = "error"
