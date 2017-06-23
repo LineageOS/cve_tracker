@@ -1,5 +1,5 @@
 (function() {
-	function ThemeEngine(o) {
+	function ThemeSwitcher(o) {
 		var te = this;
 
 		te.load = function(name) {
@@ -12,7 +12,7 @@
 		};
 
 		te.get = function() {
-			return localStorage.getItem('theme')
+			return localStorage.getItem('theme');
 		};
 
 		var setTheme = te.get();
@@ -21,5 +21,5 @@
 		}
 		te.set(setTheme);
 	}
-	window.ThemeEngine = ThemeEngine;
+	window.ThemeSwitcher = ThemeSwitcher;
 })();

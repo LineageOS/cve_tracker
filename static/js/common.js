@@ -27,22 +27,29 @@
     };
     var defaultTheme = 'light';
 
-    var themeEngine = new ThemeEngine({
-        target: document.querySelector('#theme-engine-target'),
+    var themeSwitcher = new ThemeSwitcher({
+        target: document.querySelector('#theme-target'),
         default: defaultTheme,
         themes: themes
     });
 
-    var themeSelector = document.querySelector('#theme-selector');
-    Object.keys(themes).forEach(function(name) {
-        var themeOption = createElement('option', {
-            content: name,
-            value: name,
-            parent: themeSelector
-        });
-    });
-    themeSelector.value = themeEngine.get();
-    themeSelector.onchange = function(e) {
-        themeEngine.set(themeSelector.value);
+    function setTheme(from, value) {
+        themeSwitcher.set(value);
+        from.innerHTML = toTitleCase(value);
     }
+    var themeMenuSelector = '#theme-menu';
+    var themeMenuItems = Object.keys(themes).map(function(i) {
+        return {
+            value: i,
+            text: i
+        };
+    });
+    var themeMenu = new ContextMenu({
+        selector: themeMenuSelector,
+        trigger: 'click',
+        callback: setTheme,
+        items: themeMenuItems
+    });
+    var themeMenuElement = document.querySelector(themeMenuSelector);
+    setTheme(themeMenuElement, themeSwitcher.get());
 })();

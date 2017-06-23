@@ -61,4 +61,13 @@
         textarea.parentElement.removeChild(textarea);
     }
     window.copyToClipboard = copyToClipboard;
+
+    function toTitleCase(s) {
+        var words = s.split(' ');
+        var titleCaseWords = words.map(function(word) {
+            return word[0].toUpperCase() + word.substr(1);
+        });
+        return titleCaseWords.join(' ');
+    }
+    window.toTitleCase = toTitleCase;
 })();

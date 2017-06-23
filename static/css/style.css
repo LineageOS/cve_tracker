@@ -150,7 +150,10 @@ input {
 
 /* Context menu */
 .context-menu {
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
+    top: 0;
+    left: 0;
     position: absolute;
     border-radius: 2px;
     padding: 8px 0;
@@ -161,7 +164,8 @@ input {
     -moz-user-select: none;
 }
 .context-menu.active {
-    display: block;
+    visibility: visible;
+    pointer-events: all;
 }
 .context-menu > * {
     cursor: pointer;
@@ -356,6 +360,12 @@ input {
 }
 #footer .muted b {
     font-weight: 700;
+}
+#footer #theme-menu {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 /* Kernel list */
