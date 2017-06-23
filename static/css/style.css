@@ -427,10 +427,23 @@ input {
 .cves .cve > span {
     cursor: pointer;
 }
+.cves .cve .severity.critical {
+    color: #ff0000;
+}
+.cves .cve .severity.high {
+    color: #ff4e13;
+}
+.cves .cve .severity.medium {
+    color: #ff9c27;
+}
+.cves .cve .severity.low {
+    color: #ffeb3b;
+}
 .cves .cve .name {
     display: inline-block;
     margin-right: 5px;
 }
+
 /* Progress bar */
 #progress {
     height: 8px;
@@ -494,11 +507,19 @@ input {
 }
 
 /* CVE Info Dialog */
-#cve-info-dialog .title .name {
+#cve-info-dialog .title > * {
     display: inline-block;
+    vertical-align: middle;
+}
+#cve-info-dialog .title #cvss_score {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 50%;
 }
 #cve-info-dialog .title .copy {
-    display: inline-block;
     text-align: center;
     width: 28px;
     font-size: 16px;
@@ -511,4 +532,27 @@ input {
     position: absolute;
     right: 0px;
     top: 0px;
+}
+
+#cvss_score {
+    color: #fff;
+}
+#cvss_score.s0,
+#cvss_score.s1,
+#cvss_score.s2,
+#cvss_score.s3 {
+    background: #ffeb3b;
+}
+#cvss_score.s4,
+#cvss_score.s5,
+#cvss_score.s6 {
+    background: #ff9c27;
+}
+#cvss_score.s7,
+#cvss_score.s8 {
+    background: #ff4e13;
+}
+#cvss_score.s9,
+#cvss_score.s10 {
+    background: #ff0000 ;
 }

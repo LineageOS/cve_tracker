@@ -56,6 +56,7 @@
         }],
         access: {
             name: '.name',
+            cvss_score: '#cvss_score',
             notesField: '.notes .field',
             links: '.links',
             error: '.error'
@@ -90,8 +91,10 @@
         }
     }
 
-    function openInfo(cve_name, cve_id) {
+    function openInfo(cve_name, cve_id, cvss_score) {
         CVEInfoDialog.access.name.innerHTML = cve_name;
+        CVEInfoDialog.access.cvss_score.innerHTML = cvss_score;
+        CVEInfoDialog.access.cvss_score.className = 's' + Math.floor(cvss_score);
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
         CVEInfoDialog.access.notesField.innerHTML = 'Loading ...';
         CVEInfoDialog.access.links.innerHTML = 'Loading ...';
@@ -107,8 +110,9 @@
     cves.forEach(function(cve) {
         var name = cve.getAttribute('cve_name');
         var id = cve.getAttribute('cve_id');
+        var cvss_score = cve.getAttribute('cvss_score');
         cve.addEventListener('click', function() {
-            openInfo(name, id);
+            openInfo(name, id, cvss_score);
         });
     });
 
