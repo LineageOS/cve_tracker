@@ -41,12 +41,6 @@
             selector: '.notes .edit',
             id: 'editNotes'
         }, {
-            callback: editCVE,
-            selector: '.actions .edit'
-        }, {
-            callback: compareCVE,
-            selector: '.actions .compare'
-        }, {
             callback: cancelCVEInfoDialog,
             selector: '.actions .cancel'
         }, {
@@ -58,25 +52,15 @@
             name: '.name',
             notesField: '.notes .field',
             links: '.links',
-            error: '.error'
+            error: '.error',
+            edit: '.actions .edit',
+            compare: '.actions .compare'
         }
     });
 
     function copyCVEName(button) {
         var d = this;
         copyToClipboard(d.access.name.innerHTML);
-    }
-
-    function editCVE(button) {
-        var d = this;
-        var cve_name = d.element.getAttribute('cve_name');
-        window.location = '/editcve/' + cve_name;
-    }
-
-    function compareCVE(button) {
-        var d = this;
-        var cve_name = d.element.getAttribute('cve_name');
-        window.location = '/status/' + cve_name;
     }
 
     function cancelCVEInfoDialog(button) {
@@ -95,6 +79,8 @@
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
         CVEInfoDialog.access.notesField.innerHTML = 'Loading ...';
         CVEInfoDialog.access.links.innerHTML = 'Loading ...';
+        CVEInfoDialog.access.edit.href = '/editcve/' + cve_name;
+        CVEInfoDialog.access.compare.href = '/status/' + cve_name;
         CVEInfoDialog.element.setAttribute('cve_name', cve_name);
         CVEInfoDialog.element.setAttribute('cve_id', cve_id);
         restoreNotesEditable();
