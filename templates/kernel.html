@@ -37,6 +37,9 @@
                 CVE-20YY-XXX
             </div>
             <i class="copy mdi mdi-content-copy"></i>
+            <div id="cvss_score">
+                -1
+            </div>
         </div>
         <div class="content">
             <div class="notes">
@@ -96,7 +99,19 @@
                 <div class="four columns">
                     {%- for c in column %}
                         <div class="cve" id="{{ c.cve_name }}">
-                            <span class="name" cve_id="{{ c.id }}" cve_name="{{ c.cve_name }}">{{ c.cve_name }}</span>
+                            {% if c.cvss_score >= 9 %}
+                                {% set severity = "critical" %}
+                            {% elif c.cvss_score >= 7 %}
+                                {% set severity = "high" %}
+                            {% elif c.cvss_score >= 4 %}
+                                {% set severity = "medium" %}
+                            {% else %}
+                                {% set severity = "low" %}
+                            {% endif %}
+                            {% if severity %}
+                                <i class="severity {{ severity }} mdi mdi-fire" title="{{ severity }} severity"></i>
+                            {% endif %}
+                            <span class="name" cve_id="{{ c.id }}" cve_name="{{ c.cve_name }}" cvss_score="{{ c.cvss_score }}"">{{ c.cve_name }}</span>
                             <span class="status status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ c.id }}" status_id="{{ patch_status[counter[0]] }}"></span>
                         </div>
                     {%- if counter.append(counter.pop() + 1) %} {% endif %}
