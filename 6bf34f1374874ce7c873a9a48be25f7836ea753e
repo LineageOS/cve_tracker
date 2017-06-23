@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_0e134567",
+        "filename": "templates/base.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 16082
+      },
+      "writtenOn": "2017-06-23T06:12:02Z",
+      "side": 1,
+      "message": "Maybe a bit picky, but is it better to use a HTML entity for the copyright symbol here?",
+      "revId": "6bf34f1374874ce7c873a9a48be25f7836ea753e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_2e188980",
+        "filename": "templates/base.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 16082
+      },
+      "writtenOn": "2017-06-23T06:12:02Z",
+      "side": 1,
+      "message": "Is the theme selector not better to be in your theme change rather than here?",
+      "revId": "6bf34f1374874ce7c873a9a48be25f7836ea753e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
