@@ -1,0 +1,103 @@
+body {
+    color: rgba(0, 0, 0, 0.87);
+    background: #fafafa;
+}
+
+button {
+    color: #167c80;
+}
+button:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+button:disabled {
+    color: rgba(0, 0, 0, 0.26);
+    background: none;
+}
+
+label {
+    color: rgba(22, 124, 128, 0.7);
+}
+
+input, textarea, [contenteditable="true"] {
+    border-bottom: 1px solid rgba(22, 124, 128, 0.7);
+}
+input:focus, textarea:focus, [contenteditable="true"]:focus {
+    border-bottom: 2px solid rgba(22, 124, 128, 1);
+}
+
+.ripple-effect.in {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.context-menu  {
+    background: #ffffff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.context-menu > *:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+#navbar {
+    background: #ffffff;
+    color: #000000;
+}
+#navbar .items > *:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+#navbar .items > .active {
+    background: rgba(0, 0, 0, 0.04);
+}
+#navbar .items > .active:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.card {
+    background: #ffffff;
+}
+.card .header .subtitle a {
+    color: #167c80;
+}
+
+.dialog {
+    background: #ffffff;
+}
+.dialog .error {
+    color: #d50000;
+}
+
+#footer {
+    background: #eeeeee;
+}
+#footer .muted {
+    color: #777777;
+}
+
+#progress-bar {
+    background: rgba(22, 124, 128, 0.2);
+}
+#progress-bar-inner {
+    background: rgba(22, 124, 128, 1);
+}
+#progress-value {
+    color: #167c80;
+}
+
+.kernels .vendor .title {
+    color: #167c80;
+}
+
+.status_1 {
+    color: #d32f2f; /* Red 700 */
+}
+.status_2 {
+    color: #388e3c; /* Green 700 */
+}
+.status_3 {
+    color: #fbc02d; /* Yellow 700 */
+}
+.status_4 {
+    color: #1976d2; /* Blue 700 */
+}
+.status_5 {
+    color: #00796b; /* Teal 700 */
+}
