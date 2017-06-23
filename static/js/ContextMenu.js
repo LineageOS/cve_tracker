@@ -13,7 +13,6 @@
         var openedBy;
         c.open = function(from, x, y) {
             openedBy = from;
-            moveElement(element, x, y);
 
             element.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -23,6 +22,12 @@
                 c.close();
             });
 
+            var elementHeight = element.getBoundingClientRect().height;
+            var documentHeight = document.body.offsetHeight;
+            if(elementHeight > documentHeight - y) {
+                y = y - elementHeight;
+            }
+            moveElement(element, x, y);
             element.classList.add('active');
         };
 
