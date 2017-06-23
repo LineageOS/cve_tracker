@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_f1a04692",
+        "filename": "static/css/dark.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2017-06-23T14:09:28Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 1
+      },
+      "revId": "8d9716f6952f168bece711560bcfd892865736b4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_91ad3a8b",
+        "filename": "static/css/light.css",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2017-06-23T14:09:28Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 1
+      },
+      "revId": "8d9716f6952f168bece711560bcfd892865736b4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
