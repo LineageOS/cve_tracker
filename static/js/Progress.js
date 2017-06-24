@@ -3,7 +3,6 @@
         var p = this;
         var container = options.container;
         var element = options.element;
-        var maxWidth = container.offsetWidth;
         var valueField = options.valueField;
         var value = options.value;
         if (!value) {
@@ -11,7 +10,8 @@
         }
 
         p.set = function(newValue) {
-            element.style.width = newValue / 100 * maxWidth + 'px';
+            newValue = Math.Min(Math.max(0, newValue), 100);
+            element.style.width = newValue + '%';
             valueField.innerHTML = Math.floor(newValue) + '%';
             value = newValue;
         };
