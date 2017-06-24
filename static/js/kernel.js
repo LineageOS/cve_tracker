@@ -240,4 +240,7 @@
         value: document.querySelector('#progress-bar').getAttribute('value')
     });
     window.progressBar = progressBar;
+    window.addEventListener('resize', function() {
+       progressBar.resize();
+    });
 })();
