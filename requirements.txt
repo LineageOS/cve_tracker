@@ -6,3 +6,4 @@ flask_mongoengine
 Github-Flask
 mongoengine
 pygithub
+setuptools
