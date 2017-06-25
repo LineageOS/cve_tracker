@@ -32,7 +32,7 @@ while True:
 utils.updateStatusDescriptions()
 
 # Add / update kernels
-utils.getKernelTableFromGithub(app)
+utils.getKernelTableFromGithub()
 
 # Add patch statuses for each kernel
 f = open('patches.txt')

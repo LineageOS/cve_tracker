@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-import app
 import datetime
 
 from classes import *
 from github import Github
+from flask import Flask
 from flask_mongoengine import MongoEngine
 
 def getVendorNameFromRepo(repo):
@@ -32,8 +32,11 @@ def getVendorNameFromRepo(repo):
 
     return v, n
 
-def getKernelTableFromGithub(app):
+def getKernelTableFromGithub():
     print("Updating kernel list from github...this may take a long time...")
+
+    app = Flask(__name__)
+    app.config.from_pyfile('app.cfg')
 
     u = app.config['GITHUBUSER']
     p = app.config['GITHUBTOKEN']

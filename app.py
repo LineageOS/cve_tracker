@@ -64,7 +64,7 @@ def update_progress():
 
 @app.cli.command()
 def update_kernels():
-    utils.getKernelTableFromGithub(app)
+    utils.getKernelTableFromGithub()
 
 def logged_in():
     return ('github_token' in session and session['github_token']) or not needs_auth()
