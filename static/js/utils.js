@@ -66,4 +66,13 @@
         return Math.min(Math.max(lower, value), upper);
     }
     window.limitValue = limitValue;
+
+    function toTitleCase(s) {
+        var words = s.split(' ');
+        var titleCaseWords = words.map(function(word) {
+            return word[0].toUpperCase() + word.substr(1);
+        });
+        return titleCaseWords.join(' ');
+    }
+    window.toTitleCase = toTitleCase;
 })();
