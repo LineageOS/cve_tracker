@@ -7,6 +7,7 @@ html {
     height: 100%;
 }
 body {
+    height: 100%;
     min-height: 100%;
     padding-top: 100px;
     font-family: 'Roboto', sans-serif;
@@ -340,15 +341,19 @@ input {
     }
 }
 
+/* Wrapper */
+#wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
 /* Footer */
 #footer {
     width: 100%;
-    padding: 16px 24px;
-}
-#footer.fixed {
     position: absolute;
     left: 0;
     bottom: 0;
+    padding: 16px 24px;
 }
 #footer .logo {
     height: 18px;
