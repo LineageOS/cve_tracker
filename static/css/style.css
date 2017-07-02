@@ -9,11 +9,9 @@ html {
 body {
     min-height: 100%;
     padding-top: 100px;
-    color: rgba(0, 0, 0, 0.87);
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 16px;
-    background-color: #fafafa;
 }
 
 /* Resets */
@@ -39,7 +37,6 @@ button {
     min-width: 64px;
     margin: 0 8px;
     padding: 0 8px;
-    color: #167c80;
     font-size: 14px;
     font-weight: 500;
     line-height: 36px;
@@ -51,13 +48,6 @@ button {
 button:focus {
     outline: 0;
 }
-button:hover {
-    background: rgba(0, 0, 0, 0.06);
-}
-button:disabled {
-    color: rgba(0, 0, 0, 0.26);
-    background: none;
-}
 .mdi {
     cursor: pointer;
 }
@@ -67,11 +57,10 @@ label {
     display: block;
     padding-top: 8px;
     padding-bottom: 4px;
-    color: rgba(22, 124, 128, 0.7);
     font-size: 12px;
     line-height: 12px;
 }
-input, textarea, div[contenteditable="true"] {
+input, textarea, [contenteditable="true"] {
     outline: 0;
     width: 100%;
     display: block;
@@ -79,11 +68,7 @@ input, textarea, div[contenteditable="true"] {
     margin-bottom: 24px;
     font-size: 16px;
     line-height: 28px;
-    border-bottom: 1px solid rgba(22, 124, 128, 0.7);
     transition: border 0.25s ease-out;
-}
-input:focus, textarea:focus {
-    border-bottom: 2px solid rgba(22, 124, 128, 1);
 }
 input {
     height: 32px;
@@ -91,7 +76,6 @@ input {
 [contenteditable=true]:empty:before {
   content: attr(placeholder);
   display: block;
-  color: rgba(117, 117, 117, 1);
 }
 
 /* Grid */
@@ -151,7 +135,6 @@ input {
     transition: background;
 }
 .ripple-effect.in {
-    background: rgba(0, 0, 0, 0.1);
     animation-name: ripple-animation-in;
     animation-duration: 1s;
     animation-iteration-count: 1;
@@ -167,12 +150,13 @@ input {
 
 /* Context menu */
 .context-menu {
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
+    top: 0;
+    left: 0;
     position: absolute;
-    background: #ffffff;
     border-radius: 2px;
     padding: 8px 0;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     line-height: 32px;
     z-index: 10000;
     user-select: none;
@@ -180,20 +164,16 @@ input {
     -moz-user-select: none;
 }
 .context-menu.active {
-    display: block;
+    visibility: visible;
+    pointer-events: all;
 }
 .context-menu > * {
     cursor: pointer;
     padding: 0 16px;
 }
-.context-menu > *:hover {
-    background: rgba(0, 0, 0, 0.04);
-}
 
 /* Navbar */
 #navbar {
-    background: #ffffff;
-    color: #000000;
     width: 100%;
     position: fixed;
     top: 0;
@@ -224,16 +204,7 @@ input {
     font-size: 12px;
     border-radius: 2px;
 }
-#navbar .items > *:hover {
-    color: #000;
-    background-color: rgba(0, 0, 0, 0.02);
-}
-#navbar .items > .active {
-    background-color: rgba(0, 0, 0, 0.04);
-}
-#navbar .items > .active:hover {
-    background-color: rgba(0, 0, 0, 0.06);
-}
+
 #navbar .mdi {
     font-size: 32px;
 }
@@ -277,7 +248,6 @@ input {
     padding: 24px 0 0 0;
     margin-bottom: 24px;
     border-radius: 3px;
-    background-color: white;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 .card > * {
@@ -287,16 +257,12 @@ input {
     display: block;
     margin-bottom: 8px;
     font-size: 16px;
-    color: rgba(0, 0, 0, 0.87);
 }
 .card .header .title {
     margin-bottom: 12px;
     font-size: 24px;
     line-height: 36px;
     vertical-align: middle;
-}
-.card .header .subtitle a {
-    color: #167c80;
 }
 .card .actions {
     padding: 0 8px 8px 8px;
@@ -308,7 +274,6 @@ input {
     position: fixed;
     display: none;
     border-radius: 2px;
-    background: #fff;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     overflow: hidden;
     resize: both;
@@ -348,7 +313,6 @@ input {
 }
 .dialog .error {
     width: 100%;
-    color: #d50000;
     font-size: 14px;
     line-height: 20px;
     text-align: center;
@@ -378,7 +342,6 @@ input {
 
 /* Footer */
 #footer {
-    background-color: #eeeeee;
     width: 100%;
     padding: 16px 24px;
 }
@@ -392,12 +355,17 @@ input {
     margin-top: 16px;
 }
 #footer .muted {
-    color: #777;
     margin: 14px 0;
     font-size: 14px;
 }
 #footer .muted b {
     font-weight: 700;
+}
+#footer #theme-menu {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 /* Kernel list */
@@ -412,7 +380,6 @@ input {
     font-size: 12px;
     line-height: 12px;
     display: block;
-    color: #167c80;
 }
 
 /* CVE list */
@@ -440,55 +407,23 @@ input {
 #progress-bar {
     width: 100%;
     height: 100%;
-    background: rgba(22, 124, 128, 0.2);
     margin-top: 24px;
 }
 #progress-bar-inner {
     height: 100%;
-    background: rgba(22, 124, 128, 1);
 }
 #progress-value {
     position: absolute;
     right: 0;
     top: -20px;
-    color: #167c80;
 }
 
 /* CVE patch status */
 .status {
     cursor: pointer;
 }
-.status_1 {
-    color: #d32f2f; /* Red 700 */
-}
-.status_1:hover {
-    color: #c62828; /* Red 800 */
-}
-.status_2 {
-    color: #388e3c; /* Green 700 */
-}
-.status_2:hover {
-    color: #2e7d32; /* Green 800 */
-}
-.status_3 {
-    color: #fbc02d; /* Yellow 700 */
-}
-.status_3:hover {
-    color: #f9a825; /* Yellow 800 */
-}
-.status_4 {
-    color: #1976d2; /* Blue 700 */
-}
-.status_4:hover {
-    color: #1565c0; /* Blue 800 */
-}
-.status_5 {
-    color: #00796b; /* Teal 700 */
-}
-.status_5:hover {
-    color: #00695c; /* Teal 800 */
-}
 
+/* Status IDs menu */
 #status_ids {
     display: none;
 }

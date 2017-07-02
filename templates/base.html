@@ -8,8 +8,11 @@
         <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.materialdesignicons.com/1.9.32/css/materialdesignicons.min.css">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+        <link id="theme-target" rel="stylesheet" type="text/css">
 
         <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/ThemeSwitcher.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/ContextMenu.js') }}"></script>
         <script src="{{ url_for('static', filename='js/Ripple.js') }}"></script>
         <script src="{{ url_for('static', filename='js/Dialog.js') }}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -51,7 +54,8 @@
                         {% if version %}
                         Version: {{ version }}<br>
                         {% endif %}
-                        <a href="https://github.com/LineageOS/cve_tracker">Source code on GitHub</a>
+                        <a href="https://github.com/LineageOS/cve_tracker">Source code on GitHub</a><br>
+                        <span id="theme-menu"></span>
                     </p>
                 </div>
             </div>
