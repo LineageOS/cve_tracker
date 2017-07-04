@@ -1,65 +1,18 @@
 {% extends "base.html" %}
 {% block title %}LineageOS CVE Tracker{% endblock %}
-{% block nav_home %}active{% endblock %}
 {% block content %}
-    <div id="add-cve-dialog" class="dialog">
-        <div class="title">Add CVE</div>
-        <div class="content">
-            <label>Name</label>
-            <input class="name" type="text" placeholder="CVE-20YY-XXXX">
-            <label>Details</label>
-            <textarea class="details" placeholder="CVE details..."></textarea>
-            <div class="error"></div>
-        </div>
-        <div class="actions">
-            <button class="cancel">CANCEL</button>
-            <button class="add">ADD</button>
-        </div>
-    </div>
-
-    <div id="add-kernel-dialog" class="dialog">
-        <div class="title">Add kernel</div>
-        <div class="content">
-            <label>Repository</label>
-            <input class="repo" type="text" placeholder="android_kernel_vendor_device">
-            <div class="error"></div>
-        </div>
-        <div class="actions">
-            <button class="cancel">CANCEL</button>
-            <button class="add">ADD</button>
-        </div>
-    </div>
-
     <div class="card container">
         <div class="header">
-            <span class="title">Kernels</span>
+            <span class="title">Welcome</span>
         </div>
-        <div class="kernels container">
-            {%- for column in kernels | slice(3) %}
-                <div class="four columns">
-                {%- for k in column %}
-                    {% if loop.first or column[loop.index0 - 1].vendor != k.vendor -%}
-                        <div class="vendor">
-                            <span class="title">{{ k.vendor }}</span>
-                    {%- endif %}
-                            <div class="kernel">
-                                <a class="repo" href="/{{ k.repo_name }}">{{ k.device }}</a>
-                                <span>({{ k.progress | int }} %)</span>
-                            </div>
-                    {%- if loop.last or column[loop.index0 + 1].vendor != k.vendor %}
-                        </div>
-                    {% endif -%}
-                {%- endfor %}
-                </div>
-            {% endfor %}
+        <div class="text container">
+            <p class="title">What is this?</p>
+            <p>The CVE tracker is a manual way for maintainers to keep track of the patch status of CVEs for the kernels used in official devices.</p>
+            <p class="title">What's a CVE?</p>
+            <p>Common Vulnerabilities and Exposures. These are security holes which <i>could</i> be used by an attacker to get access to your data. Due to other security measures in the Android OS like SELinux, most of these vulnerabilities can't be exploited and are just theoretical.</p>
+            <p class="title">The kernel for my device is only at x%, why is it so insecure?</p>
+            <p>Please note that the tracker needs to be manually updated by each device maintainer and it does not necessarily represent the real patch status of the kernel.</p>
         </div>
-
-        {% if authorized %}
-            <div class="actions container">
-                <button id="open-add-cve-dialog">ADD CVE</button>
-                <button id="open-add-kernel-dialog">ADD KERNEL</button>
-            </div>
-        {% endif %}
     </div>
 {% endblock %}
 {% block scripts %}
