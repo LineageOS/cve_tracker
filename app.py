@@ -135,7 +135,7 @@ def error(msg = ""):
 def show_kernels(deprecated):
     if not deprecated:
         deprecated_status = [False, None]
-        template = "index.html"
+        template = "kernels.html"
     else:
         deprecated_status = [True]
         template = "deprecated.html"
@@ -146,6 +146,14 @@ def show_kernels(deprecated):
 
 @app.route("/")
 def index():
+    if logged_in():
+        return show_kernels(False)
+    else:
+        return render_template("index.html", version=version, authorized=logged_in(),
+            needs_auth=needs_auth())
+
+@app.route("/kernels")
+def kernels():
     return show_kernels(False)
 
 @app.route("/deprecated")
