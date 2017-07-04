@@ -265,6 +265,16 @@ input {
     line-height: 36px;
     vertical-align: middle;
 }
+.card .text {
+    line-height: 24px;
+}
+.card .text p {
+    margin: 8px 0;
+}
+.card .text .title {
+    font-size: 20px;
+    margin: 24px 0 0 0;
+}
 .card .actions {
     padding: 0 8px 8px 8px;
 }
