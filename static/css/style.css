@@ -218,7 +218,7 @@ input {
     font-size: 28px;
     padding: 0;
 }
-@media (max-width: 580px) {
+@media (max-width: 768px) {
     #navbar {
         height: auto;
         text-align: center;
