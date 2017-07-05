@@ -42,7 +42,7 @@
             class: 'mdi mdi-chevron-down'
         });
     }
-    var themeMenuSelector = '#theme-menu';
+    var themeMenuElement = document.querySelector('#theme-menu');
     var themeMenuItems = Object.keys(themes).map(function(i) {
         return {
             value: i,
@@ -50,11 +50,10 @@
         };
     });
     var themeMenu = new ContextMenu({
-        selector: themeMenuSelector,
+        selector: themeMenuElement,
         trigger: 'click',
         callback: setTheme,
         items: themeMenuItems
     });
-    var themeMenuElement = document.querySelector(themeMenuSelector);
     setTheme(themeMenuElement, themeSwitcher.get());
 })();

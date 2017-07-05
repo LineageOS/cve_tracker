@@ -47,7 +47,12 @@
             });
         });
 
-        var targets = [].slice.call(document.querySelectorAll(o.selector));
+        var targets;
+        if (o.selector instanceof HTMLElement) {
+            targets = [o.selector];
+        } else {
+            targets = [].slice.call(document.querySelectorAll(o.selector));
+        }
         targets.forEach(function(target) {
             target.addEventListener(o.trigger, function(e) {
                 c.open(target, e.pageX, e.pageY);
