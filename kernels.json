@@ -170,9 +170,6 @@
         "android_device_lge_w5",
         "android_device_lge_w7"
     ],
-    "android_kernel_lge_msm8952": [
-        "android_device_lge_v521"
-    ],
     "android_kernel_lge_msm8974": [
         "android_device_lge_d800",
         "android_device_lge_d801",
@@ -507,6 +504,9 @@
     ],
     "android_kernel_xiaomi_msm8916": [
         "android_device_xiaomi_ido"
+    ],
+    "android_kernel_xiaomi_msm8953": [
+        "android_device_xiaomi_mido"
     ],
     "android_kernel_xiaomi_msm8956": [
         "android_device_xiaomi_hydrogen",
