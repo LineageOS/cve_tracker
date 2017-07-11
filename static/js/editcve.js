@@ -23,12 +23,9 @@
         d.actions.cancel.disabled = true;
 
         $.ajax({
-            'type': 'POST',
-            'url': '/deletelink',
+            'type': 'DELETE',
+            'url': '/api/v1/link/' + linkId,
             'contentType': 'application/json',
-            'data': JSON.stringify({
-                link_id: linkId,
-            })
         }).done(function(data) {
             d.actions.delete.disabled = false;
             d.actions.cancel.disabled = false;
@@ -44,12 +41,9 @@
     function getLinks() {
         var cveId = document.getElementById('title').getAttribute('cve_id');
         $.ajax({
-            type: 'POST',
-            url: '/getlinks',
+            type: 'GET',
+            url: '/api/v1/cve/' + cveId + '/links',
             contentType: 'application/json',
-            data: JSON.stringify({
-                cve_id: cveId
-            })
         }).done(function(data) {
             var linkList = document.getElementById('linklist');
             if (data.length) {
@@ -139,7 +133,7 @@
 
         $.ajax({
             'type': 'POST',
-            'url': '/addlink',
+            'url': '/api/v1/link',
             'contentType': 'application/json',
             'data': JSON.stringify({
                 cve_id: cveId,
@@ -190,10 +184,9 @@
 
         $.ajax({
             'type': 'POST',
-            'url': '/editlink',
+            'url': '/api/v1/link/' + linkId,
             'contentType': 'application/json',
             'data': JSON.stringify({
-                link_id: linkId,
                 link_url: link,
                 link_desc: description,
             })

@@ -237,12 +237,10 @@ def cve_status(c):
                            needs_auth=needs_auth(),
                            authorized=logged_in())
 
-@app.route("/update", methods=['POST'])
+@app.route("/api/v1/kernel/<k>/cve/<c>", methods=['POST'])
 @require_login
-def update():
+def update(k, c):
     r = request.get_json()
-    k = r['kernel_id'];
-    c = r['cve_id'];
     s = r['status_id'];
 
     Patches.objects(kernel=k, cve=c).update(status=Status.objects.get(short_id=s).id)
@@ -251,7 +249,7 @@ def update():
     return jsonify({'error': 'success', 'progress': progress})
 
 
-@app.route("/addcve", methods=['POST'])
+@app.route("/api/v1/cve", methods=['POST'])
 @require_login
 def addcve():
     errstatus = "Generic error"
@@ -284,7 +282,7 @@ def addcve():
 
     return jsonify({'error': errstatus})
 
-@app.route("/addkernel", methods=['POST'])
+@app.route("/api/v1/kernel", methods=['POST'])
 @require_login
 def addkernel():
     errstatus = "Generic error"
@@ -327,7 +325,7 @@ def deletecve(cvename = None):
         return render_template('deletedcve.html', cve_name=cvename)
     return error()
 
-@app.route("/addlink", methods=['POST'])
+@app.route("/api/v1/link", methods=['POST'])
 @require_login
 def addlink():
     errstatus = "Generic error"
@@ -348,12 +346,11 @@ def addlink():
 
     return jsonify({'error': errstatus, 'link_id': str(link_id)})
 
-@app.route("/deletelink", methods=['POST'])
+@app.route("/api/v1/link/<linkid>", methods=['DELETE'])
 @require_login
-def deletelink():
+def deletelink(linkid):
     errstatus = "Generic error"
-    r = request.get_json()
-    l = r['link_id']
+    l = linkid
 
     if l and Links.objects(id=l):
         Links.objects(id=l).delete()
@@ -363,12 +360,12 @@ def deletelink():
 
     return jsonify({'error': errstatus})
 
-@app.route("/editnotes", methods=['POST'])
+@app.route("/api/v1/cve/<cve>/notes", methods=['POST'])
 @require_login
-def editnotes():
+def editnotes(cve):
     errstatus = "Generic error"
     r = request.get_json()
-    c = r['cve_id']
+    c = cve
     n = r['cve_notes']
 
     if not n or len(n) < 10:
@@ -381,7 +378,7 @@ def editnotes():
 
     return jsonify({'error': errstatus})
 
-@app.route("/editlink", methods=['POST'])
+@app.route("/api/v1/link/<linkid>", methods=['POST'])
 @require_login
 def editlink():
     errstatus = "Generic error"
@@ -396,13 +393,11 @@ def editlink():
 
     return jsonify({'error': errstatus})
 
-@app.route("/getlinks", methods=['POST'])
-def getlinks():
-    r = request.get_json()
-    c = r['cve_id'];
-    return Links.objects(cve_id=c).to_json()
+@app.route("/api/v1/cve/<cve>/links", methods=['GET'])
+def getlinks(cve):
+    return Links.objects(cve_id=cve).to_json()
 
-@app.route("/api/cves")
+@app.route("/api/v1/cves")
 def get_cves():
     obj = {}
     for el in CVE.objects():
@@ -412,11 +407,9 @@ def get_cves():
             obj[el.cve_name]['links'].append({'link': link.link, 'desc': link.desc})
     return jsonify(obj)
 
-@app.route("/getnotes", methods=['POST'])
-def getnotes():
-    r = request.get_json()
-    c = r['cve_id']
-    return CVE.objects(id=c).to_json()
+@app.route("/api/v1/cve/<cve>/notes", methods=['GET'])
+def getnotes(cve):
+    return CVE.objects(id=cve).to_json()
 
 @app.route("/check/<string:k>/<string:c>")
 def check(k, c):
@@ -425,11 +418,10 @@ def check(k, c):
     status = Status.objects.get(id=statusid).text
     return jsonify({'kernel': k, 'cve': c, 'status': status})
 
-@app.route("/deprecate", methods=['POST'])
+@app.route("/api/v1/kernel/<k>/deprecate", methods=['POST'])
 @require_login
-def deprecate():
+def deprecate(k):
     r = request.get_json()
-    k = r['kernel_id']
     d = r['deprecate']
     if d == 'True':
       new_state = False

@@ -7,6 +7,7 @@ class Config(Document):
 
 class CVE(Document):
     cve_name = StringField(required=True)
+    tags = ListField(field=StringField)
     notes = StringField(required=False)
 
 class Kernel(Document):
