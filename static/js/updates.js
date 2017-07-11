@@ -5,11 +5,9 @@
 
         $.ajax({
             type: 'POST',
-            url: '/update',
+            url: '/api/v1/kernels/' + kernelId + '/cve/' + cveId,
             contentType: 'application/json',
             data: JSON.stringify({
-                kernel_id: kernelId,
-                cve_id: cveId,
                 status_id: statusId
             })
         })

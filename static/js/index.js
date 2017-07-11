@@ -8,7 +8,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/addcve',
+            url: '/api/v1/cves',
             contentType: 'application/json',
             data: JSON.stringify({
                 cve_id: cveId,
@@ -50,7 +50,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/addkernel',
+            url: '/api/v1/kernels',
             contentType: 'application/json',
             data: JSON.stringify({
                 kernel: kernel

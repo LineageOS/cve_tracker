@@ -6,10 +6,9 @@
 
         $.ajax({
             type: 'POST',
-            url: '/deprecate',
+            url: '/api/v1/kernels/' + kernelId + '/deprecate',
             contentType: 'application/json',
             data: JSON.stringify({
-                kernel_id: kernelId,
                 deprecate: deprecated,
             })
         }).done(function(data) {
@@ -103,12 +102,8 @@
     function getNotes(cve_id) {
         restoreNotesEditable();
         $.ajax({
-            'type': 'POST',
-            'url': '/getnotes',
-            'contentType': 'application/json',
-            'data': JSON.stringify({
-                cve_id: cve_id,
-            })
+            'type': 'GET',
+            'url': '/api/v1/cves/' + cve_id + '/notes',
         }).done(function(data) {
             data = JSON.parse(data);
             if (!data[0].notes) {
@@ -121,12 +116,8 @@
 
     function getLinks(cve_id) {
         $.ajax({
-            'type': 'POST',
-            'url': '/getlinks',
-            'contentType': 'application/json',
-            'data': JSON.stringify({
-                cve_id: cve_id
-            })
+            'type': 'GET',
+            'url': '/api/v1/cves/' + cve_id + '/links',
         }).done(function(data) {
             var linkList = CVEInfoDialog.access.links;
             linkList.innerHTML = '';
@@ -179,11 +170,10 @@
 
         $.ajax({
             'type': 'POST',
-            'url': '/editnotes',
+            'url': '/api/v1/cves/' + cveId + '/notes',
             'contentType': 'application/json',
             'data': JSON.stringify({
-                cve_id: cveId,
-                cve_notes: notes,
+                cve_notes: notes
             })
         }).done(function(data) {
             if (data.error == 'success') {
