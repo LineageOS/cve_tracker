@@ -404,7 +404,8 @@
         "android_device_samsung_gprimeltespr",
         "android_device_samsung_gprimeltexx",
         "android_device_samsung_gtelwifiue",
-        "android_device_samsung_gtesqltespr"
+        "android_device_samsung_gtesqltespr",
+        "android_device_samsung_j7ltespr"
     ],
     "android_kernel_samsung_msm8930-common": [
         "android_device_samsung_lt02ltespr",
