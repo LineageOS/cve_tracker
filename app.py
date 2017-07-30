@@ -222,6 +222,30 @@ def kernel(k):
                            authorized=logged_in(),
                            show_last_update=show_last_update())
 
+@app.route("/import_statuses", methods=['POST'])
+def import_statuses():
+    errstatus = "Generic error"
+    r = request.get_json()
+    from_kernel_repo = r['from_kernel']
+    to_kernel_repo = r['to_kernel']
+    import_unpatched = r['import_unpatched']
+
+    try:
+        from_kernel = Kernel.objects.get(repo_name=from_kernel_repo)
+        to_kernel = Kernel.objects.get(repo_name=to_kernel_repo)
+        statuses = {s.id: s.short_id for s in Status.objects()}
+
+        for patch in Patches.objects(kernel=from_kernel.id):
+            if import_unpatched or statuses[patch.status] != 1:
+                target_patch = Patches.objects.get(kernel=to_kernel.id, cve=patch.cve)
+
+                target_patch.update(status=patch.status)
+        errstatus = "success"
+    except:
+        errstatus = "Invalid kernels!"
+
+    return jsonify({'error': errstatus})
+
 @app.route("/status/<string:c>")
 def cve_status(c):
     kernels = Kernel.objects(deprecated__in=[False, None]).order_by('vendor', 'device')
