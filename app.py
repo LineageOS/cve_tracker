@@ -286,8 +286,18 @@ def addcve():
     r = request.get_json()
     cve = r['cve_id']
     notes = r['cve_notes']
+    tags = r['cve_tags']
     # Match CVE-1990-0000 to CVE-2999-##### (> 4 digits), to ensure at least a little sanity
     pattern = re.compile("^(CVE|LVT)-(199\d|2\d{3})-(\d{4}|[1-9]\d{4,})$")
+
+    cveTags = []
+    for tag in tags.split(','):
+        tag = tag.strip()
+        if len(tag) <= 3:
+            errstatus = tag + " is an invalid tag!"
+            break
+        elif not tag in cveTags:
+            cveTags.append(stripped)
 
     if not cve:
         errstatus = "No CVE specified!"
@@ -297,8 +307,8 @@ def addcve():
         errstatus = cve + " already exists!"
     elif not notes or len(notes) < 10:
         errstatus = "Notes have to be at least 10 characters!";
-    else:
-        CVE(cve_name=cve, notes=notes).save()
+    elif len(errstatus) == 0:
+        CVE(cve_name=cve, notes=notes, tags=','.join(cveTags)).save()
         cve_id = CVE.objects.get(cve_name=cve)['id']
         for k in Kernel.objects():
             Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
@@ -391,18 +401,25 @@ def deletelink():
 
     return jsonify({'error': errstatus})
 
-@app.route("/editnotes", methods=['POST'])
+@app.route("/editcvedata", methods=['POST'])
 @require_login
-def editnotes():
+def edittagsandnotes():
     errstatus = "Generic error"
     r = request.get_json()
     c = r['cve_id']
     n = r['cve_notes']
+    t = r['cve_tags']
+
+    tags = []
+    for tag in t.split(','):
+        tag = tag.strip()
+        if not tag in tags:
+            tags.append(tag)
 
     if not n or len(n) < 10:
         errstatus = "Notes have to be at least 10 characters!";
     elif c and CVE.objects(id=c):
-        CVE.objects(id=c).update(set__notes=r['cve_notes'])
+        CVE.objects(id=c).update(set__notes=r['cve_notes'], set__tags=','.join(tags))
         errstatus = "success"
     else:
         errstatus = "CVE doesn't exist"
@@ -440,7 +457,7 @@ def get_cves():
             obj[el.cve_name]['links'].append({'link': link.link, 'desc': link.desc})
     return jsonify(obj)
 
-@app.route("/getnotes", methods=['POST'])
+@app.route("/getcvedata", methods=['POST'])
 def getnotes():
     r = request.get_json()
     c = r['cve_id']

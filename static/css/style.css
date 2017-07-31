@@ -447,11 +447,11 @@ input {
     width: 28px;
     font-size: 16px;
 }
-#cve-info-dialog .notes {
+#cve-info-dialog .notes, #cve-info-dialog .tags {
     position: relative;
     margin-bottom: 24px;
 }
-#cve-info-dialog .notes .mdi {
+#cve-info-dialog .notes .mdi, #cve-info-dialog .tags .mdi {
     position: absolute;
     right: 0px;
     top: 0px;
