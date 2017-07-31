@@ -18,10 +18,10 @@ label {
     color: #80cbc4;
 }
 
-input, textarea, [contenteditable="true"] {
+input, textarea, select, [contenteditable="true"] {
     border-bottom: 1px solid rgba(128, 203, 196, 0.7);
 }
-input:focus, textarea:focus, [contenteditable="true"]:focus {
+input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus {
     border-bottom: 2px solid rgba(128, 203, 196, 1);
 }
 
@@ -103,4 +103,8 @@ input:focus, textarea:focus, [contenteditable="true"]:focus {
 
 #import-statuses-dialog label[for=override_all] {
     color: white;
+}
+
+option {
+    background-color: #303030;
 }

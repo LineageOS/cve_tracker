@@ -61,7 +61,7 @@ label {
     font-size: 12px;
     line-height: 12px;
 }
-input, textarea, [contenteditable="true"] {
+input, textarea, select, [contenteditable="true"] {
     outline: 0;
     width: 100%;
     display: block;
@@ -473,4 +473,9 @@ input {
     font-size: initial;
     display: inline;
     padding: 0;
+}
+
+select {
+    background-color: inherit;
+    border: 0px;
 }

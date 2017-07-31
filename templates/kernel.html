@@ -34,7 +34,12 @@
         <div class="title">Import statuses</div>
         <div class="content">
             <label>Import from</label>
-            <input class="from_kernel" type="text" placeholder="android_kernel_vendor_device">
+            <select class="from_kernel">
+                <option value="" disabled selected>Please select</option>
+                {% for k in allKernels %}
+                    <option>{{ k }}</option>
+                {% endfor %}
+            </select>
             <label>Override all statuses</label>
             <div>
                 <input type="checkbox" class="override_all" id="override_all">

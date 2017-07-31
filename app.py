@@ -195,6 +195,7 @@ def kernel(k):
 
     cves = CVE.objects().order_by('cve_name')
     statuses = {s.id: s.short_id for s in Status.objects()}
+    all_kernels = {k.repo_name for k in Kernel.objects(deprecated__in=[False, None])}
     patches = {p.cve: p.status for p in Patches.objects(kernel=kernel.id)}
     patch_status = []
     for c in cves:
@@ -213,6 +214,7 @@ def kernel(k):
 
     return render_template('kernel.html',
                            kernel = kernel,
+                           allKernels = sorted(all_kernels),
                            cves = cves,
                            patch_status = patch_status,
                            status_ids = Status.objects(),
