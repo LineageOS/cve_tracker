@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47fced60_37e179c3",
+        "filename": "static/js/index.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16082
+      },
+      "writtenOn": "2017-07-31T17:43:33Z",
+      "side": 1,
+      "message": "Looking at the line before this change, does this line actually need a comma?",
+      "revId": "39a0d15a0f3ca5d8983ae00ab853fd07f7b5883f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
