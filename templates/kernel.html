@@ -30,6 +30,24 @@
         </div>
     </div>
 
+    <div id="import-statuses-dialog" class="dialog" to_kernel="{{ kernel.repo_name }}">
+        <div class="title">Import statuses</div>
+        <div class="content">
+            <label>Import from</label>
+            <input class="from_kernel" type="text" placeholder="android_kernel_vendor_device">
+            <label>Override all statuses</label>
+            <div>
+                <input type="checkbox" class="override_all" id="override_all">
+                <label for="override_all">Checking this will override all statuses, not just 'unpatched'</label>
+            </div>
+        </div>
+        <div class="error"></div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="import">IMPORT</button>
+        </div>
+    </div>
+
     <div id="cve-info-dialog" class="dialog">
         <div class="title">
             <div class="name">
@@ -112,6 +130,7 @@
                         MARK AS DEPRECATED
                     {% endif %}
                 </button>
+                <button id="open-import-stauses-dialog">IMPORT STATUSES</button>
             </div>
         {% endif %}
     </div>

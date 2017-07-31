@@ -456,3 +456,21 @@ input {
     right: 0px;
     top: 0px;
 }
+
+#import-statuses-dialog input[type="checkbox"] {
+    width: auto;
+    display: inline-block;
+    margin: 0 5px 0 5px;
+    height: auto;
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+}
+
+#import-statuses-dialog label[for=override_all] {
+    font-size: initial;
+    display: inline;
+    padding: 0;
+}
