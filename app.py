@@ -391,18 +391,25 @@ def deletelink():
 
     return jsonify({'error': errstatus})
 
-@app.route("/editnotes", methods=['POST'])
+@app.route("/editcvedata", methods=['POST'])
 @require_login
-def editnotes():
+def edittagsandnotes():
     errstatus = "Generic error"
     r = request.get_json()
     c = r['cve_id']
     n = r['cve_notes']
+    t = r['cve_tags']
+
+    tags = []
+    for tag in t.split(','):
+        tag = tag.strip()
+        if not tag in tags:
+            tags.append(tag)
 
     if not n or len(n) < 10:
         errstatus = "Notes have to be at least 10 characters!";
     elif c and CVE.objects(id=c):
-        CVE.objects(id=c).update(set__notes=r['cve_notes'])
+        CVE.objects(id=c).update(set__notes=r['cve_notes'], set__tags=','.join(tags))
         errstatus = "success"
     else:
         errstatus = "CVE doesn't exist"
@@ -440,7 +447,7 @@ def get_cves():
             obj[el.cve_name]['links'].append({'link': link.link, 'desc': link.desc})
     return jsonify(obj)
 
-@app.route("/getnotes", methods=['POST'])
+@app.route("/getcvedata", methods=['POST'])
 def getnotes():
     r = request.get_json()
     c = r['cve_id']
