@@ -18,10 +18,10 @@ label {
     color: rgba(22, 124, 128, 0.7);
 }
 
-input, textarea, [contenteditable="true"] {
+input, textarea, select, [contenteditable="true"] {
     border-bottom: 1px solid rgba(22, 124, 128, 0.7);
 }
-input:focus, textarea:focus, [contenteditable="true"]:focus {
+input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus {
     border-bottom: 2px solid rgba(22, 124, 128, 1);
 }
 
