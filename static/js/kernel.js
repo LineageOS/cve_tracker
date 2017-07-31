@@ -221,6 +221,48 @@
         return ret;
     }
 
+    var importStatusesDialog = new Dialog({
+        element: document.querySelector('#import-statuses-dialog'),
+        drag: '.title',
+        actions: [{
+            callback: 'close',
+            selector: '.actions .cancel'
+        }, {
+            callback: importStatuses,
+            selector: '.actions .import'
+        }],
+        access: {
+            error: '.error',
+            fromKernel: '.from_kernel',
+            overrideAll: '.override_all'
+        },
+        trigger: document.querySelector('#open-import-stauses-dialog')
+    });
+
+    function importStatuses() {
+        var fromKernel = importStatusesDialog.access.fromKernel.value;
+        var toKernel = importStatusesDialog.element.getAttribute('to_kernel');
+        var overrideAll = importStatusesDialog.access.overrideAll.checked;
+        console.log(fromKernel, toKernel, overrideAll);
+        $.ajax({
+            'type': 'POST',
+            'url': '/import_statuses',
+            'contentType': 'application/json',
+            'data': JSON.stringify({
+                from_kernel: fromKernel,
+                to_kernel: toKernel,
+                override_all: overrideAll
+            })
+        }).done(function(data) {
+            if (data.error == 'success') {
+                importStatusesDialog.access.error.innerHTML = '';
+                location.reload();
+            } else {
+                importStatusesDialog.access.error.innerHTML = data.error;
+            }
+        });
+    }
+
     var progressBar = new Progress({
         container: document.querySelector('#progress-bar'),
         element: document.querySelector('#progress-bar-inner'),
