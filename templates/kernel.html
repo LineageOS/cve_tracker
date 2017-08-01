@@ -61,6 +61,13 @@
             <i class="copy mdi mdi-content-copy"></i>
         </div>
         <div class="content">
+            <div class="tags">
+                {% if authorized %}
+                <i class="edit mdi mdi-18px mdi-pencil" title="Edit tags"></i>
+                {% endif %}
+                <label>Tags</label>
+                <div class="field" placeholder="qcom, broadcom wifi, exynos, ..."></div>
+            </div>
             <div class="notes">
                 {% if authorized %}
                 <i class="edit mdi mdi-18px mdi-pencil" title="Edit notes"></i>
