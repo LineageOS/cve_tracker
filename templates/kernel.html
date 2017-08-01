@@ -61,6 +61,13 @@
             <i class="copy mdi mdi-content-copy"></i>
         </div>
         <div class="content">
+            <div class="tags">
+                {% if authorized %}
+                <i class="edit mdi mdi-18px mdi-pencil" title="Edit tags"></i>
+                {% endif %}
+                <label>Tags</label>
+                <div class="field" placeholder="qcom, broadcom wifi, exynos, ..."></div>
+            </div>
             <div class="notes">
                 {% if authorized %}
                 <i class="edit mdi mdi-18px mdi-pencil" title="Edit notes"></i>
@@ -108,6 +115,24 @@
                     <div id="progress-bar-inner"></div>
                 </div>
                 <div id="progress-value"></div>
+            </div>
+        </div>
+
+        <div class="filter container">
+            <div id="open-close-filters">Filters <i class="mdi mdi-chevron-down"></i></div>
+            <div id="filter-box">
+                <div id="selectable">
+                {%- for tag in all_tags %}
+                    {%- if tag in selected_tags or selected_tags | length == 0 %}
+                    {%- set class = "active" %}
+                    {%- else %}
+                    {%- set class = "" %}
+                    {%- endif %}
+                    <span class="{{ class }}">{{ tag }}</span>
+                {%- endfor %}
+                </div>
+                <br/>
+                <button id="appy-filter">Apply</button>
             </div>
         </div>
 

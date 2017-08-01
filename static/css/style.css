@@ -447,11 +447,11 @@ input {
     width: 28px;
     font-size: 16px;
 }
-#cve-info-dialog .notes {
+#cve-info-dialog .notes, #cve-info-dialog .tags {
     position: relative;
     margin-bottom: 24px;
 }
-#cve-info-dialog .notes .mdi {
+#cve-info-dialog .notes .mdi, #cve-info-dialog .tags .mdi {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -478,4 +478,57 @@ input {
 select {
     background-color: inherit;
     border: 0px;
+}
+
+#filter-box input {
+    height: auto;
+    display: inline-block;
+    width: auto;
+    /* Scaled Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+}
+
+#filter-box label {
+    padding: 5px;
+    display: inline;
+    vertical-align: middle;
+    color: white;
+}
+
+#filter-box {
+    border: 1px solid #808080;
+    padding: 10px;
+    display: none;
+}
+
+#filter-box.active {
+    display: block !important;
+}
+
+#selectable {
+    text-align: center;
+    line-height: 20px;
+    font-size: 16px;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#selectable span {
+    display: inline-block;
+
+    padding: 4px 12px;
+    margin: 0 6px;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.05);
+}
+#selectable span.active {
+    background: rgba(0, 0, 0, 0.15);
 }
