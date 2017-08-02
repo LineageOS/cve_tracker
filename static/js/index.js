@@ -3,6 +3,7 @@
         var d = this;
         var cveId = d.access.name.value;
         var cveNotes = d.access.details.value;
+        var cveTags = d.access.tags.value;
         button.disabled = true;
         d.access.error.innerHTML = 'Adding...';
 
@@ -12,7 +13,8 @@
             contentType: 'application/json',
             data: JSON.stringify({
                 cve_id: cveId,
-                cve_notes: cveNotes
+                cve_notes: cveNotes,
+                cve_tags: cveTags
             })
         }).done(function(data) {
             if (data.error == 'success') {
@@ -38,6 +40,7 @@
         }],
         access: {
             name: '.name',
+            tags: '.tags',
             details: '.details',
             error: '.error'
         }
