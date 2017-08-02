@@ -37,7 +37,11 @@
             callback: copyCVEName,
             selector: '.title .copy'
         }, {
-            callback: editNotes,
+            callback: editNotesAndData,
+            selector: '.tags .edit',
+            id: 'editTags'
+        }, {
+            callback: editNotesAndData,
             selector: '.notes .edit',
             id: 'editNotes'
         }, {
@@ -45,11 +49,12 @@
             selector: '.actions .cancel'
         }, {
             id: 'save',
-            callback: saveNotes,
+            callback: saveTagsAndNotes,
             selector: '.actions .save'
         }],
         access: {
             name: '.name',
+            tagsField: '.tags .field',
             notesField: '.notes .field',
             links: '.links',
             error: '.error',
@@ -66,9 +71,10 @@
     function cancelCVEInfoDialog(button) {
         var d = this;
         var cveId = CVEInfoDialog.element.getAttribute('cve_id');
-        var editing = CVEInfoDialog.access.notesField.getAttribute('contenteditable');
-        if (editing == 'true') {
-            getNotes(cveId);
+        var editingTags = CVEInfoDialog.access.tagsField.getAttribute('contenteditable');
+        var editingNotes = CVEInfoDialog.access.notesField.getAttribute('contenteditable');
+        if (editingTags == 'true' || editingNotes == 'true') {
+            getData(cveId);
         } else {
             d.close();
         }
@@ -76,6 +82,8 @@
 
     function openInfo(cve_name, cve_id) {
         CVEInfoDialog.access.name.innerHTML = cve_name;
+        CVEInfoDialog.access.tagsField.setAttribute('empty', false);
+        CVEInfoDialog.access.tagsField.innerHTML = 'Loading ...';
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
         CVEInfoDialog.access.notesField.innerHTML = 'Loading ...';
         CVEInfoDialog.access.links.innerHTML = 'Loading ...';
@@ -85,10 +93,10 @@
         CVEInfoDialog.access.compare.href = '/status/' + cve_name;
         CVEInfoDialog.element.setAttribute('cve_name', cve_name);
         CVEInfoDialog.element.setAttribute('cve_id', cve_id);
-        restoreNotesEditable();
+        restoreEditables();
         CVEInfoDialog.open();
 
-        getNotes(cve_id);
+        getData(cve_id);
         getLinks(cve_id);
     }
     var cves = [].slice.call(document.querySelectorAll('.cve .name'));
@@ -100,21 +108,26 @@
         });
     });
 
-    function getNotes(cve_id) {
-        restoreNotesEditable();
+    function getData(cve_id) {
+        restoreEditables();
         $.ajax({
             'type': 'POST',
-            'url': '/getnotes',
+            'url': '/getcvedata',
             'contentType': 'application/json',
             'data': JSON.stringify({
                 cve_id: cve_id,
             })
         }).done(function(data) {
             data = JSON.parse(data);
+            if (!data[0].tags) {
+                data[0].tags = 'No tags';
+                CVEInfoDialog.access.tagsField.setAttribute('empty', true);
+            }
             if (!data[0].notes) {
                 data[0].notes = 'No notes';
                 CVEInfoDialog.access.notesField.setAttribute('empty', true);
             }
+            CVEInfoDialog.access.tagsField.innerHTML = data[0].tags;
             CVEInfoDialog.access.notesField.innerHTML = data[0].notes;
         });
     }
@@ -164,47 +177,66 @@
         });
     }
 
-    function editNotes() {
+    function editNotesAndData() {
+        CVEInfoDialog.access.tagsField.setAttribute('contenteditable', true);
         CVEInfoDialog.access.notesField.setAttribute('contenteditable', true);
+        if (CVEInfoDialog.access.tagsField.getAttribute('empty') == 'true') {
+            CVEInfoDialog.access.tagsField.innerHTML = '';
+        }
         if (CVEInfoDialog.access.notesField.getAttribute('empty') == 'true') {
             CVEInfoDialog.access.notesField.innerHTML = '';
         }
+        CVEInfoDialog.actions.editTags.classList.remove('mdi-pencil');
         CVEInfoDialog.actions.editNotes.classList.remove('mdi-pencil');
         CVEInfoDialog.actions.save.disabled = false;
     }
 
-    function saveNotes() {
+    function saveTagsAndNotes() {
         var cveId = CVEInfoDialog.element.getAttribute('cve_id');
-        var notes = CVEInfoDialog.access.notesField.innerHTML;
+        var tags = CVEInfoDialog.access.tagsField.innerText;
+        var notes = CVEInfoDialog.access.notesField.innerText;
 
         $.ajax({
             'type': 'POST',
-            'url': '/editnotes',
+            'url': '/editcvedata',
             'contentType': 'application/json',
             'data': JSON.stringify({
                 cve_id: cveId,
                 cve_notes: notes,
+                cve_tags: tags
             })
         }).done(function(data) {
             if (data.error == 'success') {
-                restoreNotesEditable();
+                restoreEditables();
+                if (!tags) {
+                    tags = 'No tags';
+                    CVEInfoDialog.access.tagsField.setAttribute('empty', true);
+                }
                 if (!notes) {
                     notes = 'No notes';
                     CVEInfoDialog.access.notesField.setAttribute('empty', true);
                 }
                 CVEInfoDialog.access.error.innerHTML = '';
+                CVEInfoDialog.access.tagsField.innerHTML = tags;
                 CVEInfoDialog.access.notesField.innerHTML = notes;
+                
             } else {
                 CVEInfoDialog.access.error.innerHTML = data.error;
             }
         });
     }
 
-    function restoreNotesEditable() {
+
+    function restoreEditables() {
+        CVEInfoDialog.access.tagsField.setAttribute('contenteditable', false);
+        CVEInfoDialog.access.tagsField.setAttribute('empty', false);
         CVEInfoDialog.access.notesField.setAttribute('contenteditable', false);
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
         CVEInfoDialog.access.error.innerHTML = '';
         // Only logged in users do have these
+        if (CVEInfoDialog.actions.editTags) {
+            CVEInfoDialog.actions.editTags.classList.add('mdi-pencil');
+        }
         if (CVEInfoDialog.actions.editNotes) {
             CVEInfoDialog.actions.editNotes.classList.add('mdi-pencil');
         }
@@ -270,4 +302,38 @@
         value: document.querySelector('#progress-bar').getAttribute('value')
     });
     window.progressBar = progressBar;
+
+    var openCloseFilterBox = document.querySelector('#open-close-filters');
+    openCloseFilterBox.addEventListener('click', function(e) {
+        var filterBox = document.querySelector('#filter-box');
+        var chevron = document.querySelector('#open-close-filters .mdi');
+        if (filterBox.classList.contains('active')) {
+            filterBox.classList.remove('active');
+            chevron.classList.remove('mdi-chevron-up');
+            chevron.classList.add('mdi-chevron-down');
+        } else {
+            filterBox.classList.add('active');
+            chevron.classList.remove('mdi-chevron-down');
+            chevron.classList.add('mdi-chevron-up');
+        }
+    });
+
+    var options = {};
+    var selectable = new Selector({
+        multiple: true
+    });
+    var elements = [].slice.call(document.querySelector('#selectable').children);
+    elements.forEach(function(element) {
+        selectable.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
+    });
+
+    var applyFilters = document.querySelector('#appy-filter');
+    applyFilters.addEventListener('click', function(e) {
+        var address = window.location;
+        var search = "?tags=";
+        selectable.getActive().forEach(function(e) {
+            search += e + ",";
+        });
+        address.search = search;
+    });
 })();

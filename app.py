@@ -193,7 +193,29 @@ def kernel(k):
     except:
         return error("The requested kernel could not be found!");
 
+    filter_tags = []
+    get_tags = request.args.get('tags')
+    if get_tags:
+        for tag in get_tags.split(','):
+            tag = tag.strip()
+            if len(tag) >= 3 and not tag in filter_tags:
+                filter_tags.append(tag)
+
     cves = CVE.objects().order_by('cve_name')
+
+    available_tags = ['none']
+    filtered_cves = []
+    for cve in cves:
+        if not cve.tags:
+            cve.tags = []
+        if (len(filter_tags) == 0 or 'none' in filter_tags) and len(cve.tags) == 0:
+            filtered_cves.append(cve)
+        for tag in cve.tags:
+            if tag in filter_tags and not cve in filtered_cves:
+                filtered_cves.append(cve)
+            if not tag in available_tags:
+                available_tags.append(tag)
+
     statuses = {s.id: s.short_id for s in Status.objects()}
     all_kernels = {k.repo_name for k in Kernel.objects(deprecated__in=[False, None])}
     patches = {p.cve: p.status for p in Patches.objects(kernel=kernel.id)}
@@ -215,8 +237,10 @@ def kernel(k):
     return render_template('kernel.html',
                            kernel = kernel,
                            allKernels = sorted(all_kernels),
-                           cves = cves,
+                           cves = filtered_cves,
                            patch_status = patch_status,
+                           all_tags = sorted(available_tags),
+                           selected_tags = sorted(filter_tags),
                            status_ids = Status.objects(),
                            patches = patches,
                            devices = devs,
@@ -282,12 +306,15 @@ def update():
 @app.route("/addcve", methods=['POST'])
 @require_login
 def addcve():
-    errstatus = "Generic error"
+    errstatus = None
     r = request.get_json()
     cve = r['cve_id']
     notes = r['cve_notes']
+    tags = r['cve_tags']
     # Match CVE-1990-0000 to CVE-2999-##### (> 4 digits), to ensure at least a little sanity
     pattern = re.compile("^(CVE|LVT)-(199\d|2\d{3})-(\d{4}|[1-9]\d{4,})$")
+
+    errstatus, cveTags = processTags(tags)
 
     if not cve:
         errstatus = "No CVE specified!"
@@ -297,8 +324,8 @@ def addcve():
         errstatus = cve + " already exists!"
     elif not notes or len(notes) < 10:
         errstatus = "Notes have to be at least 10 characters!";
-    else:
-        CVE(cve_name=cve, notes=notes).save()
+    elif not errstatus:
+        CVE(cve_name=cve, notes=notes, tags=cveTags).save()
         cve_id = CVE.objects.get(cve_name=cve)['id']
         for k in Kernel.objects():
             Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
@@ -309,6 +336,9 @@ def addcve():
             mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
             Links(cve_id=cve_id, link=mitrelink+cve).save()
         errstatus = "success"
+
+    if not errstatus:
+        errstatus = "Generic error"
 
     return jsonify({'error': errstatus})
 
@@ -391,21 +421,32 @@ def deletelink():
 
     return jsonify({'error': errstatus})
 
-@app.route("/editnotes", methods=['POST'])
+@app.route("/editcvedata", methods=['POST'])
 @require_login
-def editnotes():
-    errstatus = "Generic error"
+def edittagsandnotes():
+    errstatus = None
     r = request.get_json()
     c = r['cve_id']
     n = r['cve_notes']
+    t = r['cve_tags'].strip()
+
+    errstatus, tags = processTags(t)
 
     if not n or len(n) < 10:
         errstatus = "Notes have to be at least 10 characters!";
-    elif c and CVE.objects(id=c):
-        CVE.objects(id=c).update(set__notes=r['cve_notes'])
-        errstatus = "success"
-    else:
-        errstatus = "CVE doesn't exist"
+    elif not errstatus:
+        if c and CVE.objects(id=c):
+            CVE.objects(id=c).update(set__notes=r['cve_notes'])
+            if len(tags) > 0:
+                CVE.objects(id=c).update(set__tags=tags)
+            else:
+                CVE.objects(id=c).update(unset__tags=1)
+            errstatus = "success"
+        else:
+            errstatus = "CVE doesn't exist"
+
+    if not errstatus:
+        errstatus = "Generic error"
 
     return jsonify({'error': errstatus})
 
@@ -440,8 +481,8 @@ def get_cves():
             obj[el.cve_name]['links'].append({'link': link.link, 'desc': link.desc})
     return jsonify(obj)
 
-@app.route("/getnotes", methods=['POST'])
-def getnotes():
+@app.route("/getcvedata", methods=['POST'])
+def getcvedata():
     r = request.get_json()
     c = r['cve_id']
     return CVE.objects(id=c).to_json()
@@ -466,3 +507,17 @@ def deprecate():
     Kernel.objects(id=k).update(deprecated=new_state)
 
     return jsonify({'error': "success"})
+
+def processTags(tags):
+    errstatus = None
+    processed = []
+
+    if tags:
+        for tag in tags.split(','):
+            tag = tag.strip()
+            if len(tag) <= 3:
+                errstatus = tag + " is an invalid tag!"
+            elif not tag in processed:
+                processed.append(tag)
+
+    return errstatus, processed
