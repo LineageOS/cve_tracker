@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbde2605_4c2e452b",
+        "filename": "static/js/Selector.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2017-08-02T13:56:07Z",
+      "side": 1,
+      "message": "No tabs please",
+      "revId": "fefebb9067d2004a3eb6b9c896caf54d8d155dc7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a791e99_ebc7bbaf",
+        "filename": "static/js/kernel.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2017-08-02T13:56:07Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "fefebb9067d2004a3eb6b9c896caf54d8d155dc7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
