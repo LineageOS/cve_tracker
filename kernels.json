@@ -44,9 +44,6 @@
         "android_device_bq_piccolo",
         "android_device_bq_vegetalte"
     ],
-    "android_kernel_bq_msm8976": [
-        "android_device_bq_gohan"
-    ],
     "android_kernel_cyanogen_msm8916": [
         "android_device_smartfren_rendang",
         "android_device_wileyfox_crackling",
@@ -196,7 +193,6 @@
         "android_device_lge_h830",
         "android_device_lge_h850",
         "android_device_lge_h870",
-        "android_device_lge_h872",
         "android_device_lge_h910",
         "android_device_lge_h918",
         "android_device_lge_ls997",
@@ -319,10 +315,6 @@
         "android_device_oppo_find7",
         "android_device_oppo_find7s",
         "android_device_oppo_n3"
-    ],
-    "android_kernel_oppo_n1": [
-        "android_device_oppo_find5",
-        "android_device_oppo_n1"
     ],
     "android_kernel_samsung_apq8084": [
         "android_device_samsung_kccat6",
@@ -543,9 +535,6 @@
     ],
     "android_kernel_zte_msm8994": [
         "android_device_zte_nx510j"
-    ],
-    "android_kernel_zte_msm8996": [
-        "android_device_zte_axon7"
     ],
     "lge-kernel-mako": [
         "android_device_lge_mako"
