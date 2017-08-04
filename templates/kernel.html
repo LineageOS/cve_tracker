@@ -53,6 +53,23 @@
         </div>
     </div>
 
+    <div id="edit-tags-dialog" class="dialog" kernel_id="{{ kernel.id }}">
+    <div class="title">Edit kernel tags</div>
+        <div class="content">
+            {%- if kernel.tags %}
+            {%- set value = kernel.tags | join(', ') %}
+            {%- else %}
+            {%- set value = "" %}
+            {%- endif %}
+            <input type="text" class="tags" placeholder="qcom, broadcom, exynos, ... (comma separated)" value="{{ value }}">
+        </div>
+        <div class="error"></div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="save">SAVE</button>
+        </div>
+    </div>
+
     <div id="cve-info-dialog" class="dialog">
         <div class="title">
             <div class="name">
@@ -61,10 +78,17 @@
             <i class="copy mdi mdi-content-copy"></i>
         </div>
         <div class="content">
+            {%- if authorized %}
+            <div class="tags">
+                <i class="edit mdi mdi-18px mdi-pencil" title="Edit tags"></i>
+                <label>Tags</label>
+                <div class="field" placeholder="qcom, broadcom wifi, exynos, ..."></div>
+            </div>
+            {%- endif %}
             <div class="notes">
-                {% if authorized %}
+                {%- if authorized %}
                 <i class="edit mdi mdi-18px mdi-pencil" title="Edit notes"></i>
-                {% endif %}
+                {%- endif %}
                 <label>Notes</label>
                 <div class="field" placeholder="Applicable versions, affected platforms, ..."></div>
             </div>
@@ -111,6 +135,36 @@
             </div>
         </div>
 
+        {% if authorized %}
+        <div class="filter container">
+            <div id="open-close-filters">Filters <i class="mdi mdi-chevron-down"></i></div>
+            {%- if selected_tags | length == 0 %}
+            {%- set class = "" %}
+            {%- else %}
+            {%- set class = "active" %}
+            {%- endif %}
+            <div id="filter-box" class="{{ class }}">
+                <div id="selectable">
+                {%- for tag in all_tags %}
+                    {%- if tag in selected_tags or selected_tags | length == 0 %}
+                    {%- set class = "active" %}
+                    {%- else %}
+                    {%- set class = "" %}
+                    {%- endif %}
+                    {%- if kernel.tags and tag in kernel.tags %}
+                    {%- set class = class + " kernel-filter" %}
+                    {%- endif %}
+                    <span class="{{ class }}">{{ tag }}</span>
+                {%- endfor %}
+                </div>
+                <div class="action apply-area">
+                    <button id="apply-kernel-filter">Apply kernel tags</button>
+                    <button id="apply-filter">Apply selected tags</button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <div class="cves container">
             {% set counter = [0] -%}
             {%- for column in cves | slice(3) %}
@@ -136,6 +190,7 @@
                     {% endif %}
                 </button>
                 <button id="open-import-stauses-dialog">IMPORT STATUSES</button>
+                <button id="open-edit-tags-dialog">EDIT TAGS</button>
             </div>
         {% endif %}
     </div>
