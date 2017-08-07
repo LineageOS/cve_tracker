@@ -352,7 +352,8 @@
         "android_device_samsung_klimtwifi",
         "android_device_samsung_n1awifi",
         "android_device_samsung_n2awifi",
-        "android_device_samsung_picassowifi"
+        "android_device_samsung_picassowifi",
+        "android_device_samsung_v1awifi"
     ],
     "android_kernel_samsung_exynos7420": [
         "android_device_samsung_zerofltexx"
