@@ -97,7 +97,6 @@
         "android_device_htc_hiaewhl"
     ],
     "android_kernel_htc_msm8960": [
-        "android_device_htc_evita",
         "android_device_htc_fireball",
         "android_device_htc_jewel",
         "android_device_htc_m7",
@@ -414,12 +413,9 @@
         "android_device_samsung_gprimelte",
         "android_device_samsung_gprimeltespr",
         "android_device_samsung_gprimeltexx",
-        "android_device_samsung_gtelwifiue",
-        "android_device_samsung_gtesqltespr",
-        "android_device_samsung_j7ltespr"
+        "android_device_samsung_gtelwifiue"
     ],
     "android_kernel_samsung_msm8930-common": [
-        "android_device_samsung_lt02ltespr",
         "android_device_samsung_serrano3gxx",
         "android_device_samsung_serranodsdd",
         "android_device_samsung_serranoltexx"
@@ -468,8 +464,7 @@
         "android_device_samsung_toroplus"
     ],
     "android_kernel_samsung_universal8890": [
-        "android_device_samsung_hero2lte",
-        "android_device_samsung_herolte"
+        "android_device_samsung_hero2lte"
     ],
     "android_kernel_sony_apq8064": [
         "android_device_sony_dogo",
@@ -524,9 +519,6 @@
     ],
     "android_kernel_xiaomi_msm8916": [
         "android_device_xiaomi_ido"
-    ],
-    "android_kernel_xiaomi_msm8953": [
-        "android_device_xiaomi_mido"
     ],
     "android_kernel_xiaomi_msm8956": [
         "android_device_xiaomi_hydrogen",
