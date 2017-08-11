@@ -27,8 +27,7 @@
         "android_device_asus_Z00A"
     ],
     "android_kernel_asus_msm8916": [
-        "android_device_asus_Z00L",
-        "android_device_asus_Z00T"
+        "android_device_asus_Z00L"
     ],
     "android_kernel_asus_tf300t": [
         "android_device_asus_tf300t"
@@ -196,7 +195,6 @@
         "android_device_lge_h830",
         "android_device_lge_h850",
         "android_device_lge_h870",
-        "android_device_lge_h872",
         "android_device_lge_h910",
         "android_device_lge_h918",
         "android_device_lge_ls997",
@@ -273,7 +271,6 @@
     ],
     "android_kernel_motorola_omap4-common": [
         "android_device_motorola_maserati",
-        "android_device_motorola_spyder",
         "android_device_motorola_targa",
         "android_device_motorola_umts_spyder"
     ],
