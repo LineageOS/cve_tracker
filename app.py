@@ -468,3 +468,18 @@ def deprecate():
     Kernel.objects(id=k).update(deprecated=new_state)
 
     return jsonify({'error': "success"})
+
+@app.route("/api/v1/kernels", methods=['GET'])
+def v1_get_kernels():
+    deprecated = request.args.get('deprecated', 0, type=int)
+
+    if deprecated == -1:
+        deprecated_status = [False, None]
+    elif deprecated == 1:
+        deprecated_status = [True]
+    else:
+        deprecated_status = [True, False, None]
+
+    kernels = Kernel.objects(deprecated__in=deprecated_status).order_by('vendor', 'device')
+
+    return jsonify(kernels), 200
