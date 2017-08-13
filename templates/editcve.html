@@ -64,9 +64,12 @@
     </div>
 
     <div class="card container">
-        <h3 id="title" cve_id="{{ cve.id }}">{{ cve.cve_name }}</h3>
+        <div class="header" id="title" cve_id="{{ cve.id }}">
+            <span class="title">{{ cve.cve_name }}</span>
+        </div>
         <div class="actions">
             <button class="delete-cve">Delete CVE</button>
+            <a href="../log/cve/{{ cve.cve_name }}"><button>Show logs</button></a>
         </div>
         <h4>Links</h4>
         <div id="linklist">
