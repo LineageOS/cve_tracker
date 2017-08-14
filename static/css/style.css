@@ -562,3 +562,11 @@ select {
 #open-close-filters {
     cursor: pointer;
 }
+
+th {
+    text-align: initial;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 12px;
+}
