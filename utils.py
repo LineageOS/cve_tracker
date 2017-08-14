@@ -55,10 +55,10 @@ def getKernelTableFromGithub():
     print("Done!")
     return
 
-def addKernel(reponame, last_update=datetime.datetime.now()):
+def addKernel(reponame, tags=[], last_update=datetime.datetime.now()):
     v, n = getVendorNameFromRepo(reponame)
     if v is not "error" and n is not "error":
-        Kernel(repo_name=reponame, last_github_update=last_update, vendor=v, device=n).save()
+        Kernel(repo_name=reponame, tags=tags, last_github_update=last_update, vendor=v, device=n).save()
         for c in CVE.objects():
             Patches(cve=c.id, kernel=Kernel.objects.get(repo_name=reponame).id, status=Status.objects.get(short_id=1).id).save()
 

@@ -7,7 +7,8 @@ class Config(Document):
 
 class CVE(Document):
     cve_name = StringField(required=True)
-    notes = StringField(required=False)
+    notes = StringField(required=True)
+    tags = ListField(StringField(), required=True, default=None)
 
 class Kernel(Document):
     repo_name = StringField(required=True)
@@ -16,6 +17,7 @@ class Kernel(Document):
     device = StringField(required=True)
     progress = IntField(required=True, default=0)
     deprecated = BooleanField(required=True, default=False)
+    tags = ListField(StringField(), required=False, default=None)
 
 class Status(Document):
     short_id = IntField(required=True)
