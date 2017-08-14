@@ -91,3 +91,14 @@ def updateStatusDescriptions():
                 Status.objects(short_id=sid).update(text=txt)
         else:
             Status(short_id=sid, text=txt).save()
+
+def getLogTranslations():
+    f = open('log_translations.txt')
+    translations = {}
+    while True:
+        x = f.readline().rstrip()
+        if not x: break
+        key = x.split('|')[0]
+        val = x.split('|')[1]
+        translations[key] = val
+    return translations
