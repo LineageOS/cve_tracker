@@ -58,6 +58,7 @@
             notesField: '.notes .field',
             links: '.links',
             error: '.error',
+            logs: '.actions .logs',
             edit: '.actions .edit',
             compare: '.actions .compare'
         }
@@ -90,6 +91,9 @@
         CVEInfoDialog.access.links.innerHTML = 'Loading ...';
         if (CVEInfoDialog.access.edit) {
             CVEInfoDialog.access.edit.href = '/editcve/' + cve_name;
+        }
+        if (CVEInfoDialog.access.logs) {
+            CVEInfoDialog.access.logs.href = '/logs/cve/' + cve_name;
         }
         CVEInfoDialog.access.compare.href = '/status/' + cve_name;
         CVEInfoDialog.element.setAttribute('cve_name', cve_name);

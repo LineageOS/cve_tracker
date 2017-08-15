@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}LineageOS Kernel Tracker - Logs{% endblock %}
+{% block content %}
+    <div class="card container">
+        <div class="header">
+            <span class="title">Logs {% if title %}for {{ title }}{% endif %}</span>
+        </div>
+        <div class="logs container">
+        {%- if logs %}
+            <table class="logs">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%- for l in logs %}
+                    <tr>
+                        <td>{{ l.dateAndTime.strftime('%b %d, %Y') }}</td>
+                        <td>{{ l.user }}</td>
+                        <td>
+                            {%- if l.action in logTranslations %}
+                                {{- logTranslations[l.action] -}}
+                            {%- else %}
+                                {{- l.action -}}
+                            {%- endif -%}
+                            </td>
+                        <td>{{ l.result }}</td>
+                    </tr>
+                    {%- endfor %}
+                </tbody>
+            </table>
+            {% if pages %}
+            <br/>Pages:&nbsp;
+            {%- for c in range(pages) %}
+            <a href="?page={{ c + 1 }}">{{ c+1 }}</a>&nbsp;
+            {%- endfor %}
+            {%- endif %}
+        {%- else %}
+            No logs so far!
+        {%- endif %}
+        </div>
+        <div class="actions container">
+        </div>
+    </div>
+{% endblock %}

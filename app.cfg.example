@@ -17,3 +17,6 @@ SECRET_KEY = 'default'
 
 # used to define whether to show the last update date of the kernel
 SHOW_LAST_UPDATE = False
+
+# amount of log lines per page
+LOGS_PER_PAGE = 50

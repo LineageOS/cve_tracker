@@ -562,3 +562,33 @@ select {
 #open-close-filters {
     cursor: pointer;
 }
+
+table {
+    width: 100%;
+}
+
+th {
+    text-align: initial;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+table.logs td {
+    vertical-align: top;
+    padding-top: 12px;
+}
+
+table.logs td:first-child,
+table.logs td:nth-child(2) {
+    min-width: 120px;
+}
+
+table.logs td:nth-child(3)  {
+    min-width: 160px;
+}
+
+table.logs td:last-child {
+    width: 90%;
+}
