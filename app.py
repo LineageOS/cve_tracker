@@ -222,7 +222,8 @@ def kernel(k):
                            devices = devs,
                            needs_auth=needs_auth(),
                            authorized=logged_in(),
-                           show_last_update=show_last_update())
+                           show_last_update=show_last_update(),
+                           org = app.config['GITHUB_ORG'])
 
 @app.route("/import_statuses", methods=['POST'])
 def import_statuses():

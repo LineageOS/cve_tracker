@@ -86,7 +86,7 @@
         <div class="header">
             <span class="title">
                 {{ kernel.vendor }}/{{ kernel.device }}
-                <a href="https://github.com/LineageOS/{{ kernel.repo_name }}" target="_blank" title="View on GitHub"><i class="mdi mdi-github-circle"></i></a>
+                <a href="https://github.com/{{ org }}/{{ kernel.repo_name }}" target="_blank" title="View on GitHub"><i class="mdi mdi-github-circle"></i></a>
             </span>
             {% if show_last_update -%}
                 <span class="subtitle">
@@ -97,7 +97,7 @@
                 <div class="subtitle">
                     <span>used by </span>
                     {% for d in devices -%}
-                        <a class="device" href="https://github.com/LineageOS/{{ d.repo }}" target="_blank" title="View on GitHub">
+                        <a class="device" href="https://github.com/{{ org }}/{{ d.repo }}" target="_blank" title="View on GitHub">
                             {{ d.name }}{% if not loop.last %},{% endif %}
                         </a>
                     {%- endfor %}
