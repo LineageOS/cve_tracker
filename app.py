@@ -66,6 +66,14 @@ def update_progress():
 def update_kernels():
     utils.getKernelTableFromGithub()
 
+@app.context_processor
+def template_dict():
+    templateDict = {}
+    templateDict["authorized"] = logged_in()
+    templateDict["needs_auth"] = needs_auth()
+    templateDict["version"] = version
+    return templateDict
+
 def logged_in():
     return ('github_token' in session and session['github_token']) or not needs_auth()
 
@@ -127,10 +135,7 @@ def secure():
     return "logged in"
 
 def error(msg = ""):
-    return render_template('error.html',
-                           msg=msg,
-                           needs_auth=needs_auth(),
-                           authorized=logged_in())
+    return render_template('error.html', msg=msg)
 
 def show_kernels(deprecated):
     if not deprecated:
@@ -141,16 +146,14 @@ def show_kernels(deprecated):
         template = "deprecated.html"
 
     kernels = Kernel.objects(deprecated__in=deprecated_status).order_by('vendor', 'device')
-    return (render_template(template, kernels=kernels, version=version, authorized=logged_in(),
-        needs_auth=needs_auth()))
+    return render_template(template, kernels=kernels)
 
 @app.route("/")
 def index():
     if logged_in():
         return show_kernels(False)
     else:
-        return render_template("index.html", version=version, authorized=logged_in(),
-            needs_auth=needs_auth())
+        return render_template('index.html')
 
 @app.route("/kernels")
 def kernels():
@@ -181,10 +184,7 @@ def show_devices():
             'progress': kernel["progress"]
             })
     devs.sort(key=operator.itemgetter('vendor', 'device'))
-    return render_template('devices.html',
-                           devices=devs,
-                           needs_auth=needs_auth(),
-                           authorized=logged_in())
+    return render_template('devices.html', devices=devs)
 
 @app.route("/<string:k>")
 def kernel(k):
@@ -220,8 +220,6 @@ def kernel(k):
                            status_ids = Status.objects(),
                            patches = patches,
                            devices = devs,
-                           needs_auth=needs_auth(),
-                           authorized=logged_in(),
                            show_last_update=show_last_update())
 
 @app.route("/import_statuses", methods=['POST'])
@@ -261,9 +259,7 @@ def cve_status(c):
                            kernels = kernels,
                            patches = patches,
                            status_ids = Status.objects(),
-                           statuses = statuses,
-                           needs_auth=needs_auth(),
-                           authorized=logged_in())
+                           statuses = statuses)
 
 @app.route("/update", methods=['POST'])
 @require_login
