@@ -108,3 +108,7 @@ input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus {
 option {
     background-color: #303030;
 }
+
+th {
+    color: #80cbc4;
+}
