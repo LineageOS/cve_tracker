@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 import base64
+import datetime
 import functools
 import json
+import math
 import operator
 import os
 import re
@@ -56,6 +58,9 @@ toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
 # Ensure status descriptions are in sync with statuses.txt
 utils.updateStatusDescriptions()
 
+# Get the translation for logging actions
+logTrans = utils.getLogTranslations()
+
 @app.cli.command()
 def update_progress():
     for k in Kernel.objects():
@@ -82,6 +87,12 @@ def needs_auth():
 
 def show_last_update():
     return 'SHOW_LAST_UPDATE' in app.config and app.config['SHOW_LAST_UPDATE'] == True
+
+def logs_per_page():
+    if 'LOGS_PER_PAGE' in app.config:
+        return app.config['LOGS_PER_PAGE']
+    else:
+        return 50
 
 def require_login(f):
     @functools.wraps(f)
@@ -111,6 +122,7 @@ def authorized(access_token):
         orgs = [x['login'] for x in req.json()]
     if app.config['GITHUB_ORG'] in orgs:
         session['github_token'] = access_token
+        getUsername(access_token)
         return redirect(next_url)
     elif len(orgs) == 0:
         msg = 'Couldn\'t find a GitHub membership in \'{}\''
@@ -119,6 +131,20 @@ def authorized(access_token):
         msg = ('Couldn\'t find a GitHub membership in \'{}\', only found these: {}')
         formatted = msg.format(app.config['GITHUB_ORG'], ', '.join(orgs))
     return error(formatted)
+
+def getUsername(access_token = None):
+    if access_token != None:
+        req = github.raw_request("GET", "user", access_token=access_token)
+
+        if req.status_code == 200:
+            data = req.json()
+            if 'login' in data:
+                session['username'] = data['login']
+
+    if 'username' not in session:
+        session['username'] = ''
+
+    return session['username']
 
 @app.route("/logout")
 def logout():
@@ -263,6 +289,7 @@ def import_statuses():
 
         progress = utils.getProgress(to_kernel)
         Kernel.objects(id=to_kernel).update(progress=progress)
+        writeLog("imported", to_kernel, to_kernel_repo)
         errstatus = "success"
     except:
         errstatus = "Invalid kernels!"
@@ -290,9 +317,12 @@ def update():
     c = r['cve_id'];
     s = r['status_id'];
 
-    Patches.objects(kernel=k, cve=c).update(status=Status.objects.get(short_id=s).id)
+    status = Status.objects.get(short_id=s)
+    Patches.objects(kernel=k, cve=c).update(status=status.id)
     progress = utils.getProgress(k)
     Kernel.objects(id=k).update(progress=progress)
+    cveName = CVE.objects.get(id=c)['cve_name']
+    writeLog("patched", k, cveName + ": " + status.text)
     return jsonify({'error': 'success', 'progress': progress})
 
 
@@ -328,6 +358,7 @@ def addcve():
         if not cve.startswith("LVT"):
             mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
             Links(cve_id=cve_id, link=mitrelink+cve).save()
+        writeLog("cve_add", cve_id, "Name: " + cve + ", Notes: " + notes + ", Tags: " + tags)
         errstatus = "success"
 
     if not errstatus:
@@ -356,6 +387,8 @@ def addkernel():
                 errstatus = "'" + kernel + "' is invalid!"
             else:
                 utils.addKernel(kernel, tags)
+                k = Kernel.objects.get(repo_name=kernel)['id']
+                writeLog("kernel_add", k, "Kernel: " + kernel + ", Tags: " + t)
                 errstatus = "success"
 
     if not errstatus:
@@ -377,6 +410,9 @@ def editkerneltags():
         errstatus = "Kernel is invalid!"
     elif not errstatus:
         Kernel.objects(id=k).update(tags=tags)
+        msg = "New tags: '{}'"
+        logStr = msg.format(t)
+        writeLog("tag_edit", k, logStr)
         errstatus = "success"
 
     if not errstatus:
@@ -401,6 +437,7 @@ def editcve(cvename = None):
 def deletecve(cvename = None):
     if cvename and CVE.objects(cve_name=cvename):
         utils.nukeCVE(cvename)
+        writeLog("cve_delete", None, cvename)
         return render_template('deletedcve.html', cve_name=cvename)
     return error()
 
@@ -423,6 +460,7 @@ def addlink():
     else:
         Links(cve_id=c, link=l, desc=d).save()
         link_id = Links.objects.get(cve_id=c, link=l)['id']
+        writeLog("link_add", c, l + ' - ' + d)
         errstatus = "success"
 
     return jsonify({'error': errstatus, 'link_id': str(link_id)})
@@ -432,10 +470,17 @@ def addlink():
 def deletelink():
     errstatus = "Generic error"
     r = request.get_json()
-    l = r['link_id']
+    linkId = r['link_id']
 
-    if l and Links.objects(id=l):
-        Links.objects(id=l).delete()
+    if linkId and Links.objects(id=linkId):
+        data = Links.objects.get(id=linkId)
+        linkUrl = data['link']
+        linkDesc = data['desc']
+        linkCve = data['cve_id']
+        Links.objects(id=linkId).delete()
+        msg = "Url: '{}', Desciption: '{}'"
+        logStr = msg.format(linkUrl, linkDesc)
+        writeLog("link_delete", linkCve, logStr)
         errstatus = "success"
     else:
         errstatus = "Link doesn't exist"
@@ -457,11 +502,14 @@ def editcvedata():
         errstatus = "Notes have to be at least 10 characters!";
     elif not errstatus:
         if c and CVE.objects(id=c):
-            CVE.objects(id=c).update(set__notes=r['cve_notes'])
+            CVE.objects(id=c).update(set__notes=n)
             if len(tags) > 0:
                 CVE.objects(id=c).update(set__tags=tags)
             else:
                 CVE.objects(id=c).update(unset__tags=1)
+            msg = "Notes: '{}', Tags: '{}'"
+            logStr = msg.format(n, t)
+            writeLog("cve_edit", c, logStr)
             errstatus = "success"
         else:
             errstatus = "CVE doesn't exist"
@@ -476,10 +524,20 @@ def editcvedata():
 def editlink():
     errstatus = "Generic error"
     r = request.get_json()
-    l = r['link_id']
+    linkId = r['link_id']
+    url = r['link_url']
+    desc = r['link_desc']
 
-    if l and Links.objects(id=l):
-        Links.objects(id=l).update(set__link=r['link_url'], set__desc=r['link_desc'])
+    if linkId and Links.objects(id=linkId):
+        cveId = Links.objects.get(id=linkId)['cve_id']
+        oldUrl = Links.objects.get(id=linkId)['link']
+        oldDesc =Links.objects.get(id=linkId)['desc']
+        Links.objects(id=linkId).update(set__link=url, set__desc=desc)
+
+        msg = "From: '{}' - '{}', To: '{}' - '{}'"
+        logStr = msg.format(oldUrl, oldDesc, url, desc)
+        writeLog("link_edit", c, logStr);
+
         errstatus = "success"
     else:
         errstatus = "Link doesn't exist"
@@ -522,10 +580,12 @@ def deprecate():
     k = r['kernel_id']
     d = r['deprecate']
     if d == 'True':
-      new_state = False
+        new_state = False
     else:
-      new_state = True
+        new_state = True
     Kernel.objects(id=k).update(deprecated=new_state)
+    repo = Kernel.objects.get(id=k)['repo_name']
+    writeLog("deprecated", k, repo + " - " + str(new_state))
 
     return jsonify({'error': "success"})
 
@@ -543,3 +603,62 @@ def processTags(tags, allowNone = False):
             elif not tag in processed:
                 processed.append(tag)
     return errstatus, processed
+
+def writeLog(action, affectedId, result=None):
+    Log(user=getUsername(), action=action, dateAndTime=datetime.datetime.now(),
+        affectedId=affectedId, result=result).save()
+
+@app.route("/logs/")
+@require_login
+def logs():
+    actions = ['kernel_add', 'cve_add', 'cve_delete', 'deprecated']
+    return show_logs(None, actions, "")
+
+@app.route("/logs/kernel/<string:k>")
+@require_login
+def kernel_logs(k):
+    actions = ['imported', 'patched', 'tag_edit', 'deprecated', 'kernel_add']
+    try:
+        kernelId = Kernel.objects.get(repo_name=k).id
+    except:
+        return error("Kernel not found!")
+
+    return show_logs(kernelId, actions, k)
+
+@app.route("/logs/cve/<string:c>")
+@require_login
+def cve_logs(c):
+    actions = ['cve_add', 'cve_edit', 'link_add', 'link_edit', 'link_delete']
+    try:
+        cveId = CVE.objects.get(cve_name=c).id
+    except:
+        return error("CVE not found!")
+
+    return show_logs(cveId, actions, c)
+
+def show_logs(affectedId, actions, title):
+    p = request.args.get('page')
+    if not p:
+        page = 1
+    else:
+        page = int(p)
+    perPage = logs_per_page()
+    start = (page-1)*perPage
+    end = start + perPage - 1
+    if affectedId != None:
+        count = Log.objects(affectedId=affectedId, action__in=actions).count()
+        l = Log.objects(affectedId=affectedId,
+            action__in=actions).order_by('-dateAndTime')[start:end]
+    else:
+        count = Log.objects(action__in=actions).order_by('-dateAndTime').count()
+        l = Log.objects(action__in=actions).order_by('-dateAndTime')[start:end]
+
+    pages = math.ceil(count / perPage)
+
+    return render_template('logs.html',
+                            title=title,
+                            pages=pages,
+                            logs=l,
+                            logTranslations=logTrans,
+                            needs_auth=needs_auth(),
+                            authorized=logged_in())
