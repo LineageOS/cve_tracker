@@ -51,7 +51,7 @@ def getKernelTableFromGithub():
     p = app.config['GITHUBTOKEN']
     g = Github(u, p)
 
-    org = g.get_organization('LineageOS')
+    org = g.get_organization(app.config['GITHUB_ORG'])
 
     for repo in org.get_repos():
         if "android_kernel_" in repo.name or "-kernel-" in repo.name:
