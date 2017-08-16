@@ -3,7 +3,7 @@
 {% block content %}
     <div class="card container">
         <div class="header">
-            <span class="title">Error</span>
+            <span class="title">Error {{ errorCode }}</span>
             <span class="subtitle">
                 {% if msg -%}
                     {{ msg }}
