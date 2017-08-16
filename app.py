@@ -160,6 +160,11 @@ def get_github_token():
 def secure():
     return "logged in"
 
+@app.errorhandler(404)
+def page_not_found(error):
+    msg = "The requested page could not be found!"
+    return render_template('error.html', msg=msg, errorCode=404), 404
+
 def error(msg = ""):
     return render_template('error.html', msg=msg)
 
