@@ -234,22 +234,26 @@ def kernel(k):
     patch_status = {}
 
     if kernel.tags:
-        available_tags = list(kernel.tags)
+        available_tags = set(kernel.tags)
     else:
-        available_tags = []
-    available_tags.append('none')
-    filtered_cves = []
+        available_tags = set()
+    available_tags.add('none')
     for cve in cves:
         if not cve.tags:
-            cve.tags = []
+            cve.tags = set()
+        save = False
         if len(filter_tags) == 0 or 'none' in filter_tags and len(cve.tags) == 0:
-            filtered_cves.append(cve)
+            save = True
         for tag in cve.tags:
-            if tag in filter_tags and not cve in filtered_cves:
-                filtered_cves.append(cve)
-            if not tag in available_tags:
-                available_tags.append(tag)
-        patch_status[cve.id] = statuses[patches[cve.id]]
+            if tag in filter_tags:
+                save = True
+            available_tags.add(tag)
+        if save:
+            patch_status[cve.id] = {
+                    'status': statuses[patches[cve.id]],
+                    'name': cve.cve_name,
+                    'id': cve.id
+                    }
 
     if k in devices:
         devs = []
@@ -265,7 +269,6 @@ def kernel(k):
     return render_template('kernel.html',
                            kernel = kernel,
                            allKernels = sorted(all_kernels),
-                           cves = filtered_cves,
                            patch_status = patch_status,
                            all_tags = sorted(available_tags),
                            selected_tags = sorted(filter_tags),
@@ -596,7 +599,7 @@ def deprecate():
 
 def processTags(tags, allowNone = False):
     errstatus = None
-    processed = []
+    processed = set()
 
     if tags:
         for tag in tags.split(','):
@@ -605,8 +608,8 @@ def processTags(tags, allowNone = False):
                 continue
             elif len(tag) <= 3 or tag == 'none' and not allowNone:
                 errstatus = tag + " is an invalid tag!"
-            elif not tag in processed:
-                processed.append(tag)
+            else:
+                processed.add(tag)
     return errstatus, processed
 
 def writeLog(action, affectedId, result=None):
