@@ -231,7 +231,7 @@ def kernel(k):
     statuses = {s.id: s.short_id for s in Status.objects()}
     all_kernels = {k.repo_name for k in Kernel.objects(deprecated__in=[False, None])}
     patches = {p.cve: p.status for p in Patches.objects(kernel=kernel.id)}
-    patch_status = []
+    patch_status = {}
 
     if kernel.tags:
         available_tags = list(kernel.tags)
@@ -249,7 +249,7 @@ def kernel(k):
                 filtered_cves.append(cve)
             if not tag in available_tags:
                 available_tags.append(tag)
-        patch_status.append(statuses[patches[cve.id]])
+        patch_status[cve.id] = statuses[patches[cve.id]]
 
     if k in devices:
         devs = []

@@ -175,7 +175,7 @@
                     {%- for c in column %}
                         <div class="cve" id="{{ c.cve_name }}">
                             <span class="name" cve_id="{{ c.id }}" cve_name="{{ c.cve_name }}">{{ c.cve_name }}</span>
-                            <span class="status status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ c.id }}" status_id="{{ patch_status[counter[0]] }}"></span>
+                            <span class="status status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ c.id }}" status_id="{{ patch_status[c.id] }}"></span>
                         </div>
                     {%- if counter.append(counter.pop() + 1) %} {% endif %}
                     {%- endfor %}
