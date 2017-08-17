@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <div id="delete-cve-dialog" class="dialog">
+    <div id="delete-cve-dialog" class="dialog" cve_name="{{ cve.cve_name }}">
         <div class="title">
             Confirm deletion
         </div>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="card container">
-        <div class="header" id="title" cve_id="{{ cve.id }}">
+        <div class="header">
             <span class="title">{{ cve.cve_name }}</span>
         </div>
         <div class="actions">
