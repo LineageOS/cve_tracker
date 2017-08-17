@@ -321,6 +321,13 @@
             selectable.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
         });
 
+        var deselectTags = document.querySelector('#unselect-tags');
+        deselectTags.addEventListener('click', function(e) {
+            selectable.getActive().forEach(function(element) {
+                selectable.toggleActive(element);
+            });
+        });
+
         var applyFilters = document.querySelector('#apply-filter');
         applyFilters.addEventListener('click', function(e) {
             var address = window.location;
