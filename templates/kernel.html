@@ -168,13 +168,13 @@
         {% endif %}
 
         <div class="cves container">
-            {%- for column in cves | slice(3) %}
+            {%- for column in patch_status.items() | slice(3) %}
             {%- set cveloop = loop %}
                 <div class="four columns">
-                    {%- for c in column %}
-                        <div class="cve" id="{{ c.cve_name }}">
-                            <span class="name" cve_id="{{ c.id }}" cve_name="{{ c.cve_name }}">{{ c.cve_name }}</span>
-                            <span class="status status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ c.id }}" status_id="{{ patch_status[c.id] }}"></span>
+                    {%- for id, c in column %}
+                        <div class="cve" id="{{ c['name'] }}">
+                            <span class="name" cve_id="{{ id }}" cve_name="{{ c['name'] }}">{{ c['name'] }}</span>
+                            <span class="status status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ id }}" status_id="{{ c['status'] }}"></span>
                         </div>
                     {%- endfor %}
                 </div>
