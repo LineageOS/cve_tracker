@@ -229,7 +229,7 @@
     });
 
     function deleteCVE(button) {
-        var cveName = document.getElementById('title').innerHTML;
+        var cveName = document.getElementById('cve-name').value;
         window.location = "/deletecve/" + cveName;
     }
 
