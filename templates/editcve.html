@@ -64,7 +64,8 @@
     </div>
 
     <div class="card container">
-        <div class="header" id="title" cve_id="{{ cve.id }}">
+        <input type="hidden" id="cve-name" value="{{ cve.cve_name }}">
+        <div class="header">
             <span class="title">{{ cve.cve_name }}</span>
         </div>
         <div class="actions">
