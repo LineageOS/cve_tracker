@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 
 import datetime
-import urllib
+import sys
+if sys.version_info.major < 3:
+    from urlparse import urlparse
+else:
+    from urllib.parse import urlparse
 
 from classes import *
 from github import Github
@@ -9,7 +13,7 @@ from flask import Flask
 from flask_mongoengine import MongoEngine
 
 def isValidUrl(x):
-    result = urllib.parse.urlparse(x)
+    result = urlparse(x)
     parts = result.netloc.split('.')
     if result.scheme and len(parts) >= 2:
         return True
