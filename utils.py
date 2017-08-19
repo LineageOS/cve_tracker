@@ -1,15 +1,20 @@
 #!/usr/bin/python3
 
 import datetime
-import urllib
 
 from classes import *
 from github import Github
 from flask import Flask
 from flask_mongoengine import MongoEngine
 
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+
+
 def isValidUrl(x):
-    result = urllib.parse.urlparse(x)
+    result = urlparse(x)
     parts = result.netloc.split('.')
     if result.scheme and len(parts) >= 2:
         return True
