@@ -1,6 +1,7 @@
 cve_add|Added a CVE
 cve_delete|Deleted a CVE
 cve_edit|Modified a CVE
+cve_reset|Reset a CVE
 deprecated|Changed deprecation status
 imported|Imported patch statuses from other kernel
 patched|Changed a CVE
