@@ -519,7 +519,7 @@ select {
     text-align: center;
     line-height: 20px;
     font-size: 16px;
-    padding-bottom: 16px;
+    padding-bottom: 4px;
 
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -528,12 +528,9 @@ select {
 }
 #selectable span {
     display: inline-block;
-
     padding: 4px 12px;
-    margin: 0 6px;
-
+    margin: 0 6px 12px;
     border-radius: 14px;
-
     cursor: pointer;
     background: rgba(0, 0, 0, 0.05);
 }
