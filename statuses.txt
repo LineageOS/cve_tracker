@@ -3,3 +3,4 @@
 3|unaffected
 4|upstream hold
 5|on gerrit
+6|update available

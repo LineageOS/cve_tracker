@@ -446,6 +446,23 @@ def deletecve(cvename = None):
         return render_template('deletedcve.html', cve_name=cvename)
     return error()
 
+@app.route("/resetcve/<string:cvename>")
+@require_login
+def resetcve(cvename = None):
+    if cvename and CVE.objects(cve_name=cvename):
+        cve_id = CVE.objects.get(cve_name=cvename).id
+        status_id = Status.objects.get(short_id=6).id
+        writeLog("cve_reset", cve_id, cvename)
+        for k in Kernel.objects():
+            Patches.objects(cve=cve_id, kernel=k.id).update(status=status_id)
+            k.progress = utils.getProgress(k.id)
+            k.save()
+        return render_template('resetcve.html', cve_name=cvename)
+    else:
+        errmsg = "CVE '{}' is invalid or doesn't exist!"
+        msg = errmsg.format(cvename)
+        return error(msg=msg)
+
 @app.route("/addlink", methods=['POST'])
 @require_login
 def addlink():
@@ -616,7 +633,7 @@ def writeLog(action, affectedId, result=None):
 @app.route("/logs/")
 @require_login
 def logs():
-    actions = ['kernel_add', 'cve_add', 'cve_delete', 'deprecated']
+    actions = ['kernel_add', 'cve_add', 'cve_delete', 'deprecated', 'cve_reset']
     return show_logs(None, actions, "")
 
 @app.route("/logs/kernel/<string:k>")
@@ -633,7 +650,7 @@ def kernel_logs(k):
 @app.route("/logs/cve/<string:c>")
 @require_login
 def cve_logs(c):
-    actions = ['cve_add', 'cve_edit', 'link_add', 'link_edit', 'link_delete']
+    actions = ['cve_add', 'cve_edit', 'cve_reset', 'link_add', 'link_edit', 'link_delete']
     try:
         cveId = CVE.objects.get(cve_name=c).id
     except:
