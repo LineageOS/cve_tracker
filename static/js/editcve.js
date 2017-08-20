@@ -233,5 +233,28 @@
         window.location = "/deletecve/" + cveName;
     }
 
+    var resetCVEDialog = new Dialog({
+        element: document.querySelector('#reset-cve-dialog'),
+        drag: '.title',
+        actions: [{
+            id: 'reset',
+            callback: resetCVE,
+            selector: '.actions .delete'
+        }, {
+            id: 'cancel',
+            callback: 'close',
+            selector: '.actions .cancel'
+        }],
+        access: {
+            title: '.title'
+        },
+        trigger: document.querySelector('.reset-cve')
+    });
+
+    function resetCVE(button) {
+        var cveName = resetCVEDialog.element.getAttribute('cve_name');
+        window.location = "/resetcve/" + cveName;
+    }
+
     getLinks();
 })();
