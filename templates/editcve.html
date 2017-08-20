@@ -63,12 +63,26 @@
         </div>
     </div>
 
+    <div id="reset-cve-dialog" class="dialog" cve_name="{{ cve.cve_name }}">
+        <div class="title">
+            Confirm reset
+        </div>
+        <div class="content">
+            Are you sure that you want to reset the state of the CVE to 'update available' on all kernels?<br/>This can <b>not</b> be undone!
+        </div>
+        <div class="actions">
+            <button class="cancel">CANCEL</button>
+            <button class="delete">RESET</button>
+        </div>
+    </div>
+
     <div class="card container">
         <div class="header">
             <span class="title">{{ cve.cve_name }}</span>
         </div>
         <div class="actions">
             <button class="delete-cve">Delete CVE</button>
+            <button class="reset-cve">Reset CVE</button>
             <a href="../logs/cve/{{ cve.cve_name }}"><button>Show logs</button></a>
         </div>
         <h4>Links</h4>
