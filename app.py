@@ -249,7 +249,10 @@ def kernel(k):
                 filtered_cves.append(cve)
             if not tag in available_tags:
                 available_tags.append(tag)
-        patch_status[cve.id] = statuses[patches[cve.id]]
+        if cve.id in patches:
+            patch_status[cve.id] = statuses[patches[cve.id]]
+        else:
+            patch_status[cve.id] = 1
 
     if k in devices:
         devs = []
@@ -285,19 +288,37 @@ def import_statuses():
     try:
         from_kernel = Kernel.objects.get(repo_name=from_kernel_repo).id
         to_kernel = Kernel.objects.get(repo_name=to_kernel_repo).id
-        statuses = {s.id: s.short_id for s in Status.objects()}
-
-        for patch in Patches.objects(kernel=from_kernel):
-            target_patch = Patches.objects.get(kernel=to_kernel, cve=patch.cve)
-            if override_all or statuses[target_patch.status] == 1:
-                target_patch.update(status=patch.status)
-
-        progress = utils.getProgress(to_kernel)
-        Kernel.objects(id=to_kernel).update(progress=progress)
-        writeLog("imported", to_kernel, to_kernel_repo)
-        errstatus = "success"
     except:
         errstatus = "Invalid kernels!"
+
+    statuses = {s.id: s.short_id for s in Status.objects()}
+
+    for cve in CVE.objects():
+        try:
+            source_patch = Patches.objects.get(kernel=from_kernel, cve=cve.id)
+        except:
+            source_patch = None
+
+        try:
+            target_patch = Patches.objects.get(kernel=to_kernel, cve=cve.id)
+        except:
+            target_patch = None
+
+        if source_patch:
+            source_status = source_patch['status']
+            if target_patch:
+                if override_all or statuses[target_patch.status] == 1:
+                    target_patch.update(status=source_status)
+            elif statuses[source_status] != 1:
+                Patches.objects(kernel=to_kernel, cve=cve.id, status=source_status).save()
+        else:
+            if target_patch and override_all:
+                target_patch.update(status=Status.objects.get(short_id=1)['id'])
+
+    progress = utils.getProgress(to_kernel)
+    Kernel.objects(id=to_kernel).update(progress=progress)
+    writeLog("imported", to_kernel, from_kernel_repo)
+    errstatus = "success"
 
     return jsonify({'error': errstatus})
 
@@ -323,7 +344,11 @@ def update():
     s = r['status_id'];
 
     status = Status.objects.get(short_id=s)
-    Patches.objects(kernel=k, cve=c).update(status=status.id)
+    try:
+        Patches.objects(kernel=k, cve=c).update(status=status.id)
+    except:
+        Patches.objects(kernel=k, cve=c, status=status.id).save()
+
     progress = utils.getProgress(k)
     Kernel.objects(id=k).update(progress=progress)
     cveName = CVE.objects.get(id=c)['cve_name']
@@ -356,7 +381,6 @@ def addcve():
         CVE(cve_name=cve, notes=notes, tags=cveTags).save()
         cve_id = CVE.objects.get(cve_name=cve)['id']
         for k in Kernel.objects():
-            Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
             k.progress = utils.getProgress(k.id)
             k.save()
         # add a mitre link for non-internal CVEs
@@ -454,7 +478,10 @@ def resetcve(cvename = None):
         status_id = Status.objects.get(short_id=6).id
         writeLog("cve_reset", cve_id, cvename)
         for k in Kernel.objects():
-            Patches.objects(cve=cve_id, kernel=k.id).update(status=status_id)
+            try:
+                Patches.objects(cve=cve_id, kernel=k.id).update(status=status_id)
+            except:
+                Patches.objects(cve=cve_id, kernel=k.id, status=status_id).save()
             k.progress = utils.getProgress(k.id)
             k.save()
         return render_template('resetcve.html', cve_name=cvename)
@@ -590,8 +617,12 @@ def getcvedata():
 
 @app.route("/check/<string:k>/<string:c>")
 def check(k, c):
-    statusid = Patches.objects.get(kernel=Kernel.objects.get(repo_name=k).id,
+    try:
+        statusid = Patches.objects.get(kernel=Kernel.objects.get(repo_name=k).id,
                                    cve=CVE.objects.get(cve_name=c).id).status
+    except:
+        statusid = 1
+
     status = Status.objects.get(id=statusid).text
     return jsonify({'kernel': k, 'cve': c, 'status': status})
 
@@ -681,6 +712,4 @@ def show_logs(affectedId, actions, title):
                             title=title,
                             pages=pages,
                             logs=l,
-                            logTranslations=logTrans,
-                            needs_auth=needs_auth(),
-                            authorized=logged_in())
+                            logTranslations=logTrans)

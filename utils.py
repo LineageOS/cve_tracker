@@ -68,13 +68,12 @@ def addKernel(reponame, tags=[], last_update=datetime.datetime.now()):
     v, n = getVendorNameFromRepo(reponame)
     if v is not "error" and n is not "error":
         Kernel(repo_name=reponame, tags=tags, last_github_update=last_update, vendor=v, device=n).save()
-        for c in CVE.objects():
-            Patches(cve=c.id, kernel=Kernel.objects.get(repo_name=reponame).id, status=Status.objects.get(short_id=1).id).save()
 
 def nukeCVE(cve):
     if CVE.objects(cve_name=cve):
         cve_id = CVE.objects(cve_name=cve).first()['id']
-        Patches.objects(cve=cve_id).delete()
+        if Patches.objects(cve=cve_id):
+            Patches.objects(cve=cve_id).delete()
         Links.objects(cve_id=cve_id).delete()
         CVE.objects(id=cve_id).delete()
 
