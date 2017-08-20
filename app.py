@@ -322,12 +322,13 @@ def update():
     c = r['cve_id'];
     s = r['status_id'];
 
+    old_status = Status.objects.get(id=Patches.objects.get(kernel=k, cve=c)['status'])
     status = Status.objects.get(short_id=s)
     Patches.objects(kernel=k, cve=c).update(status=status.id)
     progress = utils.getProgress(k)
     Kernel.objects(id=k).update(progress=progress)
     cveName = CVE.objects.get(id=c)['cve_name']
-    writeLog("patched", k, cveName + ": " + status.text)
+    writeLog("patched", k, cveName + ": From " + old_status.text + " to " + status.text)
     return jsonify({'error': 'success', 'progress': progress})
 
 
