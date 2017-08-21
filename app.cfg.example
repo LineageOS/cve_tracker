@@ -20,3 +20,6 @@ SHOW_LAST_UPDATE = False
 
 # amount of log lines per page
 LOGS_PER_PAGE = 50
+
+# config for the robots meta tag
+ROBOTS_TAG = 'noindex, nofollow'
