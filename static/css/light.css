@@ -109,3 +109,8 @@ input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus {
 th {
     color: #167c80;
 }
+
+#selectable span.active {
+    background: #167c80;
+    color: white;
+}
