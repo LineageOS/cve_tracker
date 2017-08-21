@@ -7,8 +7,8 @@ class Config(Document):
 
 class CVE(Document):
     cve_name = StringField(required=True)
-    notes = StringField(required=True)
-    tags = ListField(StringField(), required=True, default=None)
+    notes = StringField(required=False)
+    tags = ListField(StringField(), required=False, default=None)
 
 class Kernel(Document):
     repo_name = StringField(required=True)
