@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}LineageOS CVE Tracker - Edit {{ cve.cve_name }}{% endblock %}
 {% block content %}
-    <div id="add-link-dialog" class="dialog">
+    <div id="add-link-dialog" class="dialog" cve_id="{{ cve.id }}">
         <div class="title">
             Enter new link
         </div>
@@ -77,7 +77,7 @@
     </div>
 
     <div class="card container">
-        <div class="header">
+        <div class="header" id="title" cve_id="{{ cve.id }}">
             <span class="title">{{ cve.cve_name }}</span>
         </div>
         <div class="actions">

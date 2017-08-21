@@ -355,15 +355,18 @@ def addcve():
     elif not errstatus:
         CVE(cve_name=cve, notes=notes, tags=cveTags).save()
         cve_id = CVE.objects.get(cve_name=cve)['id']
+        status_id = Status.objects.get(short_id=1)['id']
         for k in Kernel.objects():
-            Patches(cve=cve_id, kernel=k.id, status=Status.objects.get(short_id=1)['id']).save()
+            Patches(cve=cve_id, kernel=k.id, status=status_id).save()
             k.progress = utils.getProgress(k.id)
             k.save()
         # add a mitre link for non-internal CVEs
         if not cve.startswith("LVT"):
             mitrelink = 'https://cve.mitre.org/cgi-bin/cvename.cgi?name='
             Links(cve_id=cve_id, link=mitrelink+cve).save()
-        writeLog("cve_add", cve_id, "Name: " + cve + ", Notes: " + notes + ", Tags: " + tags)
+        msg = "Name: '{}', Notes: '{}', Tags: '{}'"
+        logStr = msg.format(cve, notes, tags)
+        writeLog("cve_add", cve_id, logStr)
         errstatus = "success"
 
     if not errstatus:
@@ -393,7 +396,9 @@ def addkernel():
             else:
                 utils.addKernel(kernel, tags)
                 k = Kernel.objects.get(repo_name=kernel)['id']
-                writeLog("kernel_add", k, "Kernel: " + kernel + ", Tags: " + t)
+                msg = "Kernel: '{}', Tags: '{}'"
+                logStr = msg.format(kernel, tags)
+                writeLog("kernel_add", k, logStr)
                 errstatus = "success"
 
     if not errstatus:
@@ -434,7 +439,8 @@ def editcve(cvename = None):
                                cve=cve,
                                links=Links.objects(cve_id=cve['id']))
     else:
-        msg = cvename + " is invalid or doesn't exist!"
+        errmsg = "CVE '{}' is invalid or doesn't exist!"
+        msg = errmsg.format(cvename)
         return error(msg)
 
 @app.route("/deletecve/<string:cvename>")
@@ -444,7 +450,10 @@ def deletecve(cvename = None):
         utils.nukeCVE(cvename)
         writeLog("cve_delete", None, cvename)
         return render_template('deletedcve.html', cve_name=cvename)
-    return error()
+    else:
+        errmsg = "CVE '{}' is invalid or doesn't exist!"
+        msg = errmsg.format(cvename)
+        return error(msg)
 
 @app.route("/resetcve/<string:cvename>")
 @require_login
