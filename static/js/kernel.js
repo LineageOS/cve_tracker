@@ -113,6 +113,11 @@
         });
     });
 
+    var cveTagSelector = new Selector({
+        multiple: true,
+        isClickable: false
+    });
+
     function getData(cve_id) {
         restoreEditables();
         $.ajax({
@@ -124,19 +129,59 @@
             })
         }).done(function(data) {
             data = JSON.parse(data);
-            if (!data[0].tags) {
-                data[0].tags = ['No tags'];
-                CVEInfoDialog.access.tagsField.setAttribute('empty', true);
+            if (CVEInfoDialog.access.tagsField) {
+                cveTagSelector.setOptions({});
+                processTags(data[0].tags, false);
+                if (!data[0].tags) {
+                    data[0].tags = ['No tags'];
+                    CVEInfoDialog.access.tagsField.setAttribute('empty', true);
+                }
+                CVEInfoDialog.access.tagsField.innerHTML = data[0].tags.join(', ');
             }
             if (!data[0].notes) {
                 data[0].notes = 'No notes';
                 CVEInfoDialog.access.notesField.setAttribute('empty', true);
             }
-            if (CVEInfoDialog.access.tagsField) {
-                CVEInfoDialog.access.tagsField.innerHTML = data[0].tags.join(', ');;
-            }
             CVEInfoDialog.access.notesField.innerHTML = data[0].notes;
         });
+    }
+
+    function processTags(tags, displayAll) {
+        var cveTags = document.querySelector('#cveTags.selectable');
+        if (!cveTags) {
+            return;
+        }
+
+        cveTags.innerText = "";
+        kernelTags.forEach(function(e) {
+            option = e.innerHTML.trim();
+            var el = createElement('span', {
+                content: e.innerHTML.trim(),
+                parent: cveTags
+            });
+
+            if (cveTagSelector.isOption(option) && cveTagSelector.isActive(option)) {
+                el.classList.add('active');
+            }
+            if (tags != undefined && tags.indexOf(option) >= 0) {
+                tags.splice(tags.indexOf(option), 1);
+                if (!el.classList.contains('active')) {
+                    el.classList.add('active');
+                }
+            } else {
+                if (!displayAll) {
+                    el.classList.add('hidden');
+                }
+            }
+        });
+
+        cveTagElements = [].slice.call(cveTags.children);
+        cveTagElements.forEach(function(element) {
+            if (!cveTagSelector.isOption(element)) {
+                cveTagSelector.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
+            }
+        });
+        console.log(tags);
     }
 
     function getLinks(cve_id) {
@@ -190,6 +235,8 @@
         if (CVEInfoDialog.access.tagsField.getAttribute('empty') == 'true') {
             CVEInfoDialog.access.tagsField.innerHTML = '';
         }
+        processTags(null, true);
+        cveTagSelector.isClickable = true;
         if (CVEInfoDialog.access.notesField.getAttribute('empty') == 'true') {
             CVEInfoDialog.access.notesField.innerHTML = '';
         }
@@ -201,6 +248,9 @@
     function saveTagsAndNotes() {
         var cveId = CVEInfoDialog.element.getAttribute('cve_id');
         var tags = CVEInfoDialog.access.tagsField.innerText;
+        cveTagSelector.getActive().forEach(function(e) {
+            tags += "," + e;
+        });
         var notes = CVEInfoDialog.access.notesField.innerText;
 
         $.ajax({
@@ -224,8 +274,9 @@
                     CVEInfoDialog.access.notesField.setAttribute('empty', true);
                 }
                 CVEInfoDialog.access.error.innerHTML = '';
-                CVEInfoDialog.access.tagsField.innerHTML = tags;
-                CVEInfoDialog.access.notesField.innerHTML = notes;
+                //CVEInfoDialog.access.tagsField.innerHTML = tags;
+                getData(cveId);
+                //CVEInfoDialog.access.notesField.innerHTML = notes;
             } else {
                 CVEInfoDialog.access.error.innerHTML = data.error;
             }
@@ -312,20 +363,19 @@
             }
         });
 
-        var options = {};
-        var selectable = new Selector({
+        var filterSelectable = new Selector({
             multiple: true
         });
-        var elements = [].slice.call(document.querySelector('#selectable').children);
-        elements.forEach(function(element) {
-            selectable.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
+        var filterElements = [].slice.call(document.querySelector('#filter-box .selectable').children);
+        filterElements.forEach(function(element) {
+            filterSelectable.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
         });
 
         var applyFilters = document.querySelector('#apply-filter');
         applyFilters.addEventListener('click', function(e) {
             var address = window.location;
             var search = "?tags=";
-            selectable.getActive().forEach(function(e) {
+            filterSelectable.getActive().forEach(function(e) {
                 search += e + ",";
             });
             address.search = search;
@@ -335,7 +385,7 @@
         applyKernelFilters.addEventListener('click', function(e) {
             var address = window.location;
             var search = "?tags=";
-            elements.forEach(function(element) {
+            filterElements.forEach(function(element) {
                 if (element.classList.contains('kernel-filter')) {
                     search += element.innerHTML.trim() + ",";
                 }
@@ -360,9 +410,20 @@
             trigger: document.querySelector('#open-edit-tags-dialog')
         });
 
+        var kernelTagsSelectable = new Selector({
+            multiple: true
+        });
+        var kernelTags = [].slice.call(document.querySelector('#kernelTags.selectable').children);
+        kernelTags.forEach(function(element) {
+            kernelTagsSelectable.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
+        });
+
         function editTags() {
             var kernelId = editTagsDialog.element.getAttribute('kernel_id');
             var tags = editTagsDialog.access.tags.value;
+            kernelTagsSelectable.getActive().forEach(function(e) {
+                tags += "," + e;
+            });
             console.log(tags)
             $.ajax({
                 'type': 'POST',
