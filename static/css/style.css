@@ -515,7 +515,7 @@ select {
     text-align: right;
 }
 
-#selectable {
+.selectable {
     text-align: center;
     line-height: 20px;
     font-size: 16px;
@@ -526,7 +526,7 @@ select {
     -ms-user-select: none;
     user-select: none;
 }
-#selectable span {
+.selectable span {
     display: inline-block;
     padding: 4px 12px;
     margin: 0 6px 12px;
@@ -585,4 +585,8 @@ table.logs td:nth-child(3)  {
 
 table.logs td:last-child {
     width: 90%;
+}
+
+.hidden {
+    display: none !important;
 }
