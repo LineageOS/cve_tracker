@@ -113,7 +113,7 @@ th {
     color: #167c80;
 }
 
-#selectable span.active {
+.selectable span.active {
     background: #167c80;
     color: white;
 }
