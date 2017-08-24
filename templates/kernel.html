@@ -5,25 +5,24 @@
 {% endblock %}
 {% block content %}
     <div id="status_ids">
-        {% for s in status_ids -%}
-            <div id={{ "status_" ~ s.short_id }}>
-                {{ s.text }}
-            </div>
-        {%- endfor %}
+        {%- for s in status_ids %}
+            <div id={{ "status_" ~ s.short_id }}>{{ s.text }}</div>
+        {%- endfor -%}
     </div>
 
     <div id="deprecate-kernel-dialog" class="dialog" kernel_id="{{ kernel.id }}" deprecated="{{ kernel.deprecated }}">
         <div class="title">
             Mark as
-            {% if kernel.deprecated %}
+            {%- if kernel.deprecated %}
                 not deprecated
-            {% else %}
+            {%- else %}
                 deprecated
-            {% endif %}
+            {%- endif %}
         </div>
         <div class="content">
             This kernel will {% if not kernel.deprecated %}<b>not</b> {% endif %}be shown on the main page.
         </div>
+        <div class="error"></div>
         <div class="actions">
             <button class="cancel">CANCEL</button>
             <button class="mark">MARK</button>
@@ -34,12 +33,12 @@
         <div class="title">Import statuses</div>
         <div class="content">
             <label>Import from</label>
-            <select class="from_kernel">
-                <option value="" disabled selected>Please select</option>
-                {% for k in allKernels %}
+            <input type="text" class="from_kernel" list="kernel_list" placeholder="Please select or start typing...">
+            <datalist id="kernel_list">
+                {%- for k in allKernels %}
                     <option>{{ k }}</option>
-                {% endfor %}
-            </select>
+                {%- endfor %}
+            </datalist>
             <label>Override all statuses</label>
             <div>
                 <input type="checkbox" class="override_all" id="override_all">
@@ -55,19 +54,27 @@
 
     <div id="edit-tags-dialog" class="dialog" kernel_id="{{ kernel.id }}">
     <div class="title">Edit kernel tags</div>
-        <div class="content">
-            {%- if kernel.tags %}
-            {%- set value = kernel.tags | join(', ') %}
-            {%- else %}
-            {%- set value = "" %}
-            {%- endif %}
-            <input type="text" class="tags" placeholder="qcom, broadcom, exynos, ... (comma separated)" value="{{ value }}">
+    <div class="content">
+        <div id="kernelTags" class="selectable">
+            {%- for tag in all_tags %}
+                {%- if kernel.tags and tag in kernel.tags %}
+                {%- set class = "active" %}
+                {%- else %}
+                {%- set class = "" %}
+                {%- endif %}
+                {%- if tag != 'none' %}
+                <span class="{{ class }}">{{ tag }}</span>
+                {%- endif %}
+            {%- endfor %}
         </div>
-        <div class="error"></div>
-        <div class="actions">
-            <button class="cancel">CANCEL</button>
-            <button class="save">SAVE</button>
-        </div>
+        <label>Specify own, if not in the list above:</label>
+        <input type="text" class="tags" placeholder="qcom, broadcom, exynos, ... (comma separated)" value="">
+    </div>
+    <div class="error"></div>
+    <div class="actions">
+        <button class="cancel">CANCEL</button>
+        <button class="save">SAVE</button>
+    </div>
     </div>
 
     <div id="cve-info-dialog" class="dialog">
@@ -82,7 +89,8 @@
             <div class="tags">
                 <i class="edit mdi mdi-18px mdi-pencil" title="Edit tags"></i>
                 <label>Tags</label>
-                <div class="field" placeholder="qcom, broadcom wifi, exynos, ..."></div>
+                <div id="cveTags" class="selectable"></div>
+                <div class="field" placeholder="Specify own, if not in the list above (comma separated)"></div>
             </div>
             {%- endif %}
             <div class="notes">
@@ -146,7 +154,7 @@
             {%- set class = "active" %}
             {%- endif %}
             <div id="filter-box" class="{{ class }}">
-                <div id="selectable">
+                <div class="selectable">
                 {%- for tag in all_tags %}
                     {%- if tag in selected_tags %}
                     {%- set class = "active" %}
@@ -181,7 +189,7 @@
             {% endfor -%}
         </div>
         {% if authorized %}
-            <div class="actions container">
+            <div class="actions container" id="kernelActions">
                 <button id="open-deprecate-kernel-dialog">
                     {% if kernel.deprecated %}
                         MARK AS NOT DEPRECATED
