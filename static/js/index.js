@@ -5,7 +5,7 @@
         var cveNotes = d.access.details.value;
         var cveTags = d.access.tags.value;
         button.disabled = true;
-        d.access.error.innerHTML = 'Adding...';
+        d.access.error.innerHTML = 'Adding, please wait...';
 
         $.ajax({
             type: 'POST',
@@ -17,6 +17,7 @@
                 cve_tags: cveTags
             })
         }).done(function(data) {
+            button.disabled = false;
             if (data.error == 'success') {
                 d.access.error.innerHTML = '';
                 d.close();
@@ -24,12 +25,14 @@
                 d.access.error.innerHTML = data.error;
             }
             button.disabled = false;
+        }).fail(function() {
+            d.access.error.innerText = 'Something went wrong with the request!';
+            button.disabled = false;
         });
     }
 
     var addCVEDialog = new Dialog({
         element: document.querySelector('#add-cve-dialog'),
-        trigger: document.querySelector('#open-add-cve-dialog'),
         drag: '.title',
         actions: [{
             callback: 'close',
@@ -44,6 +47,17 @@
             details: '.details',
             error: '.error'
         }
+    });
+    window.addCVEDialog = addCVEDialog;
+
+    var openAddCVEDialog = document.querySelector('#open-add-cve-dialog');
+    openAddCVEDialog.addEventListener('click', function(e) {
+        addCVEDialog.open();
+        addCVEDialog.access.name.focus();
+        addCVEDialog.access.name.value = "";
+        addCVEDialog.access.tags.value = "";
+        addCVEDialog.access.details.value = "";
+        addCVEDialog.access.error.innerHTML = "";
     });
 
     function addKernel(button) {
@@ -67,12 +81,14 @@
                 d.access.error.innerHTML = data.error;
             }
             button.disabled = false;
+        }).fail(function() {
+            d.access.error.innerText = 'Something went wrong with the request!';
+            button.disabled = false;
         });
     }
 
     var addKernelDialog = new Dialog({
         element: document.querySelector('#add-kernel-dialog'),
-        trigger: document.querySelector('#open-add-kernel-dialog'),
         drag: '.title',
         actions: [{
             callback: 'close',
@@ -86,5 +102,15 @@
             tags: '.tags',
             error: '.error'
         }
+    });
+    window.addKernelDialog = addKernelDialog;
+
+    var openAddKernelDialog = document.querySelector('#open-add-kernel-dialog');
+    openAddKernelDialog.addEventListener('click', function(e) {
+        addKernelDialog.open();
+        addKernelDialog.access.repo.focus();
+        addKernelDialog.access.repo.value = '';
+        addKernelDialog.access.tags.value = '';
+        addKernelDialog.access.error.innerHTML = '';
     });
 })();
