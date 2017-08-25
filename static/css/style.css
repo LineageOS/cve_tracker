@@ -448,10 +448,17 @@ input {
     width: 28px;
     font-size: 16px;
 }
-#cve-info-dialog .notes, #cve-info-dialog .tags {
+#cve-info-dialog .notes {
     position: relative;
     margin-bottom: 24px;
 }
+#cve-info-dialog .tags {
+    position: relative;
+}
+#cve-info-dialog .tags .field {
+    margin-bottom: 24px;
+}
+
 #cve-info-dialog .notes .mdi, #cve-info-dialog .tags .mdi {
     position: absolute;
     right: 0px;
@@ -515,7 +522,7 @@ select {
     text-align: right;
 }
 
-#selectable {
+.selectable {
     text-align: center;
     line-height: 20px;
     font-size: 16px;
@@ -526,7 +533,7 @@ select {
     -ms-user-select: none;
     user-select: none;
 }
-#selectable span {
+.selectable span {
     display: inline-block;
     padding: 4px 12px;
     margin: 0 6px 12px;

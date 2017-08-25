@@ -6,6 +6,11 @@
     function Selector(o) {
         var s = this;
         var options = {};
+        s.clickable = true;
+
+        if (isDefined(o.clickable)) {
+            s.clickable = o.clickable;
+        }
 
         s.isActive = function(op) {
             return options[op].classList.contains('active');
@@ -63,7 +68,9 @@
 
         s.addOption = function(op, el) {
             el.addEventListener('click', function() {
-                s.toggleActive(op);
+                if (s.clickable) {
+                    s.toggleActive(op);
+                }
             });
             options[op] = el;
         };

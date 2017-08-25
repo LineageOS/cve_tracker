@@ -116,7 +116,7 @@ th {
     color: #80cbc4;
 }
 
-#selectable span.active {
+.selectable span.active {
     background: #80cbc4;
     color: black;
 }
