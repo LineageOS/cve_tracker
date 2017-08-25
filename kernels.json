@@ -337,8 +337,6 @@
         "android_device_samsung_d2vzw"
     ],
     "android_kernel_samsung_espresso10": [
-        "android_device_samsung_espresso3g",
-        "android_device_samsung_espressowifi",
         "android_device_samsung_p3100",
         "android_device_samsung_p3110",
         "android_device_samsung_p5100",
@@ -430,8 +428,7 @@
         "android_device_samsung_gts28vewifi"
     ],
     "android_kernel_samsung_noblelte": [
-        "android_device_samsung_nobleltejv",
-        "android_device_samsung_nobleltetmo"
+        "android_device_samsung_nobleltejv"
     ],
     "android_kernel_samsung_s3ve3g": [
         "android_device_samsung_s3ve3g"
@@ -510,6 +507,10 @@
         "android_device_sony_hayabusa",
         "android_device_sony_mint",
         "android_device_sony_tsubasa"
+    ],
+    "android_kernel_ti_omap4": [
+        "android_device_samsung_espresso3g",
+        "android_device_samsung_espressowifi"
     ],
     "android_kernel_wingtech_msm8916": [
         "android_device_wingtech_wt88047"
