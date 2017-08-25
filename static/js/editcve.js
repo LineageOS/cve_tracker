@@ -12,7 +12,8 @@
             selector: '.actions .cancel'
         }],
         access: {
-            title: '.title'
+            title: '.title',
+            error: '.error'
         }
     });
 
@@ -38,6 +39,10 @@
             } else {
                 d.access.error.innerHTML = data.error;
             }
+        }).fail(function() {
+            d.actions.delete.disabled = false;
+            d.actions.cancel.disabled = false;
+            ajaxFailMessage(d);
         });
     }
 
@@ -52,58 +57,61 @@
             })
         }).done(function(data) {
             var linkList = document.getElementById('linklist');
-            if (data.length) {
-                var links = JSON.parse(data);
-                linkList.innerHTML = "";
-                links.forEach(function(v) {
-                    var description = v.desc;
-                    var url = v.link;
-                    var id = v._id.$oid;
-                    if (!description) {
-                        description = 'No description';
-                    }
-
-                    var linkItem = createElement('div', {
-                        parent: linkList
-                    });
-
-                    createElement('a', {
-                        class: 'link',
-                        href: url,
-                        content: url,
-                        parent: linkItem
-                    });
-                    createElement('span', {
-                        class: 'linkdesc',
-                        content: ' - ' + description,
-                        parent: linkItem
-                    });
-
-                    var deleteButton = createElement('button', {
-                        class: 'delete',
-                        content: 'Delete',
-                        parent: linkItem
-                    });
-                    deleteButton.addEventListener('click', function() {
-                        deleteLinkDialog.element.setAttribute('link_id', id);
-                        deleteLinkDialog.open();
-                    });
-
-                    var editButton = createElement('button', {
-                        class: 'edit',
-                        content: 'Edit',
-                        parent: linkItem
-                    });
-                    editButton.addEventListener('click', function() {
-                        editLinkDialog.element.setAttribute('link_id', id);
-                        editLinkDialog.access.link.value = url;
-                        editLinkDialog.access.description.value = description;
-                        editLinkDialog.open();
-                    });
-                });
-            } else {
+            if (!data.length) {
                 linkList.innerHTML = "No links available";
+                return;
             }
+            var links = JSON.parse(data);
+            linkList.innerHTML = "";
+            links.forEach(function(v) {
+                var description = v.desc;
+                var url = v.link;
+                var id = v._id.$oid;
+                if (!description) {
+                    description = 'No description';
+                }
+
+                var linkItem = createElement('div', {
+                    parent: linkList
+                });
+
+                createElement('a', {
+                    class: 'link',
+                    href: url,
+                    content: url,
+                    parent: linkItem
+                });
+                createElement('span', {
+                    class: 'linkdesc',
+                    content: ' - ' + description,
+                    parent: linkItem
+                });
+
+                var deleteButton = createElement('button', {
+                    class: 'delete',
+                    content: 'Delete',
+                    parent: linkItem
+                });
+                deleteButton.addEventListener('click', function() {
+                    deleteLinkDialog.element.setAttribute('link_id', id);
+                    deleteLinkDialog.access.error.innerText = "";
+                    deleteLinkDialog.open();
+                });
+
+                var editButton = createElement('button', {
+                    class: 'edit',
+                    content: 'Edit',
+                    parent: linkItem
+                });
+                editButton.addEventListener('click', function() {
+                    editLinkDialog.element.setAttribute('link_id', id);
+                    editLinkDialog.access.link.value = url;
+                    editLinkDialog.access.description.value = description;
+                    editLinkDialog.open();
+                });
+            });
+        }).fail(function() {
+            ajaxFailMessage(linkList);
         });
     }
 
@@ -124,13 +132,21 @@
             link: '.link',
             description: '.description',
             error: '.error'
-        },
-        trigger: document.querySelector('.add-link')
+        }
+    });
+
+    var openAddLink = document.querySelector('.add-link');
+    openAddLink.addEventListener('click', function(e) {
+        addLinkDialog.open();
+        addLinkDialog.access.link.focus();
+        addLinkDialog.access.link.value = "";
+        addLinkDialog.access.description.value = "";
+        addLinkDialog.access.error.innerText = "";
     });
 
     function addLink(button) {
         var d = this;
-        var cveId = document.getElementById('title').getAttribute('cve_id');
+        var cveId = d.element.getAttribute('cve_id');
         var link = d.access.link.value;
         var description = d.access.description.value;
 
@@ -156,6 +172,10 @@
             } else {
                 d.access.error.innerHTML = data.error;
             }
+        }).fail(function() {
+            d.actions.add.disabled = false;
+            d.actions.cancel.disabled = false;
+            ajaxFailMessage(d);
         });
     }
 
@@ -207,6 +227,10 @@
             } else {
                 d.access.error.innerHTML = data.error;
             }
+        }).fail(function() {
+            d.actions.save.disabled = false;
+            d.actions.cancel.disabled = false;
+            ajaxFailMessage(d);
         });
     }
 

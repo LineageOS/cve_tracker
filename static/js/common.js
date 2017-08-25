@@ -44,4 +44,14 @@
     }
     window.addEventListener('load', padBodyforFooter);
     window.addEventListener('resize', padBodyforFooter);
+
+    function ajaxFailMessage(element) {
+        var message = 'Something went wrong with the request!'
+        if (element.access.error) {
+            element.access.error.innerHTML = message;
+        } else {
+            element.innerHTML = message;
+        }
+    }
+    window.failMessage = failMessage;
 })();
