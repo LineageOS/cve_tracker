@@ -9,6 +9,7 @@ class CVE(Document):
     cve_name = StringField(required=True)
     notes = StringField(required=False)
     tags = ListField(StringField(), required=False, default=None)
+    cvss_score = FloatField(required=True, default=-1)
 
 class Kernel(Document):
     repo_name = StringField(required=True)
