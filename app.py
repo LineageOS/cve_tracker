@@ -16,6 +16,7 @@ import flask_debugtoolbar
 import flask_debugtoolbar_mongo
 
 from classes import *
+from cvescore import *
 from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for
 from flask_github import GitHub
 from flask_mongoengine import MongoEngine
@@ -61,6 +62,15 @@ utils.updateStatusDescriptions()
 
 # Get the translation for logging actions
 logTrans = utils.getLogTranslations()
+
+# Update CVE scores
+cves = CVE.objects(cvss_score__in=[None,-1])
+if cves.count() > 0:
+    print("Detected CVEs without scores. Updating...")
+    for c in cves:
+        print("Getting score for " + c.cve_name)
+        c.update(cvss_score=get_score(c.cve_name))
+    print("Done!")
 
 @app.cli.command()
 def update_progress():
@@ -310,6 +320,7 @@ def cve_status(c):
     patches = {p.kernel: p.status for p in Patches.objects(cve=cve.id)}
     return render_template('status.html',
                            cve_name = c,
+                           cvss_score = cve.cvss_score,
                            kernels = kernels,
                            patches = patches,
                            status_ids = Status.objects(),
@@ -357,7 +368,7 @@ def addcve():
     elif not notes or len(notes) < 10:
         errstatus = "Notes have to be at least 10 characters!";
     elif not errstatus:
-        CVE(cve_name=cve, notes=notes, tags=cveTags).save()
+        CVE(cve_name=cve, notes=notes, tags=cveTags, cvss_score=get_score(cve)).save()
         cve_id = CVE.objects.get(cve_name=cve)['id']
         status_id = Status.objects.get(short_id=1)['id']
         for k in Kernel.objects():
