@@ -401,9 +401,6 @@ input {
     -webkit-user-select: none;
     -moz-user-select: none;
 }
-.cves .cve > span {
-    cursor: pointer;
-}
 .cves .cve .severity.critical {
     color: #ff0000;
 }
@@ -419,6 +416,7 @@ input {
 .cves .cve .name {
     display: inline-block;
     margin-right: 5px;
+    cursor: pointer;
 }
 
 /* Progress bar */
@@ -439,11 +437,6 @@ input {
     position: absolute;
     right: 0;
     top: -20px;
-}
-
-/* CVE patch status */
-.status {
-    cursor: pointer;
 }
 
 /* Status IDs menu */

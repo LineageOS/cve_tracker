@@ -274,6 +274,10 @@
                 ajaxFailMessage(d);
             });
         }
+
+        var statuses = document.querySelectorAll('.cve .status').forEach(function(e) {
+            e.style.cursor = 'pointer';
+        });
     }
 
     var CVEInfoDialog = new Dialog({
