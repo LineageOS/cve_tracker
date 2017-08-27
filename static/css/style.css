@@ -478,10 +478,8 @@ input {
     margin-bottom: 24px;
 }
 
-#cve-info-dialog .notes .mdi, #cve-info-dialog .tags .mdi {
-    position: absolute;
-    right: 0px;
-    top: 0px;
+#cve-info-dialog .title .edit {
+    float: right;
 }
 
 #import-statuses-dialog input[type="checkbox"] {
@@ -635,4 +633,15 @@ table.logs td:last-child {
 #cvss_score.s9,
 #cvss_score.s10 {
     background: #ff0000 ;
+}
+
+#cvss_score.editable {
+    color: inherit;
+    background: none;
+    width: 50px;
+    border-radius: 0 !important;
+    margin: 0;
+    line-height: 24px;
+    height: 24px;
+    overflow: hidden;
 }

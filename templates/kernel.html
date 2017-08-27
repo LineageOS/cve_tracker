@@ -81,25 +81,24 @@
 
     <div id="cve-info-dialog" class="dialog">
         <div class="title">
-            <div class="name">
-                CVE-20YY-XXX
-            </div>
+            <div class="name">CVE-20YY-XXX</div>
             <i class="copy mdi mdi-content-copy"></i>
-            <div id="cvss_score" title="cvss score">-1</div>
+            <div id="cvss_score" title="cvss score" placeholder="Score">-1</div>
+            {%- if authorized %}
+            <div class="edit">
+                <i class="mdi mdi-18px mdi-pencil" title="Edit CVE"></i>
+            </div>
+            {%- endif %}
         </div>
         <div class="content">
             {%- if authorized %}
             <div class="tags">
-                <i class="edit mdi mdi-18px mdi-pencil" title="Edit tags"></i>
                 <label>Tags</label>
                 <div id="cveTags" class="selectable"></div>
                 <div class="field" placeholder="Specify own, if not in the list above (comma separated)"></div>
             </div>
             {%- endif %}
             <div class="notes">
-                {%- if authorized %}
-                <i class="edit mdi mdi-18px mdi-pencil" title="Edit notes"></i>
-                {%- endif %}
                 <label>Notes</label>
                 <div class="field" placeholder="Applicable versions, affected platforms, ..."></div>
             </div>
@@ -196,7 +195,7 @@
                                 {%- endif %}
                                 <i class="severity {{ severity }} mdi mdi-fire" title="{{ severity }} severity"></i>
                             {%- endif %}
-                            <span class="name" cve_id="{{ c.id }}" cve_name="{{ c.cve_name }}" cvss_score="{{ c.cvss_score }}">{{ c.cve_name }}</span>
+                            <span class="name" cve_id="{{ c.id }}" cve_name="{{ c.cve_name }}">{{ c.cve_name }}</span>
                             <span class="status status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ c.id }}" status_id="{{ patch_status[c.id] }}"></span>
                         </div>
                     {%- endfor %}
