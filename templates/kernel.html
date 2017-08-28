@@ -193,10 +193,11 @@
                                 {%- else %}
                                     {%- set severity = "low" %}
                                 {%- endif %}
+                                {%- set pointer = "pointer" %}
                                 <i class="severity {{ severity }} mdi mdi-fire" title="{{ severity }} severity"></i>
                             {%- endif %}
                             <span class="name" cve_id="{{ c.id }}" cve_name="{{ c.cve_name }}">{{ c.cve_name }}</span>
-                            <span class="status status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ c.id }}" status_id="{{ patch_status[c.id] }}"></span>
+                            <span class="status {{ pointer }} status-menu" kernel_id="{{ kernel.id }}" cve_id="{{ c.id }}" status_id="{{ patch_status[c.id] }}"></span>
                         </div>
                     {%- endfor %}
                 </div>
