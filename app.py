@@ -541,20 +541,24 @@ def editcvedata():
     c = r['cve_id']
     n = r['cve_notes']
     t = r['cve_tags'].strip()
+    s = r['cve_score']
 
     errstatus, tags = processTags(t)
 
     if not n or len(n) < 10:
         errstatus = "Notes have to be at least 10 characters!";
     elif not errstatus:
-        if c and CVE.objects(id=c):
-            CVE.objects(id=c).update(set__notes=n)
+        score = round(toNumber(s), 1)
+        if score <= 0 or score > 10.0:
+            errstatus = 'Score must be valid!'
+        elif c and CVE.objects(id=c):
+            CVE.objects(id=c).update(set__notes=n, set__cvss_score=score)
             if len(tags) > 0:
                 CVE.objects(id=c).update(set__tags=tags)
             else:
                 CVE.objects(id=c).update(unset__tags=1)
-            msg = "Notes: '{}', Tags: '{}'"
-            logStr = msg.format(n, t)
+            msg = "Notes: '{}', Tags: '{}', Score: {}"
+            logStr = msg.format(n, t, score)
             writeLog("cve_edit", c, logStr)
             errstatus = "success"
         else:
@@ -708,3 +712,9 @@ def show_logs(affectedId, actions, title):
                             logTranslations=logTrans,
                             needs_auth=needs_auth(),
                             authorized=logged_in())
+
+def toNumber(value):
+    try:
+        return float(value)
+    except:
+        return -1

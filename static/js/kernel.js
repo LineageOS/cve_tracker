@@ -4,7 +4,7 @@
      */
     var kernelActions = document.querySelector('#kernelActions');
     if (kernelActions) {
-        function editNotesAndData() {
+        function editCVEData() {
             CVEInfoDialog.access.tagsField.setAttribute('contenteditable', true);
             CVEInfoDialog.access.notesField.setAttribute('contenteditable', true);
             CVEInfoDialog.access.tagsField.style.display = '';
@@ -17,12 +17,19 @@
             if (CVEInfoDialog.access.notesField.getAttribute('empty') == 'true') {
                 CVEInfoDialog.access.notesField.innerHTML = '';
             }
-            CVEInfoDialog.actions.editTags.classList.remove('mdi-pencil');
-            CVEInfoDialog.actions.editNotes.classList.remove('mdi-pencil');
+            CVEInfoDialog.actions.edit.classList.remove('mdi-pencil');
             CVEInfoDialog.actions.save.disabled = false;
+            CVEInfoDialog.access.logs.firstElementChild.disabled = true;
+            CVEInfoDialog.access.logs.href = '#';
+            CVEInfoDialog.access.compare.firstElementChild.disabled = true;
+            CVEInfoDialog.access.compare.href = '#';
+            CVEInfoDialog.access.edit.firstElementChild.disabled = true;
+            CVEInfoDialog.access.edit.href = '#';
+            CVEInfoDialog.access.cvss_score.classList.add('editable');
+            CVEInfoDialog.access.cvss_score.setAttribute('contenteditable', true);
         }
 
-        function saveTagsAndNotes(button) {
+        function saveCVEData(button) {
             var d = this;
             var cveId = d.element.getAttribute('cve_id');
             var tags = d.access.tagsField.innerText;
@@ -30,6 +37,7 @@
                 tags += "," + e;
             });
             var notes = d.access.notesField.innerText;
+            var score = d.access.cvss_score.innerText;
             d.access.error.innerHTML = '';
             d.actions.save.disabled = true;
             d.actions.cancel.disabled = true;
@@ -41,7 +49,8 @@
                 'data': JSON.stringify({
                     cve_id: cveId,
                     cve_notes: notes,
-                    cve_tags: tags
+                    cve_tags: tags,
+                    cve_score: score
                 })
             }).done(function(data) {
                 d.actions.save.disabled = false;
@@ -280,20 +289,16 @@
             callback: copyCVEName,
             selector: '.title .copy'
         }, {
-            callback: editNotesAndData,
-            selector: '.tags .edit',
-            id: 'editTags'
-        }, {
-            callback: editNotesAndData,
-            selector: '.notes .edit',
-            id: 'editNotes'
+            id: 'edit',
+            callback: editCVEData,
+            selector: '.title .edit > i'
         }, {
             id: 'cancel',
             callback: cancelCVEInfoDialog,
             selector: '.actions .cancel'
         }, {
             id: 'save',
-            callback: saveTagsAndNotes,
+            callback: saveCVEData,
             selector: '.actions .save'
         }],
         access: {
@@ -391,6 +396,9 @@
                     CVEInfoDialog.access.tagsField.setAttribute('empty', false);
                 }
                 CVEInfoDialog.access.tagsField.innerHTML = tags.join(', ');
+                cvss_score = data[0].cvss_score;
+                CVEInfoDialog.access.cvss_score.className = 's' + Math.floor(cvss_score);
+                CVEInfoDialog.access.cvss_score.innerHTML = cvss_score;
             }
             if (!data[0].notes) {
                 data[0].notes = 'No notes';
@@ -483,18 +491,25 @@
     }
 
     function restoreEditables() {
+        var cveName = CVEInfoDialog.element.getAttribute('cve_name');
         CVEInfoDialog.access.notesField.setAttribute('contenteditable', false);
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
         CVEInfoDialog.access.error.innerHTML = '';
+        CVEInfoDialog.access.compare.firstElementChild.disabled = false;
+        CVEInfoDialog.access.compare.href = '/status/' + cveName;
         // Only logged in users do have these
-        if (CVEInfoDialog.actions.editTags) {
+        if (CVEInfoDialog.actions.edit) {
             CVEInfoDialog.access.tagsField.setAttribute('contenteditable', false);
             CVEInfoDialog.access.tagsField.setAttribute('empty', false);
-            //CVEInfoDialog.access.tagsField.style.display = '';
-            CVEInfoDialog.actions.editTags.classList.add('mdi-pencil');
-            CVEInfoDialog.actions.editNotes.classList.add('mdi-pencil');
+            CVEInfoDialog.actions.edit.classList.add('mdi-pencil');
             CVEInfoDialog.actions.save.disabled = true;
+            CVEInfoDialog.access.logs.firstElementChild.disabled = false;
+            CVEInfoDialog.access.logs.href = '/logs/cve/' + cveName;
+            CVEInfoDialog.access.edit.firstElementChild.disabled = false;
+            CVEInfoDialog.access.edit.href = '/editcve/' + cveName;
             cveTagSelector.clickable = false;
+            CVEInfoDialog.access.cvss_score.setAttribute('contenteditable', false);
+            CVEInfoDialog.access.cvss_score.className = 's' + Math.floor(CVEInfoDialog.access.cvss_score.innerText);
         }
     }
 
