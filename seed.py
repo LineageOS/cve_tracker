@@ -35,7 +35,9 @@ utils.updateStatusDescriptions()
 utils.getKernelTableFromGithub()
 
 # Add patch statuses for each kernel
+print("Importing patch statuses, this will take a long time...")
 f = open('patches.txt')
+statuses = {s.short_id: s.id for s in Status.objects()}
 while True:
     x = f.readline().rstrip()
     if not x: break
@@ -47,13 +49,15 @@ while True:
         else:
             k = "android_kernel_" + k
         try:
+            print("Importing patch statuses for " + k)
             kernel_id = Kernel.objects.get(repo_name=k).id
             for c in j:
                 try:
                     cve_id = CVE.objects.get(cve_name=c).id
-                    status_id = Status.objects.get(short_id=j[c]).id
+                    short_id = int(j[c])
+                    status_id = statuses[short_id]
                     Patches.objects(cve=cve_id, kernel=kernel_id).update(status=status_id)
                 except:
-                    print("Couldn't determine id for " + c)
+                    print("Couldn't determine cve id for " + c)
         except:
-            print("Couldn't determine id for " + k)
+            print("Couldn't determine kernel id for " + k)
