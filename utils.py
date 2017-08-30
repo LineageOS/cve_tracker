@@ -62,7 +62,7 @@ def getKernelTableFromGithub():
         if "android_kernel_" in repo.name or "-kernel-" in repo.name:
             print(repo.name)
             if Kernel.objects(repo_name=repo.name).count() == 0:
-                addKernel(repo.name, repo.updated_at)
+                addKernel(repo.name, [], repo.updated_at)
             else:
                 Kernel.objects(repo_name=repo.name).update(last_github_update=repo.updated_at)
 
@@ -74,7 +74,9 @@ def addKernel(reponame, tags=[], last_update=datetime.datetime.now()):
     if v is "error" or n is "error":
         return
 
-    Kernel(repo_name=reponame, tags=tags, last_github_update=last_update, vendor=v, device=n).save()
+    Kernel(repo_name=reponame, last_github_update=last_update, vendor=v, device=n).save()
+    if len(tags) > 0:
+        Kernel.objects(repo_name=reponame).update(tags=tags)
     for c in CVE.objects():
         kernelId = Kernel.objects.get(repo_name=reponame).id
         statusId = Status.objects.get(short_id=1).id
