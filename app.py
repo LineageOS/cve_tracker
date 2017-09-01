@@ -63,14 +63,15 @@ utils.updateStatusDescriptions()
 # Get the translation for logging actions
 logTrans = utils.getLogTranslations()
 
-# Update CVE scores
-cves = CVE.objects(cvss_score__in=[None,-1])
-if cves.count() > 0:
-    print("Detected CVEs without scores. Updating...")
-    for c in cves:
-        print("Getting score for " + c.cve_name)
-        c.update(cvss_score=get_score(c.cve_name))
-    print("Done!")
+@app.cli.command()
+def update_scores():
+    cves = CVE.objects(cvss_score__in=[None,-1])
+    if cves.count() > 0:
+        print("Detected CVEs without scores. Updating...")
+        for c in cves:
+            print("Getting score for " + c.cve_name)
+            c.update(cvss_score=get_score(c.cve_name))
+        print("Done!")
 
 @app.cli.command()
 def update_progress():
