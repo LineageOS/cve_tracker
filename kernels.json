@@ -337,8 +337,6 @@
         "android_device_samsung_d2vzw"
     ],
     "android_kernel_samsung_espresso10": [
-        "android_device_samsung_espresso3g",
-        "android_device_samsung_espressowifi",
         "android_device_samsung_p3100",
         "android_device_samsung_p3110",
         "android_device_samsung_p5100",
@@ -365,12 +363,6 @@
         "android_device_samsung_gts28ltexx",
         "android_device_samsung_gts28wifi"
     ],
-    "android_kernel_samsung_hlte": [
-        "android_device_samsung_hlte",
-        "android_device_samsung_hltechn",
-        "android_device_samsung_hltespr",
-        "android_device_samsung_hltetmo"
-    ],
     "android_kernel_samsung_jf": [
         "android_device_samsung_jflteatt",
         "android_device_samsung_jfltecan",
@@ -387,18 +379,6 @@
         "android_device_samsung_k3gxx"
     ],
     "android_kernel_samsung_klimtwifi": [],
-    "android_kernel_samsung_klte": [
-        "android_device_samsung_klte",
-        "android_device_samsung_kltechn",
-        "android_device_samsung_kltechnduo",
-        "android_device_samsung_klteduos",
-        "android_device_samsung_kltedv",
-        "android_device_samsung_kltekdi",
-        "android_device_samsung_kltekor",
-        "android_device_samsung_kltespr",
-        "android_device_samsung_klteusc",
-        "android_device_samsung_kltevzw"
-    ],
     "android_kernel_samsung_ks01lte": [
         "android_device_samsung_ks01lte"
     ],
@@ -424,6 +404,22 @@
         "android_device_samsung_serrano3gxx",
         "android_device_samsung_serranodsdd",
         "android_device_samsung_serranoltexx"
+    ],
+    "android_kernel_samsung_msm8974": [
+        "android_device_samsung_hlte",
+        "android_device_samsung_hltechn",
+        "android_device_samsung_hltespr",
+        "android_device_samsung_hltetmo",
+        "android_device_samsung_klte",
+        "android_device_samsung_kltechn",
+        "android_device_samsung_kltechnduo",
+        "android_device_samsung_klteduos",
+        "android_device_samsung_kltedv",
+        "android_device_samsung_kltekdi",
+        "android_device_samsung_kltekor",
+        "android_device_samsung_kltespr",
+        "android_device_samsung_klteusc",
+        "android_device_samsung_kltevzw"
     ],
     "android_kernel_samsung_msm8976": [
         "android_device_samsung_gts210vewifi",
@@ -510,6 +506,10 @@
         "android_device_sony_hayabusa",
         "android_device_sony_mint",
         "android_device_sony_tsubasa"
+    ],
+    "android_kernel_ti_omap4": [
+        "android_device_samsung_espresso3g",
+        "android_device_samsung_espressowifi"
     ],
     "android_kernel_wingtech_msm8916": [
         "android_device_wingtech_wt88047"
