@@ -1,19 +1,16 @@
 #!/usr/bin/python3
 
-try:
-    # For python3
-    import urllib.request
-except ImportError:
-    # For python2
-    import imp
-    import urllib2
-    urllib = imp.new_module('urllib')
-    urllib.request = urllib2
-
-from urllib.request import Request, urlopen
 import sys
 
-from html.parser import HTMLParser
+try:
+    # For python3
+    from urllib.request import Request, urlopen
+    from html.parser import HTMLParser
+except ImportError:
+    # For python2
+    from urllib2 import Request, urlopen
+    from HTMLParser import HTMLParser
+
 
 class LinksParser(HTMLParser):
     def __init__(self):
