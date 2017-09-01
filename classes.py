@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from mongoengine import *
 
 class Config(Document):
