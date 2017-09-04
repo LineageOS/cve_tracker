@@ -21,7 +21,8 @@ from flask import Flask, abort, jsonify, redirect, render_template, request, ses
 from flask_github import GitHub
 from flask_mongoengine import MongoEngine
 
-devicefile = "kernels.json"
+mappingFile = "kernels.json"
+mappingOverrideFile = "kernels_override.json"
 forceDBUpdate = False
 
 version = subprocess.check_output(["git", "describe", "--always"],
@@ -37,8 +38,20 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 dir = os.path.dirname(__file__)
 
-with open(os.path.join(dir, devicefile)) as device_file:
-    devices = json.load(device_file)
+with open(os.path.join(dir, mappingFile)) as mappingRaw:
+    devices = json.load(mappingRaw)
+
+with open(os.path.join(dir, mappingOverrideFile)) as mappingOverrideRaw:
+    devicesOverride = json.load(mappingOverrideRaw)
+    for kernel in devicesOverride:
+        devices.setdefault(kernel, [])
+        for dev in devicesOverride[kernel]:
+            op = dev[:1]
+            device = dev[1:]
+            if op == '+' and device not in devices[kernel]:
+                devices[kernel].append(device)
+            elif op == '-' and device in devices[kernel]:
+                devices[kernel].remove(device)
 
 db = MongoEngine(app)
 github = GitHub(app)
