@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed443a4d_ff4f7a9a",
+        "filename": "app.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2017-09-04T08:56:24Z",
+      "side": 1,
+      "message": "setdefault doc says: \"If key is in the dictionary, return its value. If not, insert key with a value of default and return default. default defaults to None.\"\n\nSo I don\u0027t think you need the \"if not kernel in devices\" here.",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "d9ee49f68d4f7bdf2a32b258c1745325c63865d0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdbc6f22_2e529dac",
+        "filename": "app.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 11604
+      },
+      "writtenOn": "2017-09-04T08:56:24Z",
+      "side": 1,
+      "message": "i think \"device not in\" is more \"pythonic\".",
+      "range": {
+        "startLine": 52,
+        "startChar": 29,
+        "endLine": 52,
+        "endChar": 39
+      },
+      "revId": "d9ee49f68d4f7bdf2a32b258c1745325c63865d0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
