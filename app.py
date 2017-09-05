@@ -550,7 +550,7 @@ def editcvedata():
         errstatus = "Notes have to be at least 10 characters!";
     elif not errstatus:
         score = round(toNumber(s), 1)
-        if score <= 0 or score > 10.0:
+        if score < 0 or score > 10.0:
             errstatus = 'Score must be valid!'
         elif c and CVE.objects(id=c):
             CVE.objects(id=c).update(set__notes=n, set__cvss_score=score)
