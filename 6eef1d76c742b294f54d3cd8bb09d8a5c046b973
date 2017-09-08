@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ee09ad0_d2c2ba06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16082
+      },
+      "writtenOn": "2017-09-08T07:28:52Z",
+      "side": 1,
+      "message": "Useless once this is merged, move this to a comment",
+      "revId": "6eef1d76c742b294f54d3cd8bb09d8a5c046b973",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
