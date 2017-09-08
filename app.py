@@ -726,3 +726,25 @@ def show_logs(affectedId, actions, title):
                             logTranslations=logTrans,
                             needs_auth=needs_auth(),
                             authorized=logged_in())
+
+@app.route("/api/v1/kernels", methods=['GET'])
+def v1_get_kernels():
+    deprecated = request.args.get('deprecated', 0, type=int)
+
+    data = {}
+
+    if deprecated == -1:
+        deprecated_status = [False, None]
+    elif deprecated == 1:
+        deprecated_status = [True]
+    else:
+        deprecated_status = [True, False, None]
+
+    kernels = Kernel.objects(deprecated__in=deprecated_status).order_by('vendor', 'device')
+
+    for kernel in kernels:
+        obj = utils.docToDict(kernel)
+
+        data[kernel.repo_name] = obj
+
+    return jsonify(data), 200
