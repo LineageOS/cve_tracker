@@ -11,3 +11,36 @@ cve_tracker
 8. Once you're set up, run: `./run` to start the service.
 
 This is a WIP, cats will be eaten.
+
+
+# v1 API
+
+
+## `GET` __/api/v1/kernels__
+
+__Query parameters__
+
+* `deprecated` (int) (optional)
+  * `-1` will return all kernels that are not deprecated
+  * `1` will return all deprecated kernels
+  * any other value will return all kernels
+
+
+__Response__
+
+
+```
+{
+  "android_kernel_acer_t20-common": {
+    "deprecated": true,
+    "device": "t20-common",
+    "last_github_update": {
+      "$date": 1480952365000
+    },
+    "progress": 0,
+    "repo_name": "android_kernel_acer_t20-common",
+    "vendor": "acer"
+  },
+  ...
+}
+```
