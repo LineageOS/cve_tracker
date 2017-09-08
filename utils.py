@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from classes import *
 from github import Github
@@ -9,6 +10,21 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     from urlparse import urlparse
+
+def docToDict(doc, includeIds=False):
+    def decoder(dct):
+        for k, v in dct.items():
+            if '_id' in dct:
+                if includeIds:
+                    try:
+                        dct['_id'] = ObjectId(dct['_id'])
+                    except:
+                        pass
+                else:
+                    del dct['_id']
+            return dct
+
+    return json.loads(doc.to_json(), object_hook=decoder)
 
 def toNumber(value):
     try:
