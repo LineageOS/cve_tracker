@@ -44,3 +44,34 @@ __Response__
   ...
 }
 ```
+
+
+## `GET` __/api/v1/cves__
+
+__Response__
+
+
+```
+{
+  "CVE-2012-6657": {
+    "cve_name": "CVE-2012-6657",
+    "cvss_score": 2.0,
+    "links": [
+      {
+        "cve_id": {
+          "$oid": "5990886c092e37063df5d10e"
+        },
+        "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2012-6657"
+      },
+      {
+        "cve_id": {
+          "$oid": "5990886c092e37063df5d10e"
+        },
+        "desc": "d",
+        "link": "https://www.google.ro/"
+      }
+    ],
+    "notes": "adsadadasdasdasdasdasd"
+  },
+  ...
+```

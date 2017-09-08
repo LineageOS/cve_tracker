@@ -746,3 +746,21 @@ def v1_get_kernels():
         data[kernel.repo_name] = utils.docToDict(kernel)
 
     return jsonify(data), 200
+
+@app.route("/api/v1/cves", methods=['GET'])
+def v1_get_cves():
+    data = {}
+
+    cves = CVE.objects()
+
+    for cve in cves:
+        obj = utils.docToDict(cve)
+
+        obj['links'] = []
+
+        links = Links.objects(cve_id=cve.id)
+        for link in links:
+            obj['links'].append(utils.docToDict(link))
+
+        data[cve.cve_name] = obj
+    return jsonify(data), 200
