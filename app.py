@@ -562,7 +562,7 @@ def editcvedata():
     if not n or len(n) < 10:
         errstatus = "Notes have to be at least 10 characters!";
     elif not errstatus:
-        score = round(toNumber(s), 1)
+        score = round(utils.toNumber(s), 1)
         if score < 0 or score > 10.0:
             errstatus = 'Score must be valid!'
         elif c and CVE.objects(id=c):
@@ -726,9 +726,3 @@ def show_logs(affectedId, actions, title):
                             logTranslations=logTrans,
                             needs_auth=needs_auth(),
                             authorized=logged_in())
-
-def toNumber(value):
-    try:
-        return float(value)
-    except:
-        return -1

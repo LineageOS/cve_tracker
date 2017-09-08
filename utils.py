@@ -10,6 +10,11 @@ try:
 except ImportError:
     from urlparse import urlparse
 
+def toNumber(value):
+    try:
+        return float(value)
+    except:
+        return -1
 
 def isValidUrl(x):
     result = urlparse(x)
