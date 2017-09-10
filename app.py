@@ -784,3 +784,28 @@ def v1_get_cves():
 
         data[cve.cve_name] = obj
     return jsonify(data), 200
+
+@app.route("/api/v1/cves/<string:cve_name>", methods=['GET'])
+def v1_get_cve(cve_name):
+    try:
+        cve = CVE.objects.get(cve_name=cve_name)
+    except:
+        return jsonify({
+                'message': 'The requested resource could not be found.'
+            }), 404
+
+    data = utils.docToDict(cve)
+    data['statuses'] = {}
+    data['links'] = []
+
+    kernels = Kernel.objects()
+    statuses = {s.id: s.short_id for s in Status.objects()}
+    for kernel in kernels:
+        patch = Patches.objects.get(kernel=kernel.id, cve=cve.id)
+        data['statuses'][kernel.repo_name] = statuses[patch.status]
+
+    links = Links.objects(cve_id=cve.id)
+    for link in links:
+        data['links'].append(utils.docToDict(link))
+
+    return jsonify(data), 200
