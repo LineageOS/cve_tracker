@@ -769,6 +769,27 @@ def v1_get_kernel(repo_name):
 
     return jsonify(data), 200
 
+@app.route("/api/v1/kernels/<string:repo_name>/<string:cve_name>", methods=['GET'])
+def v1_get_kernel_cve(repo_name, cve_name):
+    try:
+        kernel = Kernel.objects.get(repo_name=repo_name)
+        cve = CVE.objects.get(cve_name=cve_name)
+    except:
+        return jsonify({
+                'message': 'The requested resource could not be found.'
+            }), 404
+
+    statuses = {s.id: s for s in Status.objects()}
+
+    patch = Patches.objects.get(kernel=kernel.id, cve=cve.id)
+
+    data = {
+        'status': statuses[patch.status].short_id,
+        'description': statuses[patch.status].text
+    }
+
+    return jsonify(data), 200
+
 @app.route("/api/v1/cves", methods=['GET'])
 def v1_get_cves():
     data = {}
