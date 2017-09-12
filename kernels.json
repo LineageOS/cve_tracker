@@ -118,8 +118,7 @@
     ],
     "android_kernel_htc_msm8994": [
         "android_device_htc_himaul",
-        "android_device_htc_himawhl",
-        "android_device_htc_himawl"
+        "android_device_htc_himawhl"
     ],
     "android_kernel_htc_msm8996": [
         "android_device_htc_pme"
@@ -291,7 +290,6 @@
         "android_device_nvidia_roth"
     ],
     "android_kernel_nvidia_shield": [
-        "android_device_nvidia_foster",
         "android_device_nvidia_shieldtablet"
     ],
     "android_kernel_oneplus_msm8974": [
@@ -346,13 +344,7 @@
         "android_device_samsung_i9500"
     ],
     "android_kernel_samsung_exynos5420": [
-        "android_device_samsung_chagallwifi",
-        "android_device_samsung_ha3g",
-        "android_device_samsung_klimtwifi",
-        "android_device_samsung_n1awifi",
-        "android_device_samsung_n2awifi",
-        "android_device_samsung_picassowifi",
-        "android_device_samsung_v1awifi"
+        "android_device_samsung_picassowifi"
     ],
     "android_kernel_samsung_exynos7420": [
         "android_device_samsung_zerofltexx"
@@ -426,8 +418,7 @@
         "android_device_samsung_gts28vewifi"
     ],
     "android_kernel_samsung_noblelte": [
-        "android_device_samsung_nobleltejv",
-        "android_device_samsung_nobleltetmo"
+        "android_device_samsung_nobleltejv"
     ],
     "android_kernel_samsung_s3ve3g": [
         "android_device_samsung_s3ve3g"
@@ -490,8 +481,8 @@
         "android_device_sony_castor",
         "android_device_sony_scorpion",
         "android_device_sony_sirius",
-        "android_device_sony_z3c",
-        "android_device_sony_z3dual"
+        "android_device_sony_z3",
+        "android_device_sony_z3c"
     ],
     "android_kernel_sony_msm8994": [
         "android_device_sony_ivy",
@@ -530,8 +521,7 @@
         "android_device_xiaomi_mido"
     ],
     "android_kernel_xiaomi_msm8956": [
-        "android_device_xiaomi_hydrogen",
-        "android_device_xiaomi_kenzo"
+        "android_device_xiaomi_hydrogen"
     ],
     "android_kernel_xiaomi_msm8992": [
         "android_device_xiaomi_libra"
