@@ -77,6 +77,21 @@ __ Response__
 }
 ```
 
+## `GET` __/api/v1/kernels/<kernel_name>/<cve_name>__
+
+Replace *<kernel_name>* with the kernel you are interested in and *<cve_name>* with the name of the
+CVE you want to query
+
+__ Response__
+
+
+```
+{
+  "description": "unpatched",
+  "status": 1
+}
+```
+
 ## `GET` __/api/v1/cves__
 
 __Response__
