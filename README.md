@@ -75,6 +75,18 @@ __Response__
 }
 ```
 
+## `GET` __/api/v1/kernels/<kernel_name>/<cve_name>__
+
+__Response__
+
+
+```
+{
+  "description": "unpatched",
+  "status": 1
+}
+```
+
 ## `GET` __/api/v1/cves__
 
 __Response__
