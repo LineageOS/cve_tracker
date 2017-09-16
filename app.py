@@ -717,7 +717,7 @@ def show_logs(affectedId, actions, title):
         count = Log.objects(action__in=actions).order_by('-dateAndTime').count()
         l = Log.objects(action__in=actions).order_by('-dateAndTime')[start:end]
 
-    pages = math.ceil(count / perPage)
+    pages = int(math.ceil(count / perPage))
 
     return render_template('logs.html',
                             title=title,
