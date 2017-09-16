@@ -45,6 +45,35 @@ __Response__
 }
 ```
 
+## `GET` __/api/v1/kernels/<kernel_name>__
+
+__Response__
+
+
+```
+{
+  "deprecated": false,
+  "device": "t20-common",
+  "last_github_update": {
+    "$date": 1480952365000
+  },
+  "progress": 0,
+  "repo_name": "android_kernel_acer_t20-common",
+  "statuses": {
+    "CVE-2012-6657": 1,
+    "CVE-2012-6689": 1,
+    "CVE-2014-0196": 1,
+    "CVE-2014-2523": 1,
+    "CVE-2014-2851": 1,
+    "CVE-2014-4014": 1,
+    .
+    .
+    .
+    "CVE-2016-9806": 1
+  },
+  "vendor": "acer"
+}
+```
 
 ## `GET` __/api/v1/cves__
 
