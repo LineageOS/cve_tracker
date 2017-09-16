@@ -104,3 +104,45 @@ __Response__
   },
   ...
 ```
+
+## `GET` __/api/v1/cves/<cve_name>__
+
+__Response__
+
+
+```
+{
+  "cve_name": "CVE-2012-6657",
+  "cvss_score": 2.0,
+  "links": [
+    {
+      "cve_id": {
+        "$oid": "5990886c092e37063df5d10e"
+      },
+      "link": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2012-6657"
+    },
+    {
+      "cve_id": {
+        "$oid": "5990886c092e37063df5d10e"
+      },
+      "desc": "d",
+      "link": "https://www.google.ro/"
+    }
+  ],
+  "notes": "adsadadasdasdasdasdasd",
+  "statuses": {
+    "android_kernel_acer_t20-common": 1,
+    "android_kernel_acer_t30": 2,
+    "android_kernel_alcatel_msm8916": 1,
+    "android_kernel_amazon_bowser-common": 1,
+    .
+    .
+    .
+    "sony-kernel-u8500": 1,
+    "zte-kernel-msm7x27":
+  },
+  "tags": [
+    "some_tag"
+  ]
+}
+```
