@@ -757,13 +757,25 @@ def v1_get_kernel(repo_name):
             }), 404
 
     data = utils.docToDict(kernel)
-    data['statuses'] = {}
+
+    return jsonify(data), 200
+
+@app.route("/api/v1/kernels/<string:repo_name>/statuses", methods=['GET'])
+def v1_get_kernel_statuses(repo_name):
+    try:
+        kernel = Kernel.objects.get(repo_name=repo_name)
+    except:
+        return jsonify({
+                'message': 'The requested resource could not be found.'
+            }), 404
+
+    data = {}
 
     cves = CVE.objects()
     statuses = {s.id: s.short_id for s in Status.objects()}
     for cve in cves:
         patch = Patches.objects.get(kernel=kernel.id, cve=cve.id)
-        data['statuses'][cve.cve_name] = statuses[patch.status]
+        data[cve.cve_name] = statuses[patch.status]
 
     return jsonify(data), 200
 
@@ -816,17 +828,29 @@ def v1_get_cve(cve_name):
             }), 404
 
     data = utils.docToDict(cve)
-    data['statuses'] = {}
     data['links'] = []
+
+    links = Links.objects(cve_id=cve.id)
+    for link in links:
+        data['links'].append(utils.docToDict(link))
+
+    return jsonify(data), 200
+
+@app.route("/api/v1/cves/<string:cve_name>/statuses", methods=['GET'])
+def v1_get_cve_statuses(cve_name):
+    try:
+        cve = CVE.objects.get(cve_name=cve_name)
+    except:
+        return jsonify({
+                'message': 'The requested resource could not be found.'
+            }), 404
+
+    data = {}
 
     kernels = Kernel.objects()
     statuses = {s.id: s.short_id for s in Status.objects()}
     for kernel in kernels:
         patch = Patches.objects.get(kernel=kernel.id, cve=cve.id)
-        data['statuses'][kernel.repo_name] = statuses[patch.status]
-
-    links = Links.objects(cve_id=cve.id)
-    for link in links:
-        data['links'].append(utils.docToDict(link))
+        data[kernel.repo_name] = statuses[patch.status]
 
     return jsonify(data), 200
