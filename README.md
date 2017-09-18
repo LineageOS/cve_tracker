@@ -59,19 +59,24 @@ __Response__
   },
   "progress": 0,
   "repo_name": "android_kernel_acer_t20-common",
-  "statuses": {
-    "CVE-2012-6657": 1,
-    "CVE-2012-6689": 1,
-    "CVE-2014-0196": 1,
-    "CVE-2014-2523": 1,
-    "CVE-2014-2851": 1,
-    "CVE-2014-4014": 1,
-    .
-    .
-    .
-    "CVE-2016-9806": 1
-  },
   "vendor": "acer"
+}
+```
+
+## `GET` __/api/v1/kernels/<kernel_name>/statuses__
+
+__Response__
+
+
+```
+{
+  "CVE-2012-6657": 1,
+  "CVE-2012-6689": 1,
+  "CVE-2014-0196": 1,
+  "CVE-2014-2523": 1,
+  "CVE-2014-2851": 1,
+  "CVE-2014-4014": 1,
+  ...
 }
 ```
 
@@ -142,19 +147,23 @@ __Response__
     }
   ],
   "notes": "adsadadasdasdasdasdasd",
-  "statuses": {
-    "android_kernel_acer_t20-common": 1,
-    "android_kernel_acer_t30": 2,
-    "android_kernel_alcatel_msm8916": 1,
-    "android_kernel_amazon_bowser-common": 1,
-    .
-    .
-    .
-    "sony-kernel-u8500": 1,
-    "zte-kernel-msm7x27":
-  },
   "tags": [
     "some_tag"
   ]
+}
+```
+
+## `GET` __/api/v1/cves/<cve_name>/statuses__
+
+__Response__
+
+
+```
+{
+  "android_kernel_acer_t20-common": 1,
+  "android_kernel_acer_t30": 2,
+  "android_kernel_alcatel_msm8916": 1,
+  "android_kernel_amazon_bowser-common": 1,
+  ...
 }
 ```
