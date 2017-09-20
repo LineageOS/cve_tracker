@@ -120,3 +120,7 @@ th {
     background: #80cbc4;
     color: black;
 }
+
+button.active {
+    background: rgba(255, 255, 255, 0.1);
+}

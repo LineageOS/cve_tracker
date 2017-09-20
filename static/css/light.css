@@ -117,3 +117,7 @@ th {
     background: #167c80;
     color: white;
 }
+
+button.active {
+    background: rgba(0, 0, 0, 0.1);
+}

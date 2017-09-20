@@ -250,6 +250,8 @@ def kernel(k):
         return error("The requested kernel could not be found!");
 
     get_tags = request.args.get('tags')
+    get_filter_version = request.args.get('version')
+
     err, filter_tags = processList(get_tags, True)
 
     cves = CVE.objects().order_by('cve_name')
@@ -267,13 +269,26 @@ def kernel(k):
     for cve in cves:
         if not cve.tags:
             cve.tags = []
+        if not cve.affected_versions:
+            cve.affected_versions = []
+        save = False
         if len(filter_tags) == 0 or 'none' in filter_tags and len(cve.tags) == 0:
-            filtered_cves.append(cve)
+            save = True
         for tag in cve.tags:
-            if tag in filter_tags and not cve in filtered_cves:
-                filtered_cves.append(cve)
-            if not tag in available_tags:
+            if tag in filter_tags:
+                save = True
+            if tag not in available_tags:
                 available_tags.append(tag)
+        if get_filter_version and kernel.version:
+            if get_filter_version == 'True':
+                if kernel.version not in cve.affected_versions:
+                    save = False
+            else:
+                if kernel.version in cve.affected_versions:
+                    save = False
+        if save:
+            filtered_cves.append(cve)
+
         patch_status[cve.id] = statuses[patches[cve.id]]
 
     if k in devices:
@@ -297,7 +312,8 @@ def kernel(k):
                            status_ids = Status.objects(),
                            patches = patches,
                            devices = devs,
-                           show_last_update=show_last_update())
+                           show_last_update=show_last_update(),
+                           filter_version=get_filter_version)
 
 @app.route("/import_statuses", methods=['POST'])
 def import_statuses():
@@ -747,9 +763,7 @@ def show_logs(affectedId, actions, title):
                             title=title,
                             pages=pages,
                             logs=l,
-                            logTranslations=logTrans,
-                            needs_auth=needs_auth(),
-                            authorized=logged_in())
+                            logTranslations=logTrans)
 
 @app.route("/api/v1/kernels", methods=['GET'])
 def v1_get_kernels():

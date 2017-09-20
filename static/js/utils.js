@@ -75,4 +75,37 @@
         return titleCaseWords.join(' ');
     }
     window.toTitleCase = toTitleCase;
+
+    function clearIfEmpty(field) {
+        if (field && field.getAttribute('empty') == 'true') {
+            field.innerHTML = '';
+        }
+    }
+    window.clearIfEmpty = clearIfEmpty;
+
+    function parseQueryString() {
+        var str = window.location.search;
+        var objURL = {};
+
+        str.replace(
+            new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+            function( $0, $1, $2, $3 ){
+                objURL[ $1 ] = $3;
+            }
+        );
+        return objURL;
+    }
+    window.parseQueryString = parseQueryString;
+
+    function buildQueryString(params) {
+        var esc = encodeURIComponent;
+        var query = Object.keys(params)
+            .map(function(k) {
+                return esc(k) + '=' + params[k]
+            })
+            .join('&');
+
+        return query;
+    }
+    window.buildQueryString = buildQueryString;
 })();

@@ -73,7 +73,7 @@
             {%- endfor %}
         </div>
         <label>Specify own, if not in the list above:</label>
-        <input type="text" class="tags" placeholder="qcom, broadcom, exynos, ... (comma separated)" value="">
+        <input type="text" class="tags" placeholder="qcom, broadcom, exynos, ... (comma separated)" value="" />
     </div>
     <div class="error"></div>
     <div class="actions">
@@ -161,12 +161,28 @@
         {% if authorized %}
         <div class="filter container">
             <div id="open-close-filters">Filters <i class="mdi mdi-chevron-down"></i></div>
-            {%- if selected_tags | length == 0 %}
+            {%- if selected_tags | length == 0 and filter_version == None %}
             {%- set class = "" %}
             {%- else %}
             {%- set class = "active" %}
             {%- endif %}
             <div id="filter-box" class="{{ class }}">
+                {%- if kernel.version and kernel.version != '' %}
+                <h3>Affected kernel version</h3>
+                <div class="action apply-area">
+                    {%- if filter_version == 'True' %}
+                        {%- set same = "active" %}
+                    {%- elif filter_version == 'False' %}
+                        {%- set different = "active" %}
+                    {%- else %}
+                        {%- set all = "active" %}
+                    {%- endif %}
+                    <button id="apply-same-version" class="{{ same }}">THIS KERNEL'S VERSION</button>
+                    <button id="apply-different-versions" class="{{ different }}">DIFFERENT VERSION</button>
+                    <button id="apply-all-versions" class="{{ all }}">ALL VERSIONS</button>
+                </div>
+                {%- endif %}
+                <h3>Tags</h3>
                 <div class="selectable">
                 {%- for tag in all_tags %}
                     {%- if tag in selected_tags %}

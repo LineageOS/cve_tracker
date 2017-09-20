@@ -205,23 +205,27 @@
         var applyFilters = document.querySelector('#apply-filter');
         applyFilters.addEventListener('click', function(e) {
             var address = window.location;
-            var search = "?tags=";
+            var search = "";
             filterSelectable.getActive().forEach(function(e) {
                 search += e + ",";
             });
-            address.search = search;
+            var params = parseQueryString();
+            params["tags"] = search;
+            address.search = buildQueryString(params);
         });
 
         var applyKernelFilters = document.querySelector('#apply-kernel-filter');
         applyKernelFilters.addEventListener('click', function(e) {
             var address = window.location;
-            var search = "?tags=";
+            var search = "";
             filterElements.forEach(function(element) {
                 if (element.classList.contains('kernel-filter')) {
                     search += element.innerHTML.trim() + ",";
                 }
             });
-            address.search = search;
+            var params = parseQueryString();
+            params["tags"] = search;
+            address.search = buildQueryString(params);
         });
 
         var kernelTagsSelectable = new Selector({
@@ -230,6 +234,30 @@
         var kernelTags = [].slice.call(document.querySelector('#kernelTags.selectable').children);
         kernelTags.forEach(function(element) {
             kernelTagsSelectable.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
+        });
+
+        var applyVersionFilter = document.querySelector('#apply-same-version');
+        applyVersionFilter.addEventListener('click', function(e) {
+            var address = window.location;
+            var params = parseQueryString();
+            params["version"] = "True";
+            address.search = buildQueryString(params);
+        });
+
+        var applyExcludeVersionFilter = document.querySelector('#apply-different-versions');
+        applyExcludeVersionFilter.addEventListener('click', function(e) {
+            var address = window.location;
+            var params = parseQueryString();
+            params["version"] = "False";
+            address.search = buildQueryString(params);
+        });
+
+        var applyAllVersionsFilter = document.querySelector('#apply-all-versions');
+        applyAllVersionsFilter.addEventListener('click', function(e) {
+            var address = window.location;
+            var params = parseQueryString();
+            delete params["version"];
+            address.search = buildQueryString(params);
         });
 
         var editKernelDialog = new Dialog({
