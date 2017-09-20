@@ -250,7 +250,7 @@ def kernel(k):
         return error("The requested kernel could not be found!");
 
     get_tags = request.args.get('tags')
-    err, filter_tags = processTags(get_tags, True)
+    err, filter_tags = processList(get_tags, True)
 
     cves = CVE.objects().order_by('cve_name')
     statuses = {s.id: s.short_id for s in Status.objects()}
@@ -371,7 +371,7 @@ def addcve():
     # Match CVE-1990-0000 to CVE-2999-##### (> 4 digits), to ensure at least a little sanity
     pattern = re.compile("^(CVE|LVT)-(199\d|2\d{3})-(\d{4}|[1-9]\d{4,})$")
 
-    errstatus, cveTags = processTags(tags)
+    errstatus, cveTags = processList(tags)
 
     if not cve:
         errstatus = "No CVE specified!"
@@ -411,7 +411,7 @@ def addkernel():
     kernel = r['kernel']
     t = r['tags']
 
-    errstatus, tags = processTags(t)
+    errstatus, tags = processList(t)
 
     if not kernel:
         errstatus = "No kernel name specified!"
@@ -443,7 +443,7 @@ def editkerneltags():
     k = r['kernel_id']
     t = r['tags']
 
-    errstatus, tags = processTags(t)
+    errstatus, tags = processList(t)
 
     if not k or not Kernel.objects(id=k):
         errstatus = "Kernel is invalid!"
@@ -557,7 +557,7 @@ def editcvedata():
     t = r['cve_tags'].strip()
     s = r['cve_score']
 
-    errstatus, tags = processTags(t)
+    errstatus, tags = processList(t)
 
     if not n or len(n) < 10:
         errstatus = "Notes have to be at least 10 characters!";
@@ -653,19 +653,20 @@ def deprecate():
 
     return jsonify({'error': "success"})
 
-def processTags(tags, allowNone = False):
+def processList(rawList, allowNone = False):
     errstatus = None
     processed = []
 
-    if tags:
-        for tag in tags.split(','):
-            tag = tag.strip()
-            if len(tag) == 0:
+    if rawList:
+        for item in rawList.split(','):
+            item = item.strip()
+            if len(item) == 0:
                 continue
-            elif len(tag) <= 3 or tag == 'none' and not allowNone:
-                errstatus = tag + " is an invalid tag!"
-            elif not tag in processed:
-                processed.append(tag)
+            if len(item) < 3 or item == 'none' and not allowNone:
+                errstatus = "'{}' is an invalid item!".format(item)
+                break
+            elif not item in processed:
+                processed.append(item)
     return errstatus, processed
 
 def writeLog(action, affectedId, result=None):
