@@ -435,23 +435,31 @@ def addkernel():
 
     return jsonify({'error': errstatus})
 
-@app.route("/editkerneltags", methods=['POST'])
+@app.route("/editkerneldata", methods=['POST'])
 @require_login
-def editkerneltags():
+def editkerneldata():
     errstatus = None
     r = request.get_json()
     k = r['kernel_id']
     t = r['tags']
+    v = r['version']
 
+    version = ['']
     errstatus, tags = processList(t)
+    if not errstatus:
+        errstatus, version = processList(v)
 
     if not k or not Kernel.objects(id=k):
         errstatus = "Kernel is invalid!"
+    elif version and (len(version) > 1 or version[0].count('.') != 1):
+        errstatus = "You may only specify one version in the format X.YY!"
     elif not errstatus:
-        Kernel.objects(id=k).update(tags=tags)
-        msg = "New tags: '{}'"
-        logStr = msg.format(t)
-        writeLog("tag_edit", k, logStr)
+        if not version or not version[0]:
+            version = ['']
+        Kernel.objects(id=k).update(tags=tags, version=version[0])
+        msg = "Tags: '{}', Version: '{}'"
+        logStr = msg.format(t, version[0])
+        writeLog("kernel_edit", k, logStr)
         errstatus = "success"
 
     if not errstatus:
@@ -696,7 +704,8 @@ def logs():
 @app.route("/logs/kernel/<string:k>")
 @require_login
 def kernel_logs(k):
-    actions = ['imported', 'patched', 'tag_edit', 'deprecated', 'kernel_add', 'cve_reset']
+    actions = ['imported', 'patched', 'tag_edit', 'deprecated', 'kernel_add', 'kernel_edit',
+        'cve_reset']
     try:
         kernelId = Kernel.objects.get(repo_name=k).id
     except:

@@ -54,10 +54,13 @@
         </div>
     </div>
 
-    <div id="edit-tags-dialog" class="dialog" kernel_id="{{ kernel.id }}">
-    <div class="title">Edit kernel tags</div>
+    <div id="edit-kernel-dialog" class="dialog" kernel_id="{{ kernel.id }}">
+    <div class="title">Edit kernel</div>
     <div class="content">
-        <div id="kernelTags" class="selectable">
+        <label>Kernel version</label>
+        <input type="text" class="version" placeholder="Major.Minor (e.g. 3.10 or 4.4)" value="{{ kernel.version }}" />
+        <label>Tags</label>
+        <div id="kernelTags" class="selectable left">
             {%- for tag in all_tags %}
                 {%- if kernel.tags and tag in kernel.tags %}
                 {%- set class = "active" %}
@@ -221,7 +224,7 @@
                     {% endif %}
                 </button>
                 <button id="open-import-stauses-dialog">IMPORT STATUSES</button>
-                <button id="open-edit-tags-dialog">EDIT TAGS</button>
+                <button id="open-edit-kernel-dialog">EDIT KERNEL</button>
                 <a href="/logs/kernel/{{ kernel.repo_name }}"><button id="open-logging">SHOW LOGS</button></a>
             </div>
         {% endif %}

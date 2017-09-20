@@ -19,6 +19,7 @@ class Kernel(Document):
     progress = IntField(required=True, default=0)
     deprecated = BooleanField(required=True, default=False)
     tags = ListField(StringField(), required=False, default=None)
+    version = StringField(required=False, default=None)
 
 class Status(Document):
     short_id = IntField(required=True)

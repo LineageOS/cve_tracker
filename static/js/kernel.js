@@ -232,8 +232,8 @@
             kernelTagsSelectable.addOption(element.innerHTML.trim(), element, element.classList.contains('active'));
         });
 
-        var editTagsDialog = new Dialog({
-            element: document.querySelector('#edit-tags-dialog'),
+        var editKernelDialog = new Dialog({
+            element: document.querySelector('#edit-kernel-dialog'),
             drag: '.title',
             actions: [{
                 id: 'cancel',
@@ -241,20 +241,22 @@
                 selector: '.actions .cancel'
             }, {
                 id: 'save',
-                callback: editTags,
+                callback: editKernelData,
                 selector: '.actions .save'
             }],
             access: {
                 error: '.error',
                 tags: '.tags',
+                version: '.version'
             },
-            trigger: document.querySelector('#open-edit-tags-dialog')
+            trigger: document.querySelector('#open-edit-kernel-dialog')
         });
 
-        function editTags() {
+        function editKernelData() {
             var d = this;
             var kernelId = d.element.getAttribute('kernel_id');
             var tags = d.access.tags.value;
+            var version = d.access.version.value;
             kernelTagsSelectable.getActive().forEach(function(e) {
                 tags += "," + e;
             });
@@ -263,11 +265,12 @@
 
             $.ajax({
                 'type': 'POST',
-                'url': '/editkerneltags',
+                'url': '/editkerneldata',
                 'contentType': 'application/json',
                 'data': JSON.stringify({
                     kernel_id: kernelId,
-                    tags: tags
+                    tags: tags,
+                    version: version
                 })
             }).done(function(data) {
                 d.actions.cancel.disabled = false;
