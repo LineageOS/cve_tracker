@@ -556,8 +556,14 @@ def editcvedata():
     n = r['cve_notes']
     t = r['cve_tags'].strip()
     s = r['cve_score']
+    v = r['affected_versions']
+    f = r['fixed_versions']
 
     errstatus, tags = processList(t)
+    if not errstatus:
+        errstatus, affectedVersions = processList(v)
+    if not errstatus:
+        errstatus, fixedVersions = processList(f)
 
     if not n or len(n) < 10:
         errstatus = "Notes have to be at least 10 characters!";
@@ -571,8 +577,16 @@ def editcvedata():
                 CVE.objects(id=c).update(set__tags=tags)
             else:
                 CVE.objects(id=c).update(unset__tags=1)
-            msg = "Notes: '{}', Tags: '{}', Score: {}"
-            logStr = msg.format(n, t, score)
+            if affectedVersions and len(affectedVersions) > 0:
+                CVE.objects(id=c).update(set__affected_versions=affectedVersions)
+            else:
+                CVE.objects(id=c).update(unset__affected_versions=1)
+            if fixedVersions and len(fixedVersions) > 0:
+                CVE.objects(id=c).update(set__fixed_versions=fixedVersions)
+            else:
+                CVE.objects(id=c).update(unset__fixed_versions=1)
+            msg = "Notes: '{}', Tags: '{}', Score: {}, Affected versions: '{}', Fixed versions: '{}'"
+            logStr = msg.format(n, t, score, v, f)
             writeLog("cve_edit", c, logStr)
             errstatus = "success"
         else:

@@ -94,10 +94,18 @@
             {%- if authorized %}
             <div class="tags">
                 <label>Tags</label>
-                <div id="cveTags" class="selectable"></div>
+                <div id="cveTags" class="selectable left"></div>
                 <div class="field" placeholder="Specify own, if not in the list above (comma separated)"></div>
             </div>
             {%- endif %}
+            <div class="versions">
+                <label>Affected versions</label>
+                <div class="field" placeholder="Comma separated list of affected kernel versions">3.10, 3.18, 4.4</div>
+            </div>
+            <div class="fixed">
+                <label>Fixed versions</label>
+                <div class="field" placeholder="Comma separated list of fixed kernel versions and/or caf tags">3.10.107, 3.18.x, 4.4.9</div>
+            </div>
             <div class="notes">
                 <label>Notes</label>
                 <div class="field" placeholder="Applicable versions, affected platforms, ..."></div>

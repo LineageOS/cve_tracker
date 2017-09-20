@@ -7,16 +7,16 @@
         function editCVEData() {
             CVEInfoDialog.access.tagsField.setAttribute('contenteditable', true);
             CVEInfoDialog.access.notesField.setAttribute('contenteditable', true);
+            CVEInfoDialog.access.versionsField.setAttribute('contenteditable', true);
+            CVEInfoDialog.access.fixedField.setAttribute('contenteditable', true);
             CVEInfoDialog.access.tagsField.style.display = '';
-            if (CVEInfoDialog.access.tagsField.getAttribute('empty') == 'true') {
-                CVEInfoDialog.access.tagsField.innerHTML = '';
-            }
             CVEInfoDialog.access.tagsField.focus();
             processTags(null, true);
             cveTagSelector.clickable = true;
-            if (CVEInfoDialog.access.notesField.getAttribute('empty') == 'true') {
-                CVEInfoDialog.access.notesField.innerHTML = '';
-            }
+            clearIfEmpty(CVEInfoDialog.access.notesField);
+            clearIfEmpty(CVEInfoDialog.access.tagsField);
+            clearIfEmpty(CVEInfoDialog.access.versionsField);
+            clearIfEmpty(CVEInfoDialog.access.fixedField);
             CVEInfoDialog.actions.edit.classList.remove('mdi-pencil');
             CVEInfoDialog.actions.save.disabled = false;
             CVEInfoDialog.access.logs.firstElementChild.disabled = true;
@@ -38,6 +38,8 @@
             });
             var notes = d.access.notesField.innerText;
             var score = d.access.cvss_score.innerText;
+            var versions = d.access.versionsField.innerText;
+            var fixed = d.access.fixedField.innerText;
             d.access.error.innerHTML = '';
             d.actions.save.disabled = true;
             d.actions.cancel.disabled = true;
@@ -50,7 +52,9 @@
                     cve_id: cveId,
                     cve_notes: notes,
                     cve_tags: tags,
-                    cve_score: score
+                    cve_score: score,
+                    affected_versions: versions,
+                    fixed_versions: fixed
                 })
             }).done(function(data) {
                 d.actions.save.disabled = false;
@@ -304,6 +308,8 @@
         access: {
             name: '.name',
             tagsField: '.tags .field',
+            versionsField: '.versions .field',
+            fixedField: '.fixed .field',
             cvss_score: '#cvss_score',
             notesField: '.notes .field',
             links: '.links',
@@ -404,7 +410,17 @@
                 data[0].notes = 'No notes';
                 CVEInfoDialog.access.notesField.setAttribute('empty', true);
             }
+            if (!data[0].affected_versions) {
+                data[0].affected_versions = ['Not specified'];
+                CVEInfoDialog.access.versionsField.setAttribute('empty', true);
+            }
+            if (!data[0].fixed_versions) {
+                data[0].fixed_versions = ['Not specified'];
+                CVEInfoDialog.access.fixedField.setAttribute('empty', true);
+            }
             CVEInfoDialog.access.notesField.innerHTML = data[0].notes;
+            CVEInfoDialog.access.versionsField.innerHTML = data[0].affected_versions.join(', ');
+            CVEInfoDialog.access.fixedField.innerHTML = data[0].fixed_versions.join(', ');
         }).fail(function() {
             ajaxFailMessage(CVEInfoDialog);
         });
@@ -494,6 +510,10 @@
         var cveName = CVEInfoDialog.element.getAttribute('cve_name');
         CVEInfoDialog.access.notesField.setAttribute('contenteditable', false);
         CVEInfoDialog.access.notesField.setAttribute('empty', false);
+        CVEInfoDialog.access.versionsField.setAttribute('contenteditable', false);
+        CVEInfoDialog.access.versionsField.setAttribute('empty', false);
+        CVEInfoDialog.access.fixedField.setAttribute('contenteditable', false);
+        CVEInfoDialog.access.fixedField.setAttribute('empty', false);
         CVEInfoDialog.access.error.innerHTML = '';
         CVEInfoDialog.access.compare.firstElementChild.disabled = false;
         CVEInfoDialog.access.compare.href = '/status/' + cveName;
