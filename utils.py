@@ -7,9 +7,9 @@ from flask import Flask
 from flask_mongoengine import MongoEngine
 
 try:
-    from urllib.parse import urlparse
+    from urllib.parse import urlparse, urljoin
 except ImportError:
-    from urlparse import urlparse
+    from urlparse import urlparse, urljoin
 
 def docToDict(doc, includeIds=False):
     def decoder(dct):
@@ -144,3 +144,9 @@ def getLogTranslations():
         val = x.split('|')[1]
         translations[key] = val
     return translations
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
