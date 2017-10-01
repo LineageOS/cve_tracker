@@ -129,16 +129,24 @@ def require_login(f):
 
 @app.route("/login")
 def login():
+    next_url = request.referrer
+    if not next_url or next_url.endswith('/login') or not utils.is_safe_url(next_url):
+        next_url = url_for('index')
+    session['next_url'] = next_url
+
     if 'github_token' not in session or not session['github_token']:
         return github.authorize(scope="user:email, read:org")
     else:
-        return redirect(url_for('index'))
+        return redirect(next_url)
     return response
 
 @app.route('/login/authorized')
 @github.authorized_handler
 def authorized(access_token):
-    next_url = request.args.get('next') or url_for('index')
+    if 'next_url' in session and utils.is_safe_url(session['next_url']):
+        next_url = session['next_url']
+    else:
+        next_url = request.args.get('next') or url_for('index')
     if access_token is None:
         return redirect(next_url)
     req = github.raw_request("GET", "user/orgs", access_token=access_token)
