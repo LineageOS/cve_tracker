@@ -35,6 +35,7 @@ if app.secret_key == 'default':
 
 app.jinja_env.auto_reload = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 dir = os.path.dirname(__file__)
 
