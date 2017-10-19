@@ -817,6 +817,46 @@ def v1_get_kernel_statuses(repo_name):
 
     return jsonify(data), 200
 
+@app.route("/api/v1/kernels/<string:repo_name>/statuses", methods=['POST'])
+@require_login
+def v1_post_kernel_statuses(repo_name):
+    r = request.get_json()
+
+    try:
+        kernel = Kernel.objects.get(repo_name=repo_name)
+    except:
+        return jsonify({
+                'message': 'The requested resource could not be found.'
+            }), 404
+
+    cve_names = r['cves']
+    status_id = r['status']
+
+    try:
+        status = Status.objects.get(short_id=status_id)
+    except:
+        return jsonify({
+                'message': '{} is not a valid status.'.format(status)
+            }), 404
+
+    cves = []
+
+    for cve_name in cve_names:
+        try:
+            cve = CVE.objects.get(cve_name=cve_name)
+            cves.append(cve)
+        except:
+            return jsonify({
+                    'message': '{} is not a valid cve.'.format(cve_name)
+                }), 404
+
+    for cve in cves:
+        Patches.objects.get(kernel=kernel.id, cve=cve.id).update(status=status)
+
+    return jsonify({
+            'message': 'Statuses have been successfully updated.'
+        }), 200
+
 @app.route("/api/v1/kernels/<string:repo_name>/<string:cve_name>", methods=['GET'])
 def v1_get_kernel_cve(repo_name, cve_name):
     try:
