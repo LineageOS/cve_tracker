@@ -297,7 +297,19 @@ def kernel(k):
         if save:
             filtered_cves.append(cve)
 
-        patch_status[cve.id] = statuses[patches[cve.id]]
+        # if the db somehow got corrupted, fix it here
+        if cve.id not in patches:
+            # add logs so we can see how often this happens
+            msg = "Patch object for {} was missing, adding it"
+            logStr = msg.format(cve.cve_name)
+            writeLog("fixed", kernel.id, logStr)
+            # set it to "unpatched" and add it to the dictionaries
+            status_id = Status.objects.get(short_id=1)['id']
+            Patches(cve=cve.id, kernel=kernel.id, status=status_id).save()
+            patches[cve.id] = status_id
+            patch_status[cve.id] = 1
+        else:
+            patch_status[cve.id] = statuses[patches[cve.id]]
 
     if k in devices:
         devs = []
@@ -326,6 +338,7 @@ def kernel(k):
 @app.route("/import_statuses", methods=['POST'])
 def import_statuses():
     errstatus = "Generic error"
+    errorLog = None
     r = request.get_json()
     from_kernel_repo = r['from_kernel']
     to_kernel_repo = r['to_kernel']
@@ -334,10 +347,26 @@ def import_statuses():
     try:
         from_kernel = Kernel.objects.get(repo_name=from_kernel_repo).id
         to_kernel = Kernel.objects.get(repo_name=to_kernel_repo).id
+    except:
+        errstatus = "Invalid kernels!"
+
+    try:
         statuses = {s.id: s.short_id for s in Status.objects()}
 
         for patch in Patches.objects(kernel=from_kernel):
-            target_patch = Patches.objects.get(kernel=to_kernel, cve=patch.cve)
+            try:
+                target_patch = Patches.objects.get(kernel=to_kernel, cve=patch.cve)
+            except:
+                # Make sure the target patch actually exists before updating it
+                Patches(cve=patch.cve, kernel=to_kernel, status=patch.status).save()
+                print(to_kernel)
+                print(patch.cve)
+                target_patch = Patches.objects.get(kernel=to_kernel, cve=patch.cve)
+                cve_name = CVE.objects.get(id=patch.cve)['cve_name']
+                msg = "Patch object for {} was missing, adding it"
+                logStr = msg.format(cve_name)
+                writeLog("fixed", to_kernel, logStr)
+
             if override_all or statuses[target_patch.status] == 1:
                 target_patch.update(status=patch.status)
 
@@ -345,10 +374,11 @@ def import_statuses():
         Kernel.objects(id=to_kernel).update(progress=progress)
         writeLog("imported", to_kernel, to_kernel_repo)
         errstatus = "success"
-    except:
-        errstatus = "Invalid kernels!"
+    except Exception as e:
+        errstatus = "Some error occured while importing!"
+        errorLog = str(e)
 
-    return jsonify({'error': errstatus})
+    return jsonify({'error': errstatus, 'errorLog': errorLog})
 
 @app.route("/status/<string:c>")
 def cve_status(c):
@@ -729,7 +759,7 @@ def logs():
 @require_login
 def kernel_logs(k):
     actions = ['imported', 'patched', 'tag_edit', 'deprecated', 'kernel_add', 'kernel_edit',
-        'cve_reset']
+        'cve_reset', 'fixed']
     try:
         kernelId = Kernel.objects.get(repo_name=k).id
     except:
