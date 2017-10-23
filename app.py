@@ -297,7 +297,19 @@ def kernel(k):
         if save:
             filtered_cves.append(cve)
 
-        patch_status[cve.id] = statuses[patches[cve.id]]
+        # if the db somehow got corrupted, fix it here
+        if cve.id not in patches:
+            # add logs so we can see how often this happens
+            msg = "Patch object for {} was missing, adding it"
+            logStr = msg.format(cve.cve_name)
+            writeLog("patched", kernel.id, logStr)
+            # set it to "unpatched" and add it to the dictionaries
+            status_id = Status.objects.get(short_id=1)['id']
+            Patches(cve=cve.id, kernel=kernel.id, status=status_id).save()
+            patches[cve.id] = status_id
+            patch_status[cve.id] = status_id
+        else:
+            patch_status[cve.id] = statuses[patches[cve.id]]
 
     if k in devices:
         devs = []
