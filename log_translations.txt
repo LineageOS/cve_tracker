@@ -10,3 +10,4 @@ link_edit|Edited a link
 tag_edit|Modified kernel tags
 kernel_add|Added a kernel
 kernel_edit|Modified a kernel
+fixed|Fixed a broken patch object

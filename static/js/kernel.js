@@ -171,6 +171,9 @@
                     location.reload();
                 } else {
                     importStatusesDialog.access.error.innerHTML = data.error;
+                    if (data.errorLog) {
+                        console.log(data.errorLog);
+                    }
                 }
             }).fail(function() {
                 d.actions.cancel.disabled = false;
