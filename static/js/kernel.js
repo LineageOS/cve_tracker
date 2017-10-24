@@ -240,28 +240,30 @@
         });
 
         var applyVersionFilter = document.querySelector('#apply-same-version');
-        applyVersionFilter.addEventListener('click', function(e) {
-            var address = window.location;
-            var params = parseQueryString();
-            params["version"] = "True";
-            address.search = buildQueryString(params);
-        });
+        if (applyVersionFilter) {
+            applyVersionFilter.addEventListener('click', function(e) {
+                var address = window.location;
+                var params = parseQueryString();
+                params["version"] = "True";
+                address.search = buildQueryString(params);
+            });
 
-        var applyExcludeVersionFilter = document.querySelector('#apply-different-versions');
-        applyExcludeVersionFilter.addEventListener('click', function(e) {
-            var address = window.location;
-            var params = parseQueryString();
-            params["version"] = "False";
-            address.search = buildQueryString(params);
-        });
+            var applyExcludeVersionFilter = document.querySelector('#apply-different-versions');
+            applyExcludeVersionFilter.addEventListener('click', function(e) {
+                var address = window.location;
+                var params = parseQueryString();
+                params["version"] = "False";
+                address.search = buildQueryString(params);
+            });
 
-        var applyAllVersionsFilter = document.querySelector('#apply-all-versions');
-        applyAllVersionsFilter.addEventListener('click', function(e) {
-            var address = window.location;
-            var params = parseQueryString();
-            delete params["version"];
-            address.search = buildQueryString(params);
-        });
+            var applyAllVersionsFilter = document.querySelector('#apply-all-versions');
+            applyAllVersionsFilter.addEventListener('click', function(e) {
+                var address = window.location;
+                var params = parseQueryString();
+                delete params["version"];
+                address.search = buildQueryString(params);
+            });
+        }
 
         var editKernelDialog = new Dialog({
             element: document.querySelector('#edit-kernel-dialog'),

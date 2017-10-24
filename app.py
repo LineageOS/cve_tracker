@@ -314,6 +314,9 @@ def kernel(k):
     else:
         devs = []
 
+    if kernel.version is None:
+        kernel.version = ''
+
     return render_template('kernel.html',
                            kernel = kernel,
                            allKernels = sorted(all_kernels),
