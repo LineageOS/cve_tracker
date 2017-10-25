@@ -19,7 +19,7 @@
                 <tbody>
                     {%- for l in logs %}
                     <tr>
-                        <td>{{ l.dateAndTime.strftime('%b %d, %Y') }}</td>
+                        <td>{{ l.dateAndTime.strftime('%b %d, %Y %H:%m') }}</td>
                         <td>{{ l.user }}</td>
                         <td>
                             {%- if l.action in logTranslations %}

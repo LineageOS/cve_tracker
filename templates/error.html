@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}LineageOS Kernel Tracker - Error }}{% endblock %}
+{% block title %}LineageOS Kernel Tracker - Error{% endblock %}
 {% block content %}
     <div class="card container">
         <div class="header">
@@ -11,6 +11,9 @@
                     An unknown error has occurred.
                 {%- endif %}
             </span>
+            <!--
+                {{ exception|safe }}
+            -->
         </div>
         <div class="actions container">
         </div>

@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import traceback
 
 import utils
 
@@ -20,6 +21,8 @@ from cvescore import *
 from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for
 from flask_github import GitHub
 from flask_mongoengine import MongoEngine
+from mongoengine.queryset import MultipleObjectsReturned, DoesNotExist
+from werkzeug.exceptions import HTTPException
 
 mappingFile = "kernels.json"
 mappingOverrideFile = "kernels_override.json"
@@ -198,6 +201,20 @@ def page_not_found(error):
     msg = "The requested page could not be found!"
     return render_template('error.html', msg=msg, errorCode=404), 404
 
+@app.errorhandler(Exception)
+def handle_error(e):
+    exceptionMsg = traceback.format_exc()
+    code = 500
+    if isinstance(e, HTTPException):
+        code = e.code
+    # If it's an ajax request, return a jsonified exception
+    if request.headers and 'X-Requested-With' in request.headers:
+        if request.headers['X-Requested-With'] == "XMLHttpRequest":
+            return jsonify(exception=exceptionMsg), code
+
+    # Render error page with exception printed as comment in source-code
+    return render_template('error.html', errorCode=code, exception=exceptionMsg), code
+
 def error(msg = ""):
     return render_template('error.html', msg=msg)
 
@@ -353,33 +370,36 @@ def import_statuses():
     except:
         errstatus = "Invalid kernels!"
 
-    try:
-        statuses = {s.id: s.short_id for s in Status.objects()}
+    statuses = {s.id: s.short_id for s in Status.objects()}
 
-        for patch in Patches.objects(kernel=from_kernel):
-            try:
-                target_patch = Patches.objects.get(kernel=to_kernel, cve=patch.cve)
-            except:
-                # Make sure the target patch actually exists before updating it
-                Patches(cve=patch.cve, kernel=to_kernel, status=patch.status).save()
-                target_patch = Patches.objects.get(kernel=to_kernel, cve=patch.cve)
-                cve_name = CVE.objects.get(id=patch.cve)['cve_name']
-                msg = "Patch object for {} was missing, adding it"
-                logStr = msg.format(cve_name)
-                writeLog("fixed", to_kernel, logStr)
+    for patch in Patches.objects(kernel=from_kernel):
+        patchMissing = False
 
-            if override_all or statuses[target_patch.status] == 1:
-                target_patch.update(status=patch.status)
+        try:
+            target_patch = Patches.objects.get(kernel=to_kernel, cve=patch.cve)
+        except (MultipleObjectsReturned, DoesNotExist) as e:
+            if type(e).__name__ == "MultipleObjectsReturned":
+                # Somehow, more than 1 patch object exists. Remove all and recreate one
+                Patches.objects(kernel=to_kernel, cve=patch.cve).delete()
+                msg = "Too many patch objects for {} were found, fixed"
+            else:
+                msg = "Patch object for {} was missing, fixed"
+            cve_name = CVE.objects.get(id=patch.cve)['cve_name']
+            logStr = msg.format(cve_name)
+            writeLog("fixed", to_kernel, logStr)
+            patchMissing = True
 
-        progress = utils.getProgress(to_kernel)
-        Kernel.objects(id=to_kernel).update(progress=progress)
-        writeLog("imported", to_kernel, to_kernel_repo)
-        errstatus = "success"
-    except Exception as e:
-        errstatus = "Some error occured while importing!"
-        errorLog = str(e)
+        if patchMissing:
+            Patches(cve=patch.cve, kernel=to_kernel, status=patch.status).save()
+        elif override_all or statuses[target_patch.status] == 1:
+            target_patch.update(status=patch.status)
 
-    return jsonify({'error': errstatus, 'errorLog': errorLog})
+    progress = utils.getProgress(to_kernel)
+    Kernel.objects(id=to_kernel).update(progress=progress)
+    writeLog("imported", to_kernel, to_kernel_repo)
+    errstatus = "success"
+
+    return jsonify({'error': errstatus})
 
 @app.route("/status/<string:c>")
 def cve_status(c):
