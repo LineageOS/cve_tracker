@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cc9994d_65b750a9",
+        "filename": "static/js/common.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 17257
+      },
+      "writtenOn": "2017-10-25T15:48:08Z",
+      "side": 1,
+      "message": "$(document)",
+      "revId": "f15e0e9c3b127d923da46dcb2c06b40585080710",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
