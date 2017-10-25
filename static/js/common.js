@@ -54,4 +54,13 @@
         }
     }
     window.ajaxFailMessage = ajaxFailMessage;
+
+    $( document ).ajaxError(function(event, jqxhr, settings, thrownError) {
+        if (jqxhr && jqxhr.responseJSON) {
+            var data = jqxhr.responseJSON;
+            if (data.exception) {
+                console.log(data.exception);
+            }
+        }
+    });
 })();
