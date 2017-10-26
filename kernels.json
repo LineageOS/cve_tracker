@@ -176,6 +176,9 @@
         "android_device_lge_w5",
         "android_device_lge_w7"
     ],
+    "android_kernel_lge_msm8916": [
+        "android_device_lge_m216"
+    ],
     "android_kernel_lge_msm8952": [
         "android_device_lge_v521"
     ],
@@ -271,6 +274,9 @@
     ],
     "android_kernel_motorola_msm8996": [
         "android_device_motorola_griffin"
+    ],
+    "android_kernel_motorola_mt6735": [
+        "android_device_motorola_taido"
     ],
     "android_kernel_motorola_omap4-common": [
         "android_device_motorola_maserati",
@@ -446,6 +452,7 @@
         "android_device_samsung_n7100",
         "android_device_samsung_n8000",
         "android_device_samsung_t0lte",
+        "android_device_samsung_t0ltejpn",
         "android_device_samsung_t0ltekor",
         "android_device_samsung_t0ltektt",
         "android_device_samsung_t0lteskt"
