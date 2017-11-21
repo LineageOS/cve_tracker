@@ -467,9 +467,7 @@
         "android_device_samsung_trltexx"
     ],
     "android_kernel_samsung_tuna": [
-        "android_device_samsung_maguro",
-        "android_device_samsung_toro",
-        "android_device_samsung_toroplus"
+        "android_device_samsung_maguro"
     ],
     "android_kernel_samsung_universal8890": [
         "android_device_samsung_hero2lte",
