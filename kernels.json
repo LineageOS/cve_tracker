@@ -549,6 +549,9 @@
         "android_device_xiaomi_natrium",
         "android_device_xiaomi_scorpio"
     ],
+    "android_kernel_xiaomi_msm8998": [
+        "android_device_xiaomi_sagit"
+    ],
     "android_kernel_zte_msm8994": [
         "android_device_zte_nx510j"
     ],
