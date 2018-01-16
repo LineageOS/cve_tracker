@@ -546,6 +546,9 @@
     "android_kernel_xiaomi_msm8916": [
         "android_device_xiaomi_ido"
     ],
+    "android_kernel_xiaomi_msm8937": [
+        "android_device_xiaomi_land"
+    ],
     "android_kernel_xiaomi_msm8953": [
         "android_device_xiaomi_mido"
     ],
