@@ -64,18 +64,6 @@
     "android_kernel_cyanogen_mt6735": [
         "android_device_wileyfox_porridgek3"
     ],
-    "android_kernel_essential_msm8998": [
-        "android_device_essential_mata"
-    ],
-    "android_kernel_essential_msm8998_drivers_staging_fw-api": [
-        "android_device_essential_mata"
-    ],
-    "android_kernel_essential_msm8998_drivers_staging_qca-wifi-host-cmn": [
-        "android_device_essential_mata"
-    ],
-    "android_kernel_essential_msm8998_drivers_staging_qcacld-3.0": [
-        "android_device_essential_mata"
-    ],
     "android_kernel_fairphone_msm8974": [
         "android_device_fairphone_FP2"
     ],
@@ -188,9 +176,6 @@
         "android_device_lge_w5",
         "android_device_lge_w7"
     ],
-    "android_kernel_lge_msm8916": [
-        "android_device_lge_m216"
-    ],
     "android_kernel_lge_msm8952": [
         "android_device_lge_v521"
     ],
@@ -214,7 +199,6 @@
         "android_device_lge_h872",
         "android_device_lge_h910",
         "android_device_lge_h918",
-        "android_device_lge_h990",
         "android_device_lge_ls997",
         "android_device_lge_rs988",
         "android_device_lge_us996",
@@ -299,9 +283,6 @@
     ],
     "android_kernel_nextbit_msm8992": [
         "android_device_nextbit_ether"
-    ],
-    "android_kernel_nubia_msm8939": [
-        "android_device_nubia_nx512j"
     ],
     "android_kernel_nubia_msm8996": [
         "android_device_nubia_nx531j"
@@ -516,7 +497,6 @@
         "android_device_sony_ivy",
         "android_device_sony_karin",
         "android_device_sony_sumire",
-        "android_device_sony_suzu",
         "android_device_sony_suzuran"
     ],
     "android_kernel_sony_msm8x27": [
@@ -562,9 +542,6 @@
         "android_device_xiaomi_lithium",
         "android_device_xiaomi_natrium",
         "android_device_xiaomi_scorpio"
-    ],
-    "android_kernel_xiaomi_msm8998": [
-        "android_device_xiaomi_sagit"
     ],
     "android_kernel_zte_msm8994": [
         "android_device_zte_nx510j"
