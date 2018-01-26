@@ -374,7 +374,8 @@
         "android_device_samsung_v1awifi"
     ],
     "android_kernel_samsung_exynos7420": [
-        "android_device_samsung_zerofltexx"
+        "android_device_samsung_zerofltexx",
+        "android_device_samsung_zeroltexx"
     ],
     "android_kernel_samsung_gts2": [
         "android_device_samsung_gts210ltexx",
@@ -546,12 +547,11 @@
     "android_kernel_xiaomi_msm8916": [
         "android_device_xiaomi_ido"
     ],
+    "android_kernel_xiaomi_msm8937": [
+        "android_device_xiaomi_land"
+    ],
     "android_kernel_xiaomi_msm8953": [
         "android_device_xiaomi_mido"
-    ],
-    "android_kernel_xiaomi_msm8956": [
-        "android_device_xiaomi_hydrogen",
-        "android_device_xiaomi_kenzo"
     ],
     "android_kernel_xiaomi_msm8992": [
         "android_device_xiaomi_libra"
