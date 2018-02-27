@@ -37,6 +37,7 @@
         "android_device_bn_acclaim"
     ],
     "android_kernel_bq_msm8937": [
+        "android_device_bq_chaozu",
         "android_device_bq_tenshi"
     ],
     "android_kernel_bq_msm8939": [
@@ -485,6 +486,10 @@
     "android_kernel_samsung_tuna": [
         "android_device_samsung_maguro"
     ],
+    "android_kernel_samsung_universal7880": [
+        "android_device_samsung_a5y17lte",
+        "android_device_samsung_a7y17lte"
+    ],
     "android_kernel_samsung_universal8890": [
         "android_device_samsung_hero2lte",
         "android_device_samsung_herolte"
@@ -571,6 +576,9 @@
     "android_kernel_xiaomi_msm8998": [
         "android_device_xiaomi_chiron",
         "android_device_xiaomi_sagit"
+    ],
+    "android_kernel_zte_msm8952": [
+        "android_device_zte_tulip"
     ],
     "android_kernel_zte_msm8994": [
         "android_device_zte_nx510j"
