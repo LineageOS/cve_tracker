@@ -324,7 +324,8 @@
         "android_device_oneplus_oneplus3"
     ],
     "android_kernel_oneplus_msm8998": [
-        "android_device_oneplus_cheeseburger"
+        "android_device_oneplus_cheeseburger",
+        "android_device_oneplus_dumpling"
     ],
     "android_kernel_oneplus_onyx": [
         "android_device_oneplus_onyx"
