@@ -189,12 +189,15 @@
         "android_device_lge_h815"
     ],
     "android_kernel_lge_msm8996": [
+        "android_device_lge_h830",
+        "android_device_lge_h850",
         "android_device_lge_h870",
         "android_device_lge_h872",
         "android_device_lge_h910",
         "android_device_lge_h918",
         "android_device_lge_h990",
         "android_device_lge_ls997",
+        "android_device_lge_rs988",
         "android_device_lge_us996",
         "android_device_lge_us997",
         "android_device_lge_vs995"
@@ -206,7 +209,8 @@
         "android_device_lge_v490"
     ],
     "android_kernel_lge_v500": [
-        "android_device_lge_v500"
+        "android_device_lge_v500",
+        "android_device_lge_vk810"
     ],
     "android_kernel_moto_shamu": [
         "android_device_moto_shamu"
