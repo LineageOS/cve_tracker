@@ -82,7 +82,8 @@
         "android_device_google_shamrock"
     ],
     "android_kernel_google_wahoo": [
-        "android_device_google_muskie"
+        "android_device_google_muskie",
+        "android_device_google_taimen"
     ],
     "android_kernel_htc_flounder": [
         "android_device_htc_flounder",
@@ -162,6 +163,9 @@
         "android_device_lge_hammerhead",
         "android_device_lge_hammerheadcaf"
     ],
+    "android_kernel_lge_mako": [
+        "android_device_lge_mako"
+    ],
     "android_kernel_lge_msm8226": [
         "android_device_lge_g2m",
         "android_device_lge_jag3gds",
@@ -201,6 +205,9 @@
         "android_device_lge_us996",
         "android_device_lge_us997",
         "android_device_lge_vs995"
+    ],
+    "android_kernel_lge_msm8998": [
+        "android_device_lge_h930"
     ],
     "android_kernel_lge_v4xx": [
         "android_device_lge_v400",
@@ -521,8 +528,5 @@
     ],
     "android_kernel_zte_msm8996": [
         "android_device_zte_axon7"
-    ],
-    "lge-kernel-mako": [
-        "android_device_lge_mako"
     ]
 }
