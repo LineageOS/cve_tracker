@@ -226,17 +226,20 @@ def index():
     if logged_in():
         return show_kernels(False)
     else:
-        return render_template('index.html')
+        return render_template('index_offline.html')
 
 @app.route("/kernels")
+@require_login
 def kernels():
     return show_kernels(False)
 
 @app.route("/deprecated")
+@require_login
 def show_deprecated():
     return show_kernels(True)
 
 @app.route("/devices")
+@require_login
 def show_devices():
     devs = []
     for kernelRepo, deviceRepos in devices.items():
@@ -260,6 +263,7 @@ def show_devices():
     return render_template('devices.html', devices=devs)
 
 @app.route("/<string:k>")
+@require_login
 def kernel(k):
     try:
         kernel = Kernel.objects.get(repo_name=k)
@@ -348,6 +352,7 @@ def kernel(k):
                            filter_version=get_filter_version)
 
 @app.route("/import_statuses", methods=['POST'])
+@require_login
 def import_statuses():
     errstatus = "Generic error"
     errorLog = None
@@ -394,6 +399,7 @@ def import_statuses():
     return jsonify({'error': errstatus})
 
 @app.route("/status/<string:c>")
+@require_login
 def cve_status(c):
     kernels = Kernel.objects(deprecated__in=[False, None]).order_by('vendor', 'device')
     cve = CVE.objects.get(cve_name=c)

@@ -1,0 +1,16 @@
+{% extends "base_offline.html" %}
+{% block title %}LineageOS CVE Tracker{% endblock %}
+{% block content %}
+    <div class="card container">
+        <div class="header">
+            <span class="title">Dear users,</span>
+        </div>
+        <div class="text container">
+            <p>For various reasons the data on this page could not be trusted for accurate reporting.<br/>
+            Until this is remedied, we don't want to spread misinformation and as such, this page is not longer available</p>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

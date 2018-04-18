@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.materialdesignicons.com/1.9.32/css/materialdesignicons.min.css">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+        <link id="theme-target" rel="stylesheet" type="text/css">
+
+        <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/ThemeSwitcher.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/ContextMenu.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/Ripple.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/Dialog.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/Selector.js') }}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <title>{% block title %}LineageOS CVE Tracker{% endblock %}</title>
+
+        <link rel="icon" sizes="16x16 32x32" href="/static/favicons/favicon.ico">
+        <!--[if IE]><link rel="shortcut icon" href="/static/favicons/favicon.ico"><![endif]-->
+        <link rel="apple-touch-icon-precomposed" href="/static/favicons/favicon-152.png">
+        <meta name="theme-color" content="#167C80">
+        <meta name="msapplication-TileColor" content="#167C80">
+        <meta name="msapplication-TileImage" content="/static/favicons/favicon-144.png">
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="navbar">
+            <div class="container">
+                <a class="logo" href="/">
+                    <img src="/static/img/logo-teal.png" alt="LineageOS Logo">
+                </a>
+                <label class="mdi mdi-menu-down" for="nav-bar-toggle"></label>
+                <input type="checkbox" id="nav-bar-toggle">
+                <div class="items">
+
+                    {%- if needs_auth %}
+                        {%- if authorized %}
+                            <a href="/logout">LOGOUT</a>
+                        {%- else %}
+                            <a href="/login">LOGIN</a>
+                        {%- endif %}
+                    {%- endif %}
+                    <a href="https://www.lineageos.org">BLOG</a>
+                </div>
+            </div>
+        </div>
+        {% block content %}{% endblock %}
+        <div id="footer">
+            <div class="container">
+                <div class="twelve columns">
+                    <img class="logo" src="/static/img/logo-grey.png" alt="LineageOS Logo">
+                    <p class="muted">
+                        <b>© 2017 The LineageOS Project</b><br>
+                        {% if version %}
+                        Version: {{ version }}<br>
+                        {% endif %}
+                        <a href="https://github.com/LineageOS/cve_tracker">Source code on GitHub</a><br>
+                        <span id="theme-menu"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>
