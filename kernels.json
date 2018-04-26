@@ -393,6 +393,7 @@
         "android_device_samsung_hltekor",
         "android_device_samsung_hltetmo",
         "android_device_samsung_klte",
+        "android_device_samsung_klteactivexx",
         "android_device_samsung_kltechn",
         "android_device_samsung_kltechnduo",
         "android_device_samsung_klteduos",
@@ -445,6 +446,10 @@
     "android_kernel_samsung_universal8890": [
         "android_device_samsung_hero2lte",
         "android_device_samsung_herolte"
+    ],
+    "android_kernel_samsung_universal9810": [
+        "android_device_samsung_star2lte",
+        "android_device_samsung_starlte"
     ],
     "android_kernel_sony_apq8064": [
         "android_device_sony_dogo",
