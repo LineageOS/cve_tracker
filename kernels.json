@@ -388,6 +388,7 @@
         "android_device_samsung_serranoltexx"
     ],
     "android_kernel_samsung_msm8974": [
+        "android_device_samsung_h3gduoschn",
         "android_device_samsung_hlte",
         "android_device_samsung_hltechn",
         "android_device_samsung_hltekor",
@@ -508,7 +509,8 @@
         "android_device_xiaomi_land"
     ],
     "android_kernel_xiaomi_msm8953": [
-        "android_device_xiaomi_mido"
+        "android_device_xiaomi_mido",
+        "android_device_xiaomi_tissot"
     ],
     "android_kernel_xiaomi_msm8956": [
         "android_device_xiaomi_hydrogen",
