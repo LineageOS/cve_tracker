@@ -42,6 +42,10 @@
         "android_device_bq_piccolo",
         "android_device_bq_vegetalte"
     ],
+    "android_kernel_bq_msm8953": [
+        "android_device_bq_bardock",
+        "android_device_bq_bardockpro"
+    ],
     "android_kernel_bq_msm8976": [
         "android_device_bq_gohan"
     ],
@@ -146,6 +150,10 @@
     ],
     "android_kernel_lenovo_msm8974": [
         "android_device_lenovo_kingdom"
+    ],
+    "android_kernel_lenovo_msm8976": [
+        "android_device_lenovo_YTX703F",
+        "android_device_lenovo_YTX703L"
     ],
     "android_kernel_lge_bullhead": [
         "android_device_lge_bullhead"
