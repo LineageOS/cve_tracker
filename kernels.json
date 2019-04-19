@@ -1,7 +1,4 @@
 {
-    "android_kernel_asus_fugu": [
-        "android_device_asus_fugu"
-    ],
     "android_kernel_asus_msm8916": [
         "android_device_asus_Z00L",
         "android_device_asus_Z00T"
@@ -119,22 +116,11 @@
         "android_device_lge_ls990",
         "android_device_lge_vs985"
     ],
-    "android_kernel_lge_hammerhead": [
-        "android_device_lge_hammerhead"
-    ],
     "android_kernel_lge_mako": [
         "android_device_lge_mako"
     ],
     "android_kernel_lge_msm8952": [
         "android_device_lge_v521"
-    ],
-    "android_kernel_lge_msm8974": [
-        "android_device_lge_d800",
-        "android_device_lge_d801",
-        "android_device_lge_d802",
-        "android_device_lge_d803",
-        "android_device_lge_ls980",
-        "android_device_lge_vs980"
     ],
     "android_kernel_lge_msm8992": [
         "android_device_lge_h811",
@@ -158,7 +144,6 @@
         "android_device_lge_h930"
     ],
     "android_kernel_lge_v500": [
-        "android_device_lge_v500",
         "android_device_lge_vk810"
     ],
     "android_kernel_moto_shamu": [
@@ -187,13 +172,6 @@
     ],
     "android_kernel_nubia_msm8939": [
         "android_device_nubia_nx512j"
-    ],
-    "android_kernel_nvidia_roth": [
-        "android_device_nvidia_roth"
-    ],
-    "android_kernel_nvidia_shield": [
-        "android_device_nvidia_foster",
-        "android_device_nvidia_shieldtablet"
     ],
     "android_kernel_oneplus_msm8994": [
         "android_device_oneplus_oneplus2"
@@ -241,11 +219,6 @@
         "android_device_samsung_jfltexx"
     ],
     "android_kernel_samsung_msm8916": [],
-    "android_kernel_samsung_msm8930-common": [
-        "android_device_samsung_serrano3gxx",
-        "android_device_samsung_serranodsdd",
-        "android_device_samsung_serranoltexx"
-    ],
     "android_kernel_samsung_msm8974": [
         "android_device_samsung_h3gduoschn",
         "android_device_samsung_hlte",
@@ -288,14 +261,10 @@
         "android_device_samsung_starlte"
     ],
     "android_kernel_sony_apq8064": [
-        "android_device_sony_dogo",
         "android_device_sony_odin",
         "android_device_sony_pollux",
         "android_device_sony_pollux_windy",
         "android_device_sony_yuga"
-    ],
-    "android_kernel_sony_msm8960t": [
-        "android_device_sony_huashan"
     ],
     "android_kernel_sony_msm8x60": [
         "android_device_sony_hayabusa",
