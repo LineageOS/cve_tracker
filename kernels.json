@@ -9,6 +9,12 @@
     "android_kernel_asus_sdm660": [
         "android_device_asus_X00TD"
     ],
+    "android_kernel_asus_sdm845": [
+        "android_device_asus_Z01R"
+    ],
+    "android_kernel_asus_sm8150": [
+        "android_device_asus_I01WD"
+    ],
     "android_kernel_bq_msm8937": [],
     "android_kernel_bq_msm8939": [
         "android_device_bq_paella",
@@ -39,7 +45,12 @@
     "android_kernel_fairphone_msm8974": [
         "android_device_fairphone_FP2"
     ],
+    "android_kernel_google_bonito": [
+        "android_device_google_bonito",
+        "android_device_google_sargo"
+    ],
     "android_kernel_google_crosshatch": [
+        "android_device_google_blueline",
         "android_device_google_crosshatch"
     ],
     "android_kernel_google_dragon": [
@@ -57,8 +68,8 @@
         "android_device_google_seed"
     ],
     "android_kernel_google_wahoo": [
-        "android_device_google_muskie",
-        "android_device_google_taimen"
+        "android_device_google_taimen",
+        "android_device_google_walleye"
     ],
     "android_kernel_htc_flounder": [
         "android_device_htc_flounder",
@@ -224,6 +235,9 @@
         "android_device_oppo_find7",
         "android_device_oppo_n3"
     ],
+    "android_kernel_razer_msm8998": [
+        "android_device_razer_cheryl"
+    ],
     "android_kernel_samsung_apq8084": [
         "android_device_samsung_kccat6",
         "android_device_samsung_lentislte"
@@ -237,8 +251,12 @@
         "android_device_samsung_gts210ltexx"
     ],
     "android_kernel_samsung_jf": [
+        "android_device_samsung_jactivelte",
+        "android_device_samsung_jflteatt",
+        "android_device_samsung_jfltespr",
         "android_device_samsung_jfltevzw",
-        "android_device_samsung_jfltexx"
+        "android_device_samsung_jfltexx",
+        "android_device_samsung_jfvelte"
     ],
     "android_kernel_samsung_msm8916": [],
     "android_kernel_samsung_msm8930-common": [
@@ -335,6 +353,8 @@
         "android_device_xiaomi_sagit"
     ],
     "android_kernel_xiaomi_sdm660": [
+        "android_device_xiaomi_jasmine_sprout",
+        "android_device_xiaomi_wayne",
         "android_device_xiaomi_whyred"
     ],
     "android_kernel_xiaomi_sdm845": [
@@ -345,7 +365,13 @@
         "android_device_xiaomi_polaris",
         "android_device_xiaomi_ursa"
     ],
+    "android_kernel_xiaomi_violet": [
+        "android_device_xiaomi_violet"
+    ],
     "android_kernel_zte_msm8996": [
         "android_device_zte_axon7"
+    ],
+    "android_kernel_zuk_msm8996": [
+        "android_device_zuk_z2_plus"
     ]
 }
